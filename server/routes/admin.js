@@ -6,7 +6,7 @@ const Room = require('../schemas/room');
 adminRouter.post('/add-room', async (req, res) => {
     const {title, description, maxPlayers, durationMinutes, adultRate, childRate, privateRate, additionalDetails} = req.body
   
-    console.log(req.body)
+    // console.log(req.body)
   
     const room = new Room({
       title: title,
@@ -19,10 +19,17 @@ adminRouter.post('/add-room', async (req, res) => {
       additionalDetails: additionalDetails
     })
     
-    let savedRoom = await room.save()
-    console.log(savedRoom)
-  
-    res.send('OK')
+    try { 
+      await room.save()
+      // console.log(savedRoom)
+      res.json({
+        success: true
+      })
+    } catch(error) {
+      res.json({
+        success: false, message: error
+      })
+    }
   })
 
 module.exports = adminRouter
