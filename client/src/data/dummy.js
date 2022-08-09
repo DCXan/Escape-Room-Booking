@@ -7,7 +7,7 @@ import {
   AiOutlineStock,
 } from "react-icons/ai";
 import {
-  FiShoppingBag,
+  FiHome,
   FiEdit,
   FiPieChart,
   FiBarChart,
@@ -514,8 +514,8 @@ export const links = [
     title: "Dashboard",
     links: [
       {
-        name: "ecommerce",
-        icon: <FiShoppingBag />,
+        name: "home",
+        icon: <FiHome />,
       },
     ],
   },
