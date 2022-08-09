@@ -64,11 +64,11 @@ const App = () => {
             <div>
               <Routes>
                 {/* dashboard */}
-                <Route path="/" element="dashboard" />
-                <Route path="/dashboard" element="Dashboard" />
+                <Route path="/" element={<Booking />} />
+                <Route path="/booking" element={<Booking />} />
 
                 {/* Pages */}
-                <Route path="/booking" element={<Booking />} />
+                <Route path="/orders" element={<Orders />} />
                 <Route path="/employees" element={<Employees />} />
                 <Route path="/customers" element={<Customers />} />
 
