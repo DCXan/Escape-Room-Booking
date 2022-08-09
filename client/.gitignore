@@ -18,18 +18,7 @@
 .env.development.local
 .env.test.local
 .env.production.local
-avatar2.jpg
-avatar3.png
-avatar4.jpg
-product1.jpg
-product2.jpg
-product3.jpg
-product4.jpg
-product5.jpg
-product6.jpg
-product7.jpg
-product8.jpg
-product9.jpg
+
 
 npm-debug.log*
 yarn-debug.log*
