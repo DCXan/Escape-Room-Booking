@@ -1,15 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react"
+import ReactDOM from "react-dom"
+import "./index.css"
+import App from "./App"
+import { Route, Routes, BrowserRouter } from "react-router-dom"
+import { Elements } from "@stripe/react-stripe-js"
+import { loadStripe } from "@stripe/stripe-js"
 
-import './index.css';
-import App from './App';
-
+const stripePromise = loadStripe(process.env.PB_STRIPE_KEY)
 
 ReactDOM.render(
   <React.StrictMode>
-  
-      <App />
-
+    <BrowserRouter>
+      <Routes>
+        <Elements stripe={stripePromise}>
+          <Route path="/" element={<App />} />
+        </Elements>
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById('root'),
-);
+  document.getElementById("root")
+)
