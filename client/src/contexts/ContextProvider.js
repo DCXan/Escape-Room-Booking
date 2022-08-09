@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 
 const StateContext = createContext();
 
-const intialState = {
+const initialState = {
   chat: false,
   chart: false,
   userProfile: false,
@@ -11,8 +11,26 @@ const intialState = {
 
 export const ContextProvider = ({ children }) => {
   const [activeMenu, setActiveMenu] = useState(true);
+  const [isClicked, setisClicked] = useState(initialState);
+  const [screenSize, setScreenSize] = useState(undefined); //we do not know what the screen size will be so it is set to undefined
+
+  const handleClick = (clicked) => {
+    setisClicked({ ...initialState, [clicked]: true });
+  };
+
   return (
-    <StateContext.Provider value={{ activeMenu, setActiveMenu }}>
+    //values that can be passed to the react components if the context provider is imported in the file
+    <StateContext.Provider
+      value={{
+        activeMenu,
+        setActiveMenu,
+        isClicked,
+        setisClicked,
+        handleClick,
+        screenSize,
+        setScreenSize,
+      }}
+    >
       {children}
     </StateContext.Provider>
   );
