@@ -1,7 +1,7 @@
 import React from "react";
 
-function SparkLine() {
+const SparkLine = () => {
   return <div>SparkLine</div>;
-}
+};
 
 export default SparkLine;
