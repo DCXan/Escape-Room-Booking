@@ -6,7 +6,7 @@ import "./App.css";
 import { useStateContext } from "./contexts/ContextProvider";
 import { Navbar, Footer, Sidebar, ThemeSettings } from "./admin_components";
 import {
-  Booking,
+  HomePage,
   Orders,
   Calendar,
   Employees,
@@ -64,8 +64,8 @@ const App = () => {
             <div>
               <Routes>
                 {/* dashboard */}
-                <Route path="/" element={<Booking />} />
-                <Route path="/booking" element={<Booking />} />
+                <Route path="/" element={<HomePage />} />
+                <Route path="/home" element={<HomePage />} />
 
                 {/* Pages */}
                 <Route path="/orders" element={<Orders />} />

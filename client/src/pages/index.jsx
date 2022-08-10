@@ -1,4 +1,4 @@
-export { default as Booking } from "./Booking";
+export { default as HomePage } from "./HomePage";
 export { default as Kanban } from "./Kanban";
 export { default as Orders } from "./Orders";
 export { default as Employees } from "./Employees";
