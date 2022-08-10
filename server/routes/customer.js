@@ -1,6 +1,5 @@
 const express = require("express")
 const customerRouter = express.Router()
-const mongoose = require("mongoose")
 const Room = require("../schemas/room")
 
 customerRouter.get("/get-rooms", async (req, res) => {

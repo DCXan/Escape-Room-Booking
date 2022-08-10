@@ -26,7 +26,7 @@ const RoomsList = () => {
     return (
       <li key={room._id} className="roomItem">
         <b>{room.title}</b>
-        <label>{room.description}</label>
+        <p>{room.additionalDetails}</p>
       </li>
     )
   })
