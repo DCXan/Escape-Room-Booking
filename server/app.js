@@ -11,6 +11,7 @@ const adminRouter = require("./routes/admin")
 const customerRouter = require("./routes/customer")
 const checkoutRouter = require("./routes/stripe")
 app.use("/admin", adminRouter)
+app.use("/customer", customerRouter)
 app.use("/checkout", checkoutRouter)
 
 // Connect MongoDB to server
