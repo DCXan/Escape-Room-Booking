@@ -4,13 +4,7 @@ import { GoPrimitiveDot } from "react-icons/go";
 import { IoIosMore } from "react-icons/io";
 import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
 
-import {
-  Stacked,
-  Pie,
-  Button,
-  LineChart,
-  SparkLine,
-} from "../admin_components";
+import { Stacked, Pie, Button, LineChart, SparkLine } from "../components";
 import {
   earningData,
   medicalproBranding,
