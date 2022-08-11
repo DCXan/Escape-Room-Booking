@@ -4,7 +4,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import Modal from "react-modal";
 import Button from "../components/Button";
 import AddEventModal from "../components/AddEventModal";
-import { format, formatDistance, formatRelative, subDays } from "date-fns";
+import { add, sub, format, parse } from "date-fns";
 import axios from "axios";
 
 const Calendar = () => {
@@ -14,22 +14,26 @@ const Calendar = () => {
 
   const onEventAdded = (event) => {
     let calendarApi = calendarRef.current.getApi();
-    calendarApi.addEvent(event);
+    calendarApi.addEvent({
+      start: event.start,
+      end: event.end,
+      title: event.title,
+    });
   };
 
   async function handleEventAdd(data) {
-    await axios.post("/create-event", data.event);
+    await axios.post("/calendar/create-event", data.event);
   }
 
-  async function handleDateSet(data) {
-    const response = await axios.get(
-      "get-events?start=" +
-        formatDate(data.start).toISOString() +
-        "&end" +
-        formatDate(data.end).toISOString()
-    );
-    setEvents(response.data);
-  }
+  // async function handleDateSet(data) {
+  //   const response = await axios.get(
+  //     "/get-events?start=" +
+  //       data.start.toISOString() +
+  //       "&end" +
+  //       data.end.toISOString()
+  //   );
+  //   setEvents(response.data);
+  // }
 
   return (
     <section>
@@ -48,7 +52,7 @@ const Calendar = () => {
         events={events}
         initialView="dayGridWeek"
         eventAdd={(event) => handleEventAdd(event)}
-        datesSet={(date) => handleDateSet(date)}
+        // datesSet={(date) => handleDateSet(date)}
       />
       <AddEventModal
         isOpen={modalOpen}

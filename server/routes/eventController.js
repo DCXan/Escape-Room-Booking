@@ -1,19 +1,21 @@
 const express = require("express");
 const eventRouter = express.Router();
-const event = require("../schemas/event");
+const Event = require("../schemas/Event");
 const datefns = require("date-fns");
+const { format } = require("date-fns");
 
 eventRouter.post("/create-event", async (req, res) => {
-  const { event } = req.body;
-  await event.save();
+  const event = Event(req.body);
+  console.log(event);
+  const _ = await event.save();
   res.sendStatus(201);
 });
 
 eventRouter.get("/get-events", async (req, res) => {
   //$gte = greater than equal -  $lte = less than equal
-  const events = await event.find({
-    start: { $gte: datefns(req.query.start).toDate() },
-    end: { $lte: datefns(req.query.end).toDate() },
+  const events = await Event.find({
+    start: { $gte: req.query.start },
+    end: { $lte: req.query.end },
   });
   res.send(events);
 });
