@@ -10,8 +10,8 @@ const roomSchema = new mongoose.Schema({
   privateRate: Number,
   additionalDetails: String,
   createdAt: {
-    immutable: true,
     type: Date,
+    immutable: true,
     default: () => Date.now(),
   },
   updatedAt: {

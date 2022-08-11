@@ -1,16 +1,20 @@
 const express = require("express");
 const app = express();
+const cors = require("cors")
 const mongoose = require("mongoose");
 
+app.use(cors())
 app.use(express.json());
 require("dotenv").config();
 
 // Routers
 
 const adminRouter = require("./routes/admin");
+const customerRouter = require("./routes/customer");
 const eventRouter = require("./routes/eventController");
 const checkoutRouter = require("./routes/stripe");
 app.use("/admin", adminRouter);
+app.use("/customer", customerRouter);
 app.use("/checkout", checkoutRouter);
 app.use("/calendar", eventRouter);
 
