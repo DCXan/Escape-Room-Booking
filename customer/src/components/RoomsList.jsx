@@ -24,17 +24,19 @@ const RoomsList = () => {
 
   const roomItem = rooms.map(room => {
     return (
-      <li key={room._id} className="roomItem">
-        <b>{room.title}</b>
+      <li key={room._id} className="border-gray-800 border-2 text-center bg-fixed rounded-3xl" >
+        <img src='test.jpg' width={500}/>
+        <b className='text-2xl'>{room.title}</b>
         <p>{room.additionalDetails}</p>
+        <button className='bg-blue-500 text-white font-medium px-2 py-2 mb-2 mt-2 rounded-2xl hover:bg-blue-900'>More Details</button>
       </li>
     )
   })
 
   return (
-    <div>
-      <div>RoomsList</div>
-      <ul className='roomList'>
+    <div className='bg-white'>
+      <div className='text-7xl text-center mb-4'>Our Rooms</div>
+      <ul className='flex flex-wrap justify-center gap-4'>
         {roomItem}
       </ul>
     </div>
