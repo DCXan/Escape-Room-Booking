@@ -1,13 +1,15 @@
 import React, { useRef, useState } from "react";
-import FullCalendar from "@fullcalendar/react";
+import FullCalendar, { formatDate } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import Modal from "react-modal";
 import Button from "../components/Button";
 import AddEventModal from "../components/AddEventModal";
+import { format, formatDistance, formatRelative, subDays } from "date-fns";
 import axios from "axios";
 
 const Calendar = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [events, setEvents] = useState();
   const calendarRef = useRef(null);
 
   const onEventAdded = (event) => {
@@ -17,6 +19,16 @@ const Calendar = () => {
 
   async function handleEventAdd(data) {
     await axios.post("/create-event", data.event);
+  }
+
+  async function handleDateSet(data) {
+    const response = await axios.get(
+      "get-events?start=" +
+        formatDate(data.start).toISOString() +
+        "&end" +
+        formatDate(data.end).toISOString()
+    );
+    setEvents(response.data);
   }
 
   return (
@@ -33,8 +45,10 @@ const Calendar = () => {
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin]}
+        events={events}
         initialView="dayGridWeek"
         eventAdd={(event) => handleEventAdd(event)}
+        datesSet={(date) => handleDateSet(date)}
       />
       <AddEventModal
         isOpen={modalOpen}
