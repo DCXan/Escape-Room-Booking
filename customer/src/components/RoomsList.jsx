@@ -29,7 +29,7 @@ const RoomsList = () => {
       <li key={room._id} className="border-gray-800 border-0 text-center bg-fixed rounded-3xl shadow-2xl" >
         <img src={room.image} width={500} className="rounded-t-3xl max-h-72"/>
         <b className='text-2xl'>{room.title}</b>
-        <p>{room.additionalDetails}</p>
+        <p className='my-1'>{room.additionalDetails}</p>
         <RoomModal room={room}/>
       </li>
     )
