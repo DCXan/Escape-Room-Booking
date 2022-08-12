@@ -36,7 +36,7 @@ const RoomsList = () => {
   return (
     <div className='bg-white'>
       <div className='text-7xl text-center mb-6 mt-6'>Our Rooms</div>
-      <ul className='flex flex-wrap justify-center gap-6 mb-6'>
+      <ul className='flex flex-wrap justify-center gap-6 mb-6 ml-6 mr-6'>
         {roomItem}
       </ul>
     </div>
