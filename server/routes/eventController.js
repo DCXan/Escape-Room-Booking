@@ -1,8 +1,6 @@
 const express = require("express");
 const eventRouter = express.Router();
 const Event = require("../schemas/Event");
-const datefns = require("date-fns");
-const { format } = require("date-fns");
 
 eventRouter.post("/create-event", async (req, res) => {
   const event = Event(req.body);
