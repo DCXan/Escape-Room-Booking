@@ -20,7 +20,7 @@ const RoomModal = ({room}) => {
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
                 <button
-                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-25 float-right text-2xl leading-none font-semibold outline-none focus:outline-none hover:bg-gray-500 hover:rounded-xl mx-2 my-2"
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-25 float-right text-2xl leading-none font-semibold outline-none focus:outline-none hover:bg-gray-500 hover:rounded-xl mx-2 mt-2"
                     onClick={() => setShowModal(false)}
                     >
                     <span>
@@ -29,12 +29,13 @@ const RoomModal = ({room}) => {
                         </svg>
                     </span>
                   </button>
-                <div className="flex flex-col items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                     <h3 className="text-3xl font-semibold mb-3">
                         {room.title}
                     </h3>
                     <p>{room.additionalDetails}</p>
                 </div>
+                    <img src={room.image} />
                 {/*Room Description*/}
                 <div className="relative p-6 flex-auto">
                   <p className="my-4 text-slate-500 text-lg text-justify">
