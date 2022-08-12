@@ -1,29 +1,49 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import FullCalendar, { formatDate } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import Modal from "react-modal";
 import Button from "../components/Button";
 import AddEventModal from "../components/AddEventModal";
-import { add, sub, format, parse } from "date-fns";
-import axios from "axios";
 
 const Calendar = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [events, setEvents] = useState();
   const calendarRef = useRef(null);
+  const [rooms, setRooms] = useState([]);
 
-  const onEventAdded = (event) => {
-    let calendarApi = calendarRef.current.getApi();
-    calendarApi.addEvent({
-      start: event.start,
-      end: event.end,
-      title: event.title,
-    });
+  useEffect(() => {
+    getRooms();
+  }, []);
+
+  // const onEventAdded = (event) => {
+  //   let calendarApi = calendarRef.current.getApi();
+  //   calendarApi.addEvent({
+  //     start: event.start,
+  //     end: event.end,
+  //     title: event.title,
+  //   });
+  // };
+
+  const getRooms = async () => {
+    const response = await fetch(`http://localhost:8000/admin/get-rooms`);
+    const result = await response.json();
+
+    if (result.success) {
+      setRooms(result.rooms);
+    } else {
+      console.log(result.message);
+    }
   };
 
-  async function handleEventAdd(data) {
-    await axios.post("/calendar/create-event", data.event);
-  }
+  const displayRooms = rooms.map((room) => {
+    console.log(room.date);
+    return (
+      <li key={room._id}>
+        <h5>{room.title}</h5>
+        <p>{room.date}</p>
+      </li>
+    );
+  });
 
   // async function handleDateSet(data) {
   //   const response = await axios.get(
@@ -49,15 +69,15 @@ const Calendar = () => {
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin]}
-        events={events}
+        // events={[...rooms].map((room) => {})}
         initialView="dayGridWeek"
-        eventAdd={(event) => handleEventAdd(event)}
+        // eventAdd={(event) => handleEventAdd(event)}
         // datesSet={(date) => handleDateSet(date)}
       />
       <AddEventModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        onEventAdded={(event) => onEventAdded(event)}
+        // onEventAdded={(event) => onEventAdded(event)}
       />
     </section>
   );

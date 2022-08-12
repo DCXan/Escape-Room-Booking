@@ -7,6 +7,7 @@ const initialState = {
   chart: false,
   userProfile: false,
   notification: false,
+  rooms: true,
 };
 
 export const ContextProvider = ({ children }) => {
