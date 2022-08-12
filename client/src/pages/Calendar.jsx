@@ -29,21 +29,22 @@ const Calendar = () => {
     const result = await response.json();
 
     if (result.success) {
-      setRooms(result.rooms);
+      setEvents(result.rooms);
     } else {
       console.log(result.message);
     }
   };
 
-  const displayRooms = rooms.map((room) => {
-    console.log(room.date);
-    return (
-      <li key={room._id}>
-        <h5>{room.title}</h5>
-        <p>{room.date}</p>
-      </li>
-    );
-  });
+  // const displayRooms = rooms.map((room) => {
+  //   console.log(room.date);
+  //   return (
+  //     <li key={room._id}>
+  //       <h5>{room.title}</h5>
+  //       <p>{room.date}</p>
+  //       <p>{room.durationMinutes}</p>
+  //     </li>
+  //   );
+  // });
 
   // async function handleDateSet(data) {
   //   const response = await axios.get(
@@ -54,6 +55,7 @@ const Calendar = () => {
   //   );
   //   setEvents(response.data);
   // }
+  console.log(events);
 
   return (
     <section>
@@ -69,7 +71,7 @@ const Calendar = () => {
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin]}
-        // events={[...rooms].map((room) => {})}
+        events={events}
         initialView="dayGridWeek"
         // eventAdd={(event) => handleEventAdd(event)}
         // datesSet={(date) => handleDateSet(date)}
