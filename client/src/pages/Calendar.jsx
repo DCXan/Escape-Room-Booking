@@ -62,7 +62,7 @@ const Calendar = () => {
     <section>
       <button
         type="button"
-        className="text-3xl p-1 m-4 hover:drop-shadow-xl hover:bg-light-gray dark:bg-secondary-dark-bg text-white relative"
+        className="text-1xl p-1 m-4 hover:drop-shadow-xl hover:bg-light-gray dark:bg-secondary-dark-bg text-white relative"
         style={{ background: "darkgray", borderRadius: "5%", zIndex: "0" }}
         onClick={() => setModalOpen(true)}
       >
