@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@fullcalendar/daygrid": "^5.11.2",
+    "@fullcalendar/interaction": "^5.11.2",
     "@fullcalendar/react": "^5.11.2",
     "@redux-devtools/extension": "^3.2.3",
     "@syncfusion/ej2": "^19.4.48",

@@ -5,7 +5,6 @@ import "react-datetime/css/react-datetime.css";
 import App from "./App";
 import { ContextProvider } from "./contexts/ContextProvider";
 import { createStore, combineReducers } from "redux";
-import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import roomReducer from "./contexts/reducer/roomReducer";
 import { composeWithDevTools } from "@redux-devtools/extension";

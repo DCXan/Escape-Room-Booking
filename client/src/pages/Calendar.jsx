@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import FullCalendar, { formatDate } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import Modal from "react-modal";
 import Button from "../components/Button";
 import AddEventModal from "../components/AddEventModal";
@@ -70,7 +71,8 @@ const Calendar = () => {
 
       <FullCalendar
         ref={calendarRef}
-        plugins={[dayGridPlugin]}
+        plugins={[dayGridPlugin, interactionPlugin]}
+        editable={true}
         events={events}
         initialView="dayGridWeek"
         // eventAdd={(event) => handleEventAdd(event)}
@@ -78,6 +80,7 @@ const Calendar = () => {
       />
       <AddEventModal
         isOpen={modalOpen}
+        d
         onClose={() => setModalOpen(false)}
         // onEventAdded={(event) => onEventAdded(event)}
       />
