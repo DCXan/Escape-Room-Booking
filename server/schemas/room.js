@@ -47,6 +47,4 @@ const roomSchema = new mongoose.Schema({
 const Availability = mongoose.model("Availability", availabilitySchema)
 const Room = mongoose.model("Room", roomSchema)
 const TimeSlot = mongoose.model("TimeSlot", timeSlotSchema)
-module.exports = Availability
-module.exports = Room
-module.exports = TimeSlot
+module.exports = { Availability, Room, TimeSlot }

@@ -1,7 +1,7 @@
 const express = require("express")
-const TimeSlot = require("../schemas/room")
+const { TimeSlot } = require("../schemas/room")
 const adminRouter = express.Router()
-const Room = require("../schemas/room")
+const { Room } = require("../schemas/room")
 
 adminRouter.get("/get-rooms", async (req, res) => {
   try {

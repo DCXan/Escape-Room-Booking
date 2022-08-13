@@ -1,6 +1,6 @@
 const express = require("express")
 const customerRouter = express.Router()
-const Room = require("../schemas/room")
+const { Room } = require("../schemas/room")
 
 customerRouter.get("/get-rooms", async (req, res) => {
   try {

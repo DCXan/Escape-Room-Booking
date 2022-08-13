@@ -9,7 +9,7 @@ import "./style.css"
 import { useEffect } from "react"
 const GetRooms = () => {
   const [rooms, setRooms] = useState({})
-  const [slot, setSlot] = useState({})
+  const [slot, setSlot] = useState([])
   const [day, setDay] = useState("")
   const [time, seTime] = useState("")
   moment.locale("en-GB")
@@ -27,14 +27,9 @@ const GetRooms = () => {
     }
   }, [])
 
-  useEffect(() => {
-    let asdf = new moment(slot.startTime).format()
+  // const eventItems = slot.map(slot =>{
 
-    let fdsa = moment(slot.endTime).format()
-
-    console.log(asdf)
-    console.log(fdsa)
-  }, [])
+  // })
 
   return (
     <div>
@@ -43,14 +38,15 @@ const GetRooms = () => {
         localizer={localizer}
         events={[
           {
-            id: slot.id,
-            title: slot.title,
-            start: moment(slot.startTime).toDate(),
-            end: moment(slot.endTime).toDate(),
+            id: 0,
+            title: "Cell Block",
+            start: new Date(2022, 7, 16, 19, 30, 0), // Year , month(index),day, hour,minutes,seconds
+            end: new Date(2022, 7, 16, 20, 30, 0),
           },
         ]}
         defaultDate={moment().toDate()}
         draggableAccessor={events => true}
+        step="15"
       />
     </div>
   )
