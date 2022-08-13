@@ -37,7 +37,7 @@ adminRouter.post("/add-room", async (req, res) => {
       { Wednesday: wednesdayStatus },
       { Thursday: thursdayStatus },
       { Friday: fridayStatus },
-      { Saturday: saturdayStatus },
+      { Saturday: saturdayStatus }
     ],
     startTimes: startTimes,
     repeatWeekly: repeatStatus,
@@ -62,7 +62,7 @@ adminRouter.post("/add-room", async (req, res) => {
         { Wednesday: wednesdayStatus },
         { Thursday: thursdayStatus },
         { Friday: fridayStatus },
-        { Saturday: saturdayStatus },
+        { Saturday: saturdayStatus }
       ],
       startTimes: startTimes,
       reapeatWeekly: repeatStatus
