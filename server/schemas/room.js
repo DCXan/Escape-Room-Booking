@@ -1,23 +1,16 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const availabilitySchema = new mongoose.Schema({
-  days: [
-    { Sunday: Boolean },
-    { Monday: Boolean },
-    { Tuesday: Boolean },
-    { Wednesday: Boolean },
-    { Thursday: Boolean },
-    { Friday: Boolean },
-    { Saturday: Boolean },
+  availableDays: [
+    {
+      Sunday: {
+        isAvailable: Boolean,
+        timeslots: [Number],
+      },
+    },
   ],
-  startTimes: [Number],
-})
-const timeSlotSchema = new mongoose.Schema({
-  title: String,
-  Day: Date,
-  startTime: Date,
-  endTime: Date,
-})
+  repeatWeekly: Boolean,
+});
 
 const roomSchema = new mongoose.Schema({
   title: String,
@@ -28,10 +21,6 @@ const roomSchema = new mongoose.Schema({
   childRate: Number,
   privateRate: Number,
   additionalDetails: String,
-  date: {
-    type: String,
-    reoccurring: String,
-  },
   availability: availabilitySchema,
   createdAt: {
     type: Date,
@@ -42,9 +31,10 @@ const roomSchema = new mongoose.Schema({
     type: Date,
     default: () => Date.now(),
   },
-})
+});
 
-const Availability = mongoose.model("Availability", availabilitySchema)
-const Room = mongoose.model("Room", roomSchema)
-const TimeSlot = mongoose.model("TimeSlot", timeSlotSchema)
-module.exports = { Availability, Room, TimeSlot }
+const Availability = mongoose.model("Availability", availabilitySchema);
+const Room = mongoose.model("Room", roomSchema);
+
+module.exports = Availability;
+module.exports = Room;

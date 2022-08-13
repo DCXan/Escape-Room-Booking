@@ -1,63 +1,63 @@
-const express = require("express")
-const { TimeSlot } = require("../schemas/room")
-const adminRouter = express.Router()
-const { Room } = require("../schemas/room")
+const express = require("express");
+const { TimeSlot } = require("../schemas/room");
+const adminRouter = express.Router();
+const { Room } = require("../schemas/room");
 
 adminRouter.get("/get-rooms", async (req, res) => {
   try {
-    const rooms = await Room.find({})
+    const rooms = await Room.find({});
 
     res.json({
       success: true,
       rooms: rooms,
-    })
+    });
   } catch (error) {
     res.json({
       success: false,
       message: error,
-    })
-    console.log(error)
+    });
+    console.log(error);
   }
-})
+});
 
 adminRouter.get("/timeslot", async (req, res) => {
   try {
-    const slot = await TimeSlot.find({})
+    const slot = await TimeSlot.find({});
 
     res.json({
       success: true,
       slot: slot,
-    })
+    });
   } catch (error) {
     res.json({
       success: false,
       message: error,
-    })
-    console.log(error)
+    });
+    console.log(error);
   }
-})
+});
 
 adminRouter.post("/timeslot", async (req, res) => {
-  const { title, startTime, endTime } = req.body
+  const { title, startTime, endTime } = req.body;
 
   const timeSlot = new TimeSlot({
     title: title,
     startTime: startTime,
     endTime: endTime,
-  })
+  });
   try {
-    await timeSlot.save()
+    await timeSlot.save();
     // console.log(savedRoom)
     res.json({
       success: true,
-    })
+    });
   } catch (error) {
     res.json({
       success: false,
       message: error,
-    })
+    });
   }
-})
+});
 
 // Post route to pass room info from client to server
 adminRouter.post("/add-room", async (req, res) => {
@@ -70,8 +70,18 @@ adminRouter.post("/add-room", async (req, res) => {
     childRate,
     privateRate,
     additionalDetails,
-    date,
-  } = req.body
+    availableDays: [
+      { Sunday: sundayStatus },
+      { Monday: mondayStatus },
+      { Tuesday: tuesdayStatus },
+      { Wednesday: wednesdayStatus },
+      { Thursday: thursdayStatus },
+      { Friday: fridayStatus },
+      { Saturday: saturdayStatus },
+    ],
+    startTimes: startTimes,
+    repeatWeekly: repeatStatus,
+  } = req.body;
 
   // console.log(req.body)
 
@@ -84,23 +94,35 @@ adminRouter.post("/add-room", async (req, res) => {
     childRate: childRate,
     privateRate: privateRate,
     additionalDetails: additionalDetails,
-    date: date,
-  })
+    availability: {
+      availableDays: [
+        { Sunday: sundayStatus },
+        { Monday: mondayStatus },
+        { Tuesday: tuesdayStatus },
+        { Wednesday: wednesdayStatus },
+        { Thursday: thursdayStatus },
+        { Friday: fridayStatus },
+        { Saturday: saturdayStatus },
+      ],
+      startTimes: startTimes,
+      reapeatWeekly: repeatStatus,
+    },
+  });
 
   try {
-    await room.save()
+    await room.save();
     // console.log(savedRoom)
     res.json({
       success: true,
-    })
+    });
   } catch (error) {
     res.json({
       success: false,
       message: error,
-    })
+    });
   }
-})
+});
 
 // Dummy Data
 
-module.exports = adminRouter
+module.exports = adminRouter;
