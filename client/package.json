@@ -18,6 +18,7 @@
     "@syncfusion/ej2-react-richtexteditor": "^19.4.50",
     "@syncfusion/ej2-react-schedule": "^19.4.50",
     "react": "^17.0.2",
+    "react-big-calendar": "^1.5.0",
     "react-datetime": "^3.1.1",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
