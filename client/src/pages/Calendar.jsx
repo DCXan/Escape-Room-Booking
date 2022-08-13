@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ScheduleComponent,
   ViewsDirective,
@@ -22,6 +22,11 @@ const PropertyPane = (props) => <div className="mt-5">{props.children}</div>;
 
 const Scheduler = () => {
   const [scheduleObj, setScheduleObj] = useState();
+  const [events, setEvents] = useState();
+
+  useEffect(() => {
+    getRooms();
+  }, []);
 
   const change = (args) => {
     scheduleObj.selectedDate = args.value;
@@ -33,14 +38,25 @@ const Scheduler = () => {
     arg.navigation.enable = true;
   };
 
+  const getRooms = async () => {
+    const response = await fetch(`http://localhost:8000/admin/get-rooms`);
+    const result = await response.json();
+
+    if (result.success) {
+      setEvents(result.rooms);
+    } else {
+      console.log(result.message);
+    }
+  };
+
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category="App" title="Calendar" />
       <ScheduleComponent
         height="650px"
         ref={(schedule) => setScheduleObj(schedule)}
-        selectedDate={new Date(2021, 0, 10)}
-        eventSettings={{ dataSource: scheduleData }}
+        selectedDate={new Date()}
+        eventSettings={{ dataSource: events }}
         dragStart={onDragStart}
       >
         <ViewsDirective>
@@ -58,7 +74,7 @@ const Scheduler = () => {
             <tr style={{ height: "50px" }}>
               <td style={{ width: "100%" }}>
                 <DatePickerComponent
-                  value={new Date(2021, 0, 10)}
+                  value={new Date()}
                   showClearButton={false}
                   placeholder="Current Date"
                   floatLabelType="Always"

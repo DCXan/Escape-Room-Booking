@@ -6,7 +6,6 @@ const { Room } = require("../schemas/room");
 adminRouter.get("/get-rooms", async (req, res) => {
   try {
     const rooms = await Room.find({});
-
     res.json({
       success: true,
       rooms: rooms,
@@ -14,48 +13,9 @@ adminRouter.get("/get-rooms", async (req, res) => {
   } catch (error) {
     res.json({
       success: false,
-      message: error,
+      message: "Could not get room data",
     });
     console.log(error);
-  }
-});
-
-adminRouter.get("/timeslot", async (req, res) => {
-  try {
-    const slot = await TimeSlot.find({});
-
-    res.json({
-      success: true,
-      slot: slot,
-    });
-  } catch (error) {
-    res.json({
-      success: false,
-      message: error,
-    });
-    console.log(error);
-  }
-});
-
-adminRouter.post("/timeslot", async (req, res) => {
-  const { title, startTime, endTime } = req.body;
-
-  const timeSlot = new TimeSlot({
-    title: title,
-    startTime: startTime,
-    endTime: endTime,
-  });
-  try {
-    await timeSlot.save();
-    // console.log(savedRoom)
-    res.json({
-      success: true,
-    });
-  } catch (error) {
-    res.json({
-      success: false,
-      message: error,
-    });
   }
 });
 
