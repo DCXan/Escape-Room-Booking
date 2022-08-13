@@ -38,7 +38,7 @@ const RoomModal = ({ room }) => {
                   </span>
                 </button>
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-3xl font-semibold mb-3">{room.title}</h3>
+                  <h3 className="text-3xl font-semibold mb-3">{room.Subject}</h3>
                   <p>{room.additionalDetails}</p>
                 </div>
                 <img src={room.image} />
