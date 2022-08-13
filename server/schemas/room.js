@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 
 const availabilitySchema = new mongoose.Schema({
   days: [
@@ -11,7 +11,13 @@ const availabilitySchema = new mongoose.Schema({
     { Saturday: Boolean },
   ],
   startTimes: [Number],
-});
+})
+const timeSlotSchema = new mongoose.Schema({
+  title: String,
+  Day: Date,
+  startTime: Date,
+  endTime: Date,
+})
 
 const roomSchema = new mongoose.Schema({
   title: String,
@@ -36,10 +42,11 @@ const roomSchema = new mongoose.Schema({
     type: Date,
     default: () => Date.now(),
   },
-});
+})
 
-const Availability = mongoose.model("Availability", availabilitySchema);
-const Room = mongoose.model("Room", roomSchema);
-
-module.exports = Availability;
-module.exports = Room;
+const Availability = mongoose.model("Availability", availabilitySchema)
+const Room = mongoose.model("Room", roomSchema)
+const TimeSlot = mongoose.model("TimeSlot", timeSlotSchema)
+module.exports = Availability
+module.exports = Room
+module.exports = TimeSlot
