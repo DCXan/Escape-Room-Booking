@@ -2,16 +2,18 @@ const mongoose = require("mongoose");
 
 const availabilitySchema = new mongoose.Schema({
   availableDays: [
-    { Sunday: {
-      isAvailable: Boolean,
-      timeslots: [Number]
-    }},
+    {
+      Sunday: {
+        isAvailable: Boolean,
+        timeslots: [Number],
+      },
+    },
   ],
-  repeatWeekly: Boolean
+  repeatWeekly: Boolean,
 });
 
 const roomSchema = new mongoose.Schema({
-  title: String,
+  Subject: String,
   description: String,
   maxPlayers: Number,
   durationMinutes: Number,
@@ -19,6 +21,9 @@ const roomSchema = new mongoose.Schema({
   childRate: Number,
   privateRate: Number,
   additionalDetails: String,
+  RecurrenceRule: String,
+  StartTime: String,
+  EndTime: String,
   availability: availabilitySchema,
   createdAt: {
     type: Date,

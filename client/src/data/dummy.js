@@ -2723,9 +2723,10 @@ export const scheduleData = [
     Id: 1,
     Subject: "Explosion of Betelgeuse Star",
     Location: "Space Center USA",
-    StartTime: "2021-01-10T04:00:00.000Z",
-    EndTime: "2021-01-10T05:30:00.000Z",
+    StartTime: "2022-08-10T04:00:00.000Z",
+    EndTime: "2022-10-10T05:30:00.000Z",
     CategoryColor: "#1aaa55",
+    RecurrenceRule: "FREQ=DAILY;COUNT=20",
   },
   {
     Id: 2,
