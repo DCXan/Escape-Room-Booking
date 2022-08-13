@@ -43,6 +43,7 @@ const Scheduler = () => {
     const result = await response.json();
 
     if (result.success) {
+      console.log(result.rooms);
       setEvents(result.rooms);
     } else {
       console.log(result.message);

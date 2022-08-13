@@ -5,6 +5,7 @@ const Room = require("../schemas/room");
 customerRouter.get("/get-rooms", async (req, res) => {
   try {
     const rooms = await Room.find({});
+
     res.json({
       success: true,
       rooms: rooms,

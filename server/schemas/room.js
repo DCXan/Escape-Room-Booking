@@ -13,7 +13,7 @@ const availabilitySchema = new mongoose.Schema({
 });
 
 const roomSchema = new mongoose.Schema({
-  title: String,
+  Subject: String,
   description: String,
   maxPlayers: Number,
   durationMinutes: Number,

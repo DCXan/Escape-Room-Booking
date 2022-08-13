@@ -1,11 +1,11 @@
 const express = require("express");
-const { TimeSlot } = require("../schemas/room");
 const adminRouter = express.Router();
-const { Room } = require("../schemas/room");
+const Room = require("../schemas/room");
 
 adminRouter.get("/get-rooms", async (req, res) => {
   try {
     const rooms = await Room.find({});
+
     res.json({
       success: true,
       rooms: rooms,
@@ -13,7 +13,7 @@ adminRouter.get("/get-rooms", async (req, res) => {
   } catch (error) {
     res.json({
       success: false,
-      message: "Could not get room data",
+      message: error,
     });
     console.log(error);
   }
@@ -82,7 +82,5 @@ adminRouter.post("/add-room", async (req, res) => {
     });
   }
 });
-
-// Dummy Data
 
 module.exports = adminRouter;
