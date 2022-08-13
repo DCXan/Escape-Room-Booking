@@ -30,17 +30,16 @@ adminRouter.post("/add-room", async (req, res) => {
     childRate,
     privateRate,
     additionalDetails,
-    availableDays: [
-      { Sunday: sundayStatus },
-      { Monday: mondayStatus },
-      { Tuesday: tuesdayStatus },
-      { Wednesday: wednesdayStatus },
-      { Thursday: thursdayStatus },
-      { Friday: fridayStatus },
-      { Saturday: saturdayStatus }
-    ],
-    startTimes: startTimes,
-    repeatWeekly: repeatStatus,
+    availability: {
+      availableDays: [
+        { Sunday: {
+          isAvailable: isAvailableStatus,
+          timeslots: timeslots
+        }},
+      ],
+      repeatWeekly: Boolean
+    }
+    
   } = req.body;
 
   // console.log(req.body)
