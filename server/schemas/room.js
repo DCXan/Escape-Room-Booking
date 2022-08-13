@@ -2,15 +2,11 @@ const mongoose = require("mongoose");
 
 const availabilitySchema = new mongoose.Schema({
   availableDays: [
-    { Sunday: Boolean },
-    { Monday: Boolean },
-    { Tuesday: Boolean },
-    { Wednesday: Boolean },
-    { Thursday: Boolean },
-    { Friday: Boolean },
-    { Saturday: Boolean },
+    { Sunday: {
+      isAvailable: Boolean,
+      timeslots: [Number]
+    }},
   ],
-  startTimes: [Number],
   repeatWeekly: Boolean
 });
 
