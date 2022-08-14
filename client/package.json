@@ -17,6 +17,7 @@
     "@syncfusion/ej2-react-popups": "^19.4.52",
     "@syncfusion/ej2-react-richtexteditor": "^19.4.50",
     "@syncfusion/ej2-react-schedule": "^19.4.50",
+    "env-cmd": "^10.1.0",
     "react": "^17.0.2",
     "react-big-calendar": "^1.5.0",
     "react-datetime": "^3.1.1",
@@ -29,7 +30,9 @@
     "redux": "^4.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "env-cmd -f .env.staging react-scripts start",
+    "build:staging": "env-cmd -f .env.staging react-scripts build",
+    "build:production": "env-cmd -f .env.production react-scripts build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
