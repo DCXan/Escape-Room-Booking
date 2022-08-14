@@ -421,34 +421,6 @@ export const customersGrid = [
     template: customerGridImage,
     textAlign: "Center",
   },
-  {
-    field: "ProjectName",
-    headerText: "Project Name",
-    width: "150",
-    textAlign: "Center",
-  },
-  {
-    field: "Status",
-    headerText: "Status",
-    width: "130",
-    format: "yMd",
-    textAlign: "Center",
-    template: customerGridStatus,
-  },
-  {
-    field: "Weeks",
-    headerText: "Weeks",
-    width: "100",
-    format: "C2",
-    textAlign: "Center",
-  },
-  {
-    field: "Budget",
-    headerText: "Budget",
-    width: "100",
-    format: "yMd",
-    textAlign: "Center",
-  },
 
   {
     field: "Location",
