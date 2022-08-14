@@ -20,7 +20,8 @@ import { Header } from "../components";
 // eslint-disable-next-line react/destructuring-assignment
 const PropertyPane = (props) => <div className="mt-5">{props.children}</div>;
 
-const Scheduler = () => {
+const Scheduler = (props) => {
+  const [changeEvent, setChangeEvent] = useState([]);
   const [scheduleObj, setScheduleObj] = useState();
   const [events, setEvents] = useState();
 
@@ -28,8 +29,7 @@ const Scheduler = () => {
     getRooms();
   }, []);
 
-  const change = async (args) => {
-    const addEvents = await fetch(``);
+  const change = (args) => {
     scheduleObj.selectedDate = args.value;
     scheduleObj.dataBind();
   };
@@ -53,15 +53,45 @@ const Scheduler = () => {
     }
   };
 
+  const handleChanges = (args) => {
+    console.log(args);
+    setChangeEvent({
+      ...changeEvent,
+      changes: args.target,
+    });
+  };
+
+  const editEvents = async () => {
+    const addEvents = await fetch(
+      process.env.REACT_APP_URL + `/admin/create-room`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(scheduleObj),
+      }
+    );
+    const response = await addEvents.json();
+    if (response.success) {
+      // setChangeEvent(response.success);
+      console.log(response);
+    } else {
+      console.log("could not post to database");
+    }
+  };
+
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category="App" title="Calendar" />
       <ScheduleComponent
         height="650px"
         ref={(schedule) => setScheduleObj(schedule)}
+        // onChange={handleChanges}
         selectedDate={new Date()}
         eventSettings={{ dataSource: events }}
         dragStart={onDragStart}
+        // onClick={handleChanges}
       >
         <ViewsDirective>
           {["Day", "Week", "WorkWeek", "Month", "Agenda"].map((item) => (
