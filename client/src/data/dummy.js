@@ -16,7 +16,6 @@ import {
   FiShoppingCart,
 } from "react-icons/fi";
 import {
-  BsKanban,
   BsBarChart,
   BsBoxSeam,
   BsCurrencyDollar,
@@ -64,20 +63,6 @@ export const gridOrderStatus = (props) => (
   </button>
 );
 
-export const kanbanGrid = [
-  { headerText: "To Do", keyField: "Open", allowToggle: true },
-
-  { headerText: "In Progress", keyField: "InProgress", allowToggle: true },
-
-  {
-    headerText: "Testing",
-    keyField: "Testing",
-    allowToggle: true,
-    isExpanded: false,
-  },
-
-  { headerText: "Done", keyField: "Close", allowToggle: true },
-];
 const gridEmployeeProfile = (props) => (
   <div className="flex items-center gap-2">
     <img
@@ -516,10 +501,7 @@ export const links = [
         name: "calendar",
         icon: <AiOutlineCalendar />,
       },
-      {
-        name: "kanban",
-        icon: <BsKanban />,
-      },
+
       {
         name: "editor",
         icon: <FiEdit />,
