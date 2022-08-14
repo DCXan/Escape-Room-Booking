@@ -32,7 +32,7 @@ const Sidebar = () => {
               <div>
                 <img
                   style={{
-                    width: "80%",
+                    width: "60%",
                   }}
                   src={navbarLogo}
                   alt=""
