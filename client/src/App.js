@@ -21,6 +21,8 @@ import {
   ColorPicker,
   ColorMapping,
   Editor,
+  Login,
+  Logout,
 } from "./pages";
 import Modal from "react-modal";
 Modal.setAppElement("#root");
@@ -88,6 +90,10 @@ const App = () => {
                 <Route path="/color-mapping" element={<ColorMapping />} />
                 <Route path="/pyramid" element={<Pyramid />} />
                 <Route path="/stacked" element={<Stacked />} />
+
+                {/* authentication */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/logout" element={<Logout />} />
               </Routes>
             </div>
           </div>
