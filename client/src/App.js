@@ -1,10 +1,10 @@
-import React, { useEffect } from "react"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { FiSettings } from "react-icons/fi"
-import { TooltipComponent } from "@syncfusion/ej2-react-popups"
-import "./App.css"
-import { useStateContext } from "./contexts/ContextProvider"
-import { Navbar, Footer, Sidebar, ThemeSettings } from "./components"
+import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { FiSettings } from "react-icons/fi";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import "./App.css";
+import { useStateContext } from "./contexts/ContextProvider";
+import { Navbar, Footer, Sidebar, ThemeSettings } from "./components";
 import {
   HomePage,
   Orders,
@@ -13,7 +13,6 @@ import {
   Stacked,
   Pyramid,
   Customers,
-  Kanban,
   Line,
   Area,
   Bar,
@@ -28,7 +27,7 @@ import Modal from "react-modal"
 Modal.setAppElement("#root")
 
 const App = () => {
-  const { activeMenu } = useStateContext()
+  const { activeMenu } = useStateContext();
 
   return (
     <div>
@@ -78,7 +77,7 @@ const App = () => {
                 
 
                 {/* Apps */}
-                <Route path="/kanban" element={<Kanban />} />
+
                 <Route path="/editor" element={<Editor />} />
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/color-picker" element={<ColorPicker />} />
@@ -98,7 +97,7 @@ const App = () => {
         </div>
       </BrowserRouter>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
