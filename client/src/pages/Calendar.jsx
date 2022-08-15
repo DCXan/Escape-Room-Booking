@@ -108,6 +108,7 @@ const Scheduler = (props) => {
             <tr style={{ height: "50px" }}>
               <td style={{ width: "100%" }}>
                 <DatePickerComponent
+                  readonly={true}
                   value={new Date()}
                   showClearButton={false}
                   placeholder="Current Date"
