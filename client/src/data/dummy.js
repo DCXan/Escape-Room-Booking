@@ -535,6 +535,10 @@ export const links = [
         name: "customers",
         icon: <RiContactsLine />,
       },
+      {
+        name: "rooms",
+        icon: <AiOutlineShoppingCart />,
+      }
     ],
   },
   {

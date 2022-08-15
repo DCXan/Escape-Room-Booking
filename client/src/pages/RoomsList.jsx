@@ -15,14 +15,14 @@ const RoomsList = () => {
 
     if (result.success) {
       setRooms(result.rooms);
-      console.log(result.rooms);
+      // console.log(result.rooms);
     } else {
       console.log(result.message);
     }
   };
 
   const roomItem = rooms.map((room) => {
-    console.log(room);
+    // console.log(room);
     return (
       <li
         key={room._id}

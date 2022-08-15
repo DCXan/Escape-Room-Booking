@@ -2,6 +2,14 @@ import React, { useState } from "react"
 
 const RoomModal = ({ room }) => {
   const [showModal, setShowModal] = useState(false)
+  const [roomDetails, setRoomDetails] = useState({})
+
+  const handleChange = (e) => {
+    setRoomDetails({
+      ...roomDetails,
+      [e.target.name]: e.target.value
+    })
+  }
 
   return (
     <div>
@@ -25,21 +33,27 @@ const RoomModal = ({ room }) => {
                   <span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6"
+                      className="h-6 w-6"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                     >
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
+                        clipRule="evenodd"
                       />
                     </svg>
                   </span>
                 </button>
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-3xl font-semibold mb-3">{room.Subject}</h3>
-                  <p>{room.additionalDetails}</p>
+                  <h3 className="text-3xl font-semibold mb-3">Room Name:</h3>
+                  <div className="md:w-2/3">
+                    <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="roomTitle" name="title" type="text" defaultValue={room.Subject} onChange={handleChange}/>
+                  </div>
+                  <p>Additional Details:</p>
+                  <div className="md:w-2/3">
+                    <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="additionalDetails" name="additionalDetails" type="text" defaultValue={room.additionalDetails} onChange={handleChange}/>
+                  </div>
                 </div>
                 <img src={room.image} />
                 {/*Room Description*/}
@@ -73,7 +87,7 @@ const RoomModal = ({ room }) => {
                     type="button"
                     onClick={() => setShowModal(false)}
                   >
-                    Book Now
+                    Save Changes
                   </button>
                 </div>
               </div>

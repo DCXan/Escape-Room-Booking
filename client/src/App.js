@@ -22,9 +22,9 @@ import {
   ColorPicker,
   ColorMapping,
   Editor,
+  RoomsList
 } from "./pages"
 import Modal from "react-modal"
-import RoomsList from "./components/RoomsList"
 Modal.setAppElement("#root")
 
 const App = () => {
