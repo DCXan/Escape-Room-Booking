@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react"
 import { loadStripe } from "@stripe/stripe-js"
 import Booking from "./Calendar"
@@ -55,6 +56,12 @@ const RoomModal = ({ room }) => {
   const handleTicket = () => {
     console.log(ticket)
   }
+=======
+import React, { useState } from "react";
+
+const RoomModal = ({ room }) => {
+  const [showModal, setShowModal] = useState(false);
+>>>>>>> 1c38c058572b226fe1ed81ab5458e1da3743d986
 
   return (
     <div>
@@ -96,6 +103,7 @@ const RoomModal = ({ room }) => {
                   </h3>
                   <p>{room.additionalDetails}</p>
                 </div>
+<<<<<<< HEAD
                 <div className="  grid grid-cols-2 divide-x ">
                   <div className="flex flex-col ">
                     <img src={room.image} />
@@ -109,6 +117,14 @@ const RoomModal = ({ room }) => {
                   <div className="flex-col items-center ">
                     <Booking />
                   </div>
+=======
+                <img src={room.image} alt="Escape Room" />
+                {/*Room Description*/}
+                <div className="relative p-6 flex-auto">
+                  <p className="my-4 text-slate-500 text-lg text-justify">
+                    {room.description}
+                  </p>
+>>>>>>> 1c38c058572b226fe1ed81ab5458e1da3743d986
                 </div>
                 <div className=" grid grid-cols-2 divide-x">
                   <div className="flex flex-col justify-start p-6 border-t border-solid border-slate-200 rounded-b text-left">
@@ -184,7 +200,7 @@ const RoomModal = ({ room }) => {
         </div>
       ) : null}
     </div>
-  )
-}
+  );
+};
 
-export default RoomModal
+export default RoomModal;

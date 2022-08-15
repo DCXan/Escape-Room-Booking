@@ -21,9 +21,6 @@ const roomSchema = new mongoose.Schema({
   childRate: Number,
   privateRate: Number,
   additionalDetails: String,
-  RecurrenceRule: String,
-  StartTime: String,
-  EndTime: String,
   availability: availabilitySchema,
   createdAt: {
     type: Date,
