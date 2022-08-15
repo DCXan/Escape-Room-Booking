@@ -1,7 +1,65 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
+import { loadStripe } from "@stripe/stripe-js"
+import Booking from "./Calendar"
+//public key for stripe
+const stripePromise = loadStripe("pk_test_fmwCa9Gs1HrmcSrEAjsAvKQO00KtWSZf8C")
 
 const RoomModal = ({ room }) => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false)
+  const [ticket, setTicket] = useState({})
+  const [adult, setAdult] = useState({})
+  const [children, setChildren] = useState({})
+  const info = ["Adult", "Child", "Private Room"]
+
+  const handleCheckout = async () => {
+    const line_items = [
+      {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: room.Subject,
+            description: "Adult",
+          },
+          unit_amount: room.adultRate * 100,
+        },
+        quantity: room.maxPlayers,
+      },
+    ]
+    const response = await fetch(
+      "http://localhost:8000/checkout/create-checkout-session",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ room }),
+      }
+    )
+    const results = await response.json()
+    if (results.success) {
+      console.log(results.sessionid)
+      const stripe = await stripePromise
+      stripe.redirectToCheckout({
+        sessionId: results.sessionID,
+      })
+    }
+  }
+  const handleAdult = e => {
+    setAdult({
+      adult: e.target.value,
+    })
+    if (adult <= 7) {
+      // setChildren
+    }
+  }
+  const handleChildren = e => {
+    setTicket({
+      children: e.target.value,
+    })
+  }
+  const handleTicket = () => {
+    console.log(ticket)
+  }
 
   return (
     <div>
@@ -14,7 +72,7 @@ const RoomModal = ({ room }) => {
       {showModal ? (
         <div>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none mx-2">
-            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+            <div className="relative w-auto my-6 mx-auto max-w-5xl">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
@@ -43,22 +101,68 @@ const RoomModal = ({ room }) => {
                   </h3>
                   <p>{room.additionalDetails}</p>
                 </div>
-                <img src={room.image} alt="Escape Room" />
-                {/*Room Description*/}
-                <div className="relative p-6 flex-auto">
-                  <p className="my-4 text-slate-500 text-lg text-justify">
-                    {room.description}
-                  </p>
+                <div className="  grid grid-cols-2 divide-x ">
+                  <div className="flex flex-col ">
+                    <img src={room.image} />
+                    {/*Room Description*/}
+                    <div className="relative p-6 flex-auto">
+                      <p className="my-4 text-slate-500 text-lg text-justify">
+                        {room.description}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex-col items-center ">
+                    <Booking />
+                  </div>
                 </div>
-                <div className="flex flex-col justify-start p-6 border-t border-solid border-slate-200 rounded-b text-left">
-                  <p className="font-bold text-lg">Additional Details</p>
-                  <div>
-                    {room.adultRate ? <p>${room.adultRate} per adult</p> : null}
-                    {room.childRate ? <p>${room.childRate} per child</p> : null}
-                    <p>
-                      ${room.privateRate} for a private room ({room.maxPlayers}{" "}
-                      people maximum)
-                    </p>
+                <div className=" grid grid-cols-2 divide-x">
+                  <div className="flex flex-col justify-start p-6 border-t border-solid border-slate-200 rounded-b text-left">
+                    <p className="font-bold text-lg">Additional Details</p>
+                    <div>
+                      {room.adultRate ? (
+                        <p>${room.adultRate} per adult</p>
+                      ) : null}
+                      {room.childRate ? (
+                        <p>${room.childRate} per child</p>
+                      ) : null}
+                      <p>
+                        ${room.privateRate} for a private room (
+                        {room.maxPlayers} people maximum)
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col">
+                    <h2>Tickets</h2>
+
+                    <div className="flex flex-row ">
+                      <label>Adult</label>
+                      <div>
+                        <select onChange={handleAdult}>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="flex flex-row ">
+                      <label>Children</label>
+                      <div>
+                        <select onChange={handleChildren}>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                        </select>
+                      </div>
+                      <button onClick={handleTicket}>Click me</button>
+                    </div>
                   </div>
                 </div>
                 {/*footer*/}
@@ -73,9 +177,9 @@ const RoomModal = ({ room }) => {
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={handleCheckout}
                   >
-                    Book Now
+                    Checkout
                   </button>
                 </div>
               </div>
@@ -85,7 +189,7 @@ const RoomModal = ({ room }) => {
         </div>
       ) : null}
     </div>
-  );
-};
+  )
+}
 
-export default RoomModal;
+export default RoomModal
