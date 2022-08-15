@@ -30,7 +30,7 @@
     "redux": "^4.2.0"
   },
   "scripts": {
-    "start": "env-cmd -f .env.staging react-scripts start",
+    "start": "env-cmd -f .env react-scripts start",
     "build:staging": "env-cmd -f .env.staging react-scripts build",
     "build:production": "env-cmd -f .env.production react-scripts build",
     "build": "react-scripts build",

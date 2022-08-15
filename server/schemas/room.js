@@ -1,7 +1,19 @@
 const mongoose = require("mongoose");
 
+const availabilitySchema = new mongoose.Schema({
+  availableDays: [
+    {
+      Sunday: {
+        isAvailable: Boolean,
+        timeslots: [Number],
+      },
+    },
+  ],
+  repeatWeekly: Boolean,
+});
+
 const roomSchema = new mongoose.Schema({
-  title: String,
+  Subject: String,
   description: String,
   maxPlayers: Number,
   durationMinutes: Number,
@@ -9,9 +21,10 @@ const roomSchema = new mongoose.Schema({
   childRate: Number,
   privateRate: Number,
   additionalDetails: String,
+  availability: availabilitySchema,
   createdAt: {
-    immutable: true,
     type: Date,
+    immutable: true,
     default: () => Date.now(),
   },
   updatedAt: {
@@ -20,6 +33,8 @@ const roomSchema = new mongoose.Schema({
   },
 });
 
+const Availability = mongoose.model("Availability", availabilitySchema);
 const Room = mongoose.model("Room", roomSchema);
 
+module.exports = Availability;
 module.exports = Room;

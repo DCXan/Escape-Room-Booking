@@ -41,7 +41,7 @@ const Scheduler = (props) => {
 
   const getRooms = async () => {
     const response = await fetch(
-      process.env.REACT_APP_URL + `/admin/get-rooms`
+      process.env.REACT_APP_BASE_URL + `/admin/get-rooms`
     );
     const result = await response.json();
 
@@ -63,7 +63,7 @@ const Scheduler = (props) => {
 
   const editEvents = async () => {
     const addEvents = await fetch(
-      process.env.REACT_APP_URL + `/admin/create-room`,
+      process.env.REACT_APP_BASE_URL + `/admin/create-room`,
       {
         method: "POST",
         headers: {
