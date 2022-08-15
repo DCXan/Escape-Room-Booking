@@ -1,5 +1,5 @@
 import Calendar from "react-calendar"
-import "react-calendar/dist/Calendar.css"
+import "../calendar.css"
 import React, { useState } from "react"
 import moment from "moment"
 
@@ -14,7 +14,7 @@ function Booking({}) {
 
   return (
     <div>
-      <div className="calendar-container">
+      <div className="">
         <Calendar minDetail="month" onClickDay={value => handleSlots(value)} />
       </div>
       <p className="text-center">
