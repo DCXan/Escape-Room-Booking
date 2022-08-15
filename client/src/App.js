@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
@@ -25,10 +25,15 @@ import {
   Logout,
 } from "./pages";
 import Modal from "react-modal";
+import { AuthContext } from "./contexts/AuthContext";
 Modal.setAppElement("#root");
 
 const App = () => {
   const { activeMenu } = useStateContext();
+
+  const ProtectedRoute = ({ children }) => {
+    const { user } = useContext(AuthContext);
+  };
 
   return (
     <div>
