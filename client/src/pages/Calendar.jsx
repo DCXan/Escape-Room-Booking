@@ -20,7 +20,8 @@ import { Header } from "../components";
 // eslint-disable-next-line react/destructuring-assignment
 const PropertyPane = (props) => <div className="mt-5">{props.children}</div>;
 
-const Scheduler = () => {
+const Scheduler = (props) => {
+  const [changeEvent, setChangeEvent] = useState([]);
   const [scheduleObj, setScheduleObj] = useState();
   const [events, setEvents] = useState();
 
@@ -39,7 +40,9 @@ const Scheduler = () => {
   };
 
   const getRooms = async () => {
-    const response = await fetch(`http://localhost:8000/admin/get-rooms`);
+    const response = await fetch(
+      process.env.REACT_APP_BASE_URL + `/admin/get-rooms`
+    );
     const result = await response.json();
 
     if (result.success) {
@@ -50,15 +53,45 @@ const Scheduler = () => {
     }
   };
 
+  const handleChanges = (args) => {
+    console.log(args);
+    setChangeEvent({
+      ...changeEvent,
+      changes: args.target,
+    });
+  };
+
+  const editEvents = async () => {
+    const addEvents = await fetch(
+      process.env.REACT_APP_BASE_URL + `/admin/create-room`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(scheduleObj),
+      }
+    );
+    const response = await addEvents.json();
+    if (response.success) {
+      // setChangeEvent(response.success);
+      console.log(response);
+    } else {
+      console.log("could not post to database");
+    }
+  };
+
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category="App" title="Calendar" />
       <ScheduleComponent
         height="650px"
         ref={(schedule) => setScheduleObj(schedule)}
+        // onChange={handleChanges}
         selectedDate={new Date()}
         eventSettings={{ dataSource: events }}
         dragStart={onDragStart}
+        // onClick={handleChanges}
       >
         <ViewsDirective>
           {["Day", "Week", "WorkWeek", "Month", "Agenda"].map((item) => (
@@ -75,6 +108,7 @@ const Scheduler = () => {
             <tr style={{ height: "50px" }}>
               <td style={{ width: "100%" }}>
                 <DatePickerComponent
+                  readonly={true}
                   value={new Date()}
                   showClearButton={false}
                   placeholder="Current Date"
@@ -91,59 +125,3 @@ const Scheduler = () => {
 };
 
 export default Scheduler;
-
-// import { Calendar, momentLocalizer } from "react-big-calendar";
-// import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
-// import React, { useState } from "react";
-// import "react-big-calendar/lib/css/react-big-calendar.css";
-// import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
-// import moment from "moment";
-// import "./style.css";
-
-// import { useEffect } from "react";
-// const GetRooms = () => {
-//   const [rooms, setRooms] = useState({});
-//   const [slot, setSlot] = useState([]);
-//   const [day, setDay] = useState("");
-//   const [time, seTime] = useState("");
-//   moment.locale("en-GB");
-//   const localizer = momentLocalizer(moment);
-
-//   const DnDCalendar = withDragAndDrop(Calendar);
-//   useEffect(async () => {
-//     const time = moment("11:00 PM");
-//     const response = await fetch(`http://localhost:8000/admin/timeslot`);
-//     const result = await response.json();
-//     if (result.success) {
-//       setSlot(result.slot);
-//     } else {
-//       console.log(result.message);
-//     }
-//   }, []);
-
-//   // const eventItems = slot.map(slot =>{
-
-//   // })
-
-//   return (
-//     <div>
-//       <DnDCalendar
-//         className="rbc-calendar"
-//         localizer={localizer}
-//         events={[
-//           {
-//             id: 0,
-//             title: "Cell Block",
-//             start: new Date(2022, 7, 16, 19, 30, 0), // Year , month(index),day, hour,minutes,seconds
-//             end: new Date(2022, 7, 16, 20, 30, 0),
-//           },
-//         ]}
-//         defaultDate={moment().toDate()}
-//         draggableAccessor={(events) => true}
-//         step="15"
-//       />
-//     </div>
-//   );
-// };
-
-// export default GetRooms;
