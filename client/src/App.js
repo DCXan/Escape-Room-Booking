@@ -24,6 +24,7 @@ import {
   Editor,
 } from "./pages"
 import Modal from "react-modal"
+import RoomsList from "./components/RoomsList"
 Modal.setAppElement("#root")
 
 const App = () => {
@@ -73,6 +74,8 @@ const App = () => {
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/employees" element={<Employees />} />
                 <Route path="/customers" element={<Customers />} />
+                <Route path="/rooms" element={<RoomsList />} />
+                
 
                 {/* Apps */}
                 <Route path="/kanban" element={<Kanban />} />
