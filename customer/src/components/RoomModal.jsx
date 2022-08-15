@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 
 const RoomModal = ({ room }) => {
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div>
@@ -38,10 +38,12 @@ const RoomModal = ({ room }) => {
                   </span>
                 </button>
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-3xl font-semibold mb-3">{room.Subject}</h3>
+                  <h3 className="text-3xl font-semibold mb-3">
+                    {room.Subject}
+                  </h3>
                   <p>{room.additionalDetails}</p>
                 </div>
-                <img src={room.image} />
+                <img src={room.image} alt="Escape Room" />
                 {/*Room Description*/}
                 <div className="relative p-6 flex-auto">
                   <p className="my-4 text-slate-500 text-lg text-justify">
@@ -83,7 +85,7 @@ const RoomModal = ({ room }) => {
         </div>
       ) : null}
     </div>
-  )
-}
+  );
+};
 
-export default RoomModal
+export default RoomModal;

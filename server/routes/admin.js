@@ -40,8 +40,6 @@ adminRouter.post("/add-room", async (req, res) => {
     },
   } = req.body;
 
-  // console.log(req.body)
-
   const room = new Room({
     Subject: title,
     description: description,
