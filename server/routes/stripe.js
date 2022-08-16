@@ -6,9 +6,9 @@ const stripe = require("stripe")(
 )
 
 // connect to stripe
-checkoutRouter.post("/create-checkout-session", async (req, res) => {
+checkoutRouter.post("/payment", async (req, res) => {
   const { room } = req.body
-  console.log(room)
+
   const domainUrl = "http://localhost:3001"
   try {
     const session = await stripe.checkout.sessions.create({
@@ -40,7 +40,7 @@ checkoutRouter.post("/create-checkout-session", async (req, res) => {
         },
       ],
 
-      success_url: `${domainUrl}/order/success`,
+      success_url: `${domainUrl}/success`,
       cancel_url: `${domainUrl}/canceled`,
       phone_number_collection: {
         enabled: true,
@@ -53,14 +53,13 @@ checkoutRouter.post("/create-checkout-session", async (req, res) => {
   }
 })
 
-checkoutRouter.get("/order/success", async (req, res) => {
+checkoutRouter.get("/success", async (req, res) => {
   const session = await stripe.checkout.sessions.retrieve(req.query.session_id)
   const customer = await stripe.customers.retrieve(session.customer)
-  console.log(session)
 
-  res.send(
-    `<html><body><h1>Thanks for your order, ${customer.name}!</h1></body></html>`
-  )
+  console.log(customer)
+
+  res.json({ customer: customer })
 })
 
 module.exports = checkoutRouter
