@@ -38,4 +38,26 @@ customerRouter.get("/get-customers", async (req, res) => {
   }
 });
 
+customerRouter.post("/confirmed-booking", async (req, res) => {
+  const { first_name, last_name, email, phone } = req.body;
+
+  const customer = new Customer({
+    first_name: first_name,
+    last_name: last_name,
+    email: email,
+    phone: phone,
+  });
+  try {
+    await customer.save();
+    res.json({
+      success: true,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    });
+  }
+});
+
 module.exports = customerRouter;

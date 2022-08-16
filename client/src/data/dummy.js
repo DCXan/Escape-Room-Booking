@@ -401,21 +401,33 @@ export const LinePrimaryYAxis = {
 export const customersGrid = [
   { type: "checkbox", width: "50" },
   {
-    headerText: "Name",
-    width: "150",
-    template: customerGridImage,
+    field: "first_name",
+    headerText: "First Name",
+    width: "120",
+    textAlign: "Center",
+  },
+  {
+    field: "last_name",
+    headerText: "Last Name",
+    width: "120",
     textAlign: "Center",
   },
 
   {
-    field: "Location",
-    headerText: "Location",
-    width: "150",
+    field: "email",
+    headerText: "Email",
+    width: "120",
+    textAlign: "Center",
+  },
+  {
+    field: "phone",
+    headerText: "Phone",
+    width: "120",
     textAlign: "Center",
   },
 
   {
-    field: "CustomerID",
+    field: "_id",
     headerText: "Customer ID",
     width: "120",
     textAlign: "Center",
