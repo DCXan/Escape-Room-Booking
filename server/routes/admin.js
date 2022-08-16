@@ -30,14 +30,6 @@ adminRouter.post("/update-room", async (req, res) => {
     childRate,
     privateRate,
     additionalDetails,
-    // availability: {
-    //   availableDays: [
-    //     {
-    //       Sunday: { isAvailable: sundayStatus, timeslots: timeslots },
-    //     },
-    //   ],
-    //   repeatWeekly: repeatStatus,
-    // },
   } = req.body;
 
   try {
@@ -79,14 +71,6 @@ adminRouter.post("/add-room", async (req, res) => {
     childRate,
     privateRate,
     additionalDetails,
-    availability: {
-      availableDays: [
-        {
-          Sunday: { isAvailable: sundayStatus, timeslots: timeslots },
-        },
-      ],
-      repeatWeekly: repeatStatus,
-    },
   } = req.body;
 
   const room = new Room({
@@ -98,17 +82,6 @@ adminRouter.post("/add-room", async (req, res) => {
     childRate: childRate,
     privateRate: privateRate,
     additionalDetails: additionalDetails,
-    // availability: {
-    //   availableDays: [
-    //     {
-    //       Sunday: {
-    //         isAvailable: sundayStatus,
-    //         timeslots: timeslots,
-    //       },
-    //     },
-    //   ],
-    //   repeatWeekly: repeatStatus,
-    // },
   });
 
   try {

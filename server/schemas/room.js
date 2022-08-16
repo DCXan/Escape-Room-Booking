@@ -21,16 +21,15 @@ const roomSchema = new mongoose.Schema({
   childRate: Number,
   privateRate: Number,
   additionalDetails: String,
-  // availability: availabilitySchema,
-  createdAt: {
-    type: Date,
-    immutable: true,
-    default: () => Date.now(),
-  },
-  updatedAt: {
-    type: Date,
-    default: () => Date.now(),
-  },
+  // createdAt: {
+  //   type: Date,
+  //   immutable: true,
+  //   default: () => Date.now(),
+  // },
+  // updatedAt: {
+  //   type: Date,
+  //   default: () => Date.now(),
+  // },
 });
 
 const Availability = mongoose.model("Availability", availabilitySchema);
