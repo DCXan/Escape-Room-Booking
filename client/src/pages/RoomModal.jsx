@@ -46,21 +46,25 @@ const RoomModal = ({ room }) => {
                   </span>
                 </button>
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-3xl font-semibold mb-3">Room Name:</h3>
+                  <p className="text-xl">Room Name:</p>
                   <div className="md:w-2/3">
                     <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="roomTitle" name="title" type="text" defaultValue={room.Subject} onChange={handleChange}/>
                   </div>
-                  <p>Additional Details:</p>
+                  <p className="text-xl mt-3">Additional Details:</p>
                   <div className="md:w-2/3">
                     <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="additionalDetails" name="additionalDetails" type="text" defaultValue={room.additionalDetails} onChange={handleChange}/>
                   </div>
                 </div>
                 <img src={room.image} />
                 {/*Room Description*/}
-                <div className="relative p-6 flex-auto">
-                  <p className="my-4 text-slate-500 text-lg text-justify">
-                    {room.description}
-                  </p>
+                <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                    <p className="text-xl">Room Description:</p>
+                    <div className="md:w-2/3 self-center">
+                      {/* <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="additionalDetails" name="additionalDetails" type="textarea" defaultValue={room.description} onChange={handleChange}/> */}
+                      <textarea className="self-center mt-5" rows={10} cols={60} name="description" onChange={handleChange}>
+                      {room.description}
+                      </textarea>
+                    </div>
                 </div>
                 <div className="flex flex-col justify-start p-6 border-t border-solid border-slate-200 rounded-b text-left">
                   <p className="font-bold text-lg">Additional Details</p>
