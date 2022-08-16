@@ -7,7 +7,6 @@ import {
   Search,
   Page,
 } from "@syncfusion/ej2-react-grids";
-
 import { employeesGrid } from "../data/dummy";
 import { Header } from "../components";
 
