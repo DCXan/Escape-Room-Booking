@@ -20,7 +20,10 @@ adminRouter.get("/get-rooms", async (req, res) => {
 });
 
 // Update a room
-adminRouter.post("/update-room", async (req, res) => {
+adminRouter.post("/update-room/:roomID", async (req, res) => {
+
+  const roomID = req.params.roomID
+
   const {
     title,
     description,
@@ -31,9 +34,9 @@ adminRouter.post("/update-room", async (req, res) => {
     privateRate,
     additionalDetails,
   } = req.body;
-
+  
   try {
-    Room.findOneAndUpdate({title: title},{
+    Room.findByIdAndUpdate(roomID,{
       Subject: title,
       description: description,
       maxPlayers: maxPlayers,
@@ -86,7 +89,7 @@ adminRouter.post("/add-room", async (req, res) => {
 
   try {
     await room.save();
-    // console.log(savedRoom)
+    
     res.json({
       success: true,
     });
