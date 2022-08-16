@@ -9,9 +9,11 @@ require("dotenv").config();
 
 // Routers
 
+const authRouter = require("./routes/auth");
 const adminRouter = require("./routes/admin");
-const userRouter = require("./routes/user");
+const userRouter = require("./routes/User");
 const checkoutRouter = require("./routes/stripe");
+app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/checkout", checkoutRouter);
