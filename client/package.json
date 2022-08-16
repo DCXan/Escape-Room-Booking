@@ -19,8 +19,6 @@
     "@syncfusion/ej2-react-schedule": "^19.4.50",
     "env-cmd": "^10.1.0",
     "react": "^17.0.2",
-    "react-admin": "^4.2.7",
-    "react-admin-lb4": "^1.0.3",
     "react-big-calendar": "^1.5.0",
     "react-datetime": "^3.1.1",
     "react-dom": "^17.0.2",
