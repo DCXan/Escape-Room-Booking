@@ -26,14 +26,15 @@ import {
 } from "./pages";
 import Modal from "react-modal";
 import { AuthContext } from "./contexts/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 Modal.setAppElement("#root");
 
 const App = () => {
   const { activeMenu } = useStateContext();
 
-  const ProtectedRoute = ({ children }) => {
-    const { user } = useContext(AuthContext);
-  };
+  // const ProtectedRoute = ({ children }) => {
+  //   const { user } = useContext(AuthContext);
+  // };
 
   return (
     <div>
@@ -77,7 +78,14 @@ const App = () => {
 
                 {/* Pages */}
                 <Route path="/orders" element={<Orders />} />
-                <Route path="/employees" element={<Employees />} />
+                <Route
+                  path="/employees"
+                  element={
+                    <ProtectedRoute>
+                      <Employees />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="/customers" element={<Customers />} />
 
                 {/* Apps */}
