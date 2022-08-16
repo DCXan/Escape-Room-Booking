@@ -45,6 +45,7 @@ exports.user_signup = (req, res, next) => {
 };
 
 exports.user_login = (req, res, next) => {
+  const { isAdmin } = req.body;
   User.find({ email: req.body.email })
     .exec()
     .then((user) => {
@@ -64,11 +65,9 @@ exports.user_login = (req, res, next) => {
             {
               email: user[0].email,
               userId: user[0]._id,
+              isAdmin: user[0].isAdmin,
             },
-            process.env.JWT_KEY,
-            {
-              expiresIn: "1h",
-            }
+            process.env.JWT_KEY
           );
           return res.status(200).json({
             message: "Auth successful",
