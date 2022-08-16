@@ -9,7 +9,6 @@ function Booking({}) {
   const [slots, setslots] = useState(false)
   const handleSlots = value => {
     setDate(value)
-    console.log(value)
   }
 
   return (

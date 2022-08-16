@@ -37,7 +37,6 @@ const RoomModal = ({ room }) => {
     )
     const results = await response.json()
     if (results.success) {
-      console.log(results.sessionid)
       const stripe = await stripePromise
       stripe.redirectToCheckout({
         sessionId: results.sessionID,
@@ -64,12 +63,16 @@ const RoomModal = ({ room }) => {
   const handleTicket = () => {
     console.log(ticket)
   }
+  const handleRoom = () => {
+    setShowModal(true)
+    console.log(room.Subject)
+  }
 
   return (
     <div>
       <button
         className="bg-blue-500 text-white font-medium px-3 py-2 my-3 rounded-2xl hover:bg-blue-900 hover:drop-shadow-xl"
-        onClick={() => setShowModal(true)}
+        onClick={handleRoom}
       >
         Room Details
       </button>
