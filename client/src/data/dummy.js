@@ -408,8 +408,14 @@ export const customersGrid = [
   },
 
   {
-    field: "Location",
-    headerText: "Location",
+    field: "email",
+    headerText: "Email",
+    width: "150",
+    textAlign: "Center",
+  },
+  {
+    field: "phone",
+    headerText: "Phone",
     width: "150",
     textAlign: "Center",
   },
