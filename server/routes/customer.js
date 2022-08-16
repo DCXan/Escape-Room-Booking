@@ -1,6 +1,6 @@
 const express = require("express");
 const customerRouter = express.Router();
-const Customer = require("../schemas/customer");
+const Customer = require("../schemas/Customer");
 const Room = require("../schemas/room");
 
 customerRouter.get("/get-rooms", async (req, res) => {

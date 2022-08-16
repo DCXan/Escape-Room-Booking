@@ -4,6 +4,7 @@ import "./index.css";
 import "react-datetime/css/react-datetime.css";
 import App from "./App";
 import { ContextProvider } from "./contexts/ContextProvider";
+import { AuthContextProvider } from "./contexts/AuthContext";
 import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import roomReducer from "./contexts/reducer/roomReducer";
@@ -17,9 +18,11 @@ const store = createStore(rootReducer, composeWithDevTools());
 
 ReactDOM.render(
   <ContextProvider>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <AuthContextProvider>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </AuthContextProvider>
   </ContextProvider>,
 
   document.getElementById("root")
