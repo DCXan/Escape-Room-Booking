@@ -25,13 +25,16 @@ const RoomModal = ({ room }) => {
         quantity: room.maxPlayers,
       },
     ]
-    const response = await fetch("http://localhost:8000/checkout/payment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ room }),
-    })
+    const response = await fetch(
+      "http://localhost:8000/checkout/create-checkout-session",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ room }),
+      }
+    )
     const results = await response.json()
     if (results.success) {
       console.log(results.sessionid)
