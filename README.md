@@ -1,5 +1,3 @@
-# FLASHBOOK
-
 <div id="header" align="center">
   <img src="client/src/data/navbarLogo.png" width="500"/>
 </div>

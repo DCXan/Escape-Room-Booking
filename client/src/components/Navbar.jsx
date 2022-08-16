@@ -5,7 +5,6 @@ import { BsChatLeft } from "react-icons/bs";
 import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-
 import avatar from "../data/avatar.jpg";
 import { Cart, Chat, Notification, UserProfile } from ".";
 import { useStateContext } from "../contexts/ContextProvider";
@@ -58,6 +57,14 @@ const Navbar = () => {
 
   const handleActiveMenu = () => setActiveMenu(!activeMenu);
 
+  function checkUserPermission() {
+    if ("serviceWorker" in navigator && "PushManager" in window) {
+      console.log(true);
+    } else {
+      console.log(false);
+    }
+  }
+
   return (
     <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
       <NavButton
@@ -70,7 +77,10 @@ const Navbar = () => {
         <NavButton
           title="Notification"
           dotColor="rgb(254, 201, 15)"
-          customFunc={() => handleClick("notification")}
+          customFunc={() => {
+            handleClick("notification");
+            checkUserPermission();
+          }}
           color={currentColor}
           icon={<RiNotification3Line />}
         />

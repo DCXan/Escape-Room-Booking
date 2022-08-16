@@ -562,15 +562,6 @@ export const links = [
       },
     ],
   },
-  {
-    title: "Logout",
-    links: [
-      {
-        name: "Logout",
-        icon: <RiLogoutBoxLine />,
-      },
-    ],
-  },
 ];
 
 export const cartData = [
