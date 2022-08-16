@@ -1,10 +1,11 @@
-import axios from "axios";
-import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import "./Login.css";
 
 const Login = () => {
+  let Navigate = useNavigate();
+
   const [credentials, setCredentials] = useState({
     username: undefined,
     password: undefined,
@@ -12,21 +13,35 @@ const Login = () => {
 
   const { loading, error, dispatch } = useContext(AuthContext);
 
-  const navigate = useNavigate();
-
   const handleChange = (e) => {
-    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const handleClick = async (e) => {
-    e.preventDefault();
-    dispatch({ type: "LOGIN_START" });
+  const handleClick = async () => {
     try {
-      const res = await axios.post("/user/login", credentials);
-      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
-      navigate("/");
-    } catch (err) {
-      dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
+      const res = await fetch(process.env.REACT_APP_BASE_URL + "/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      });
+      const response = await res.json();
+      if (response.success) {
+        const token = response.token;
+        // const userId = response.
+        localStorage.setItem("jsonwebtoken", token);
+        // localStorage.setItem("userId", response.userId);
+        console.log(response);
+        Navigate(`/`);
+      } else {
+        console.log("could not post to database");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -34,16 +49,16 @@ const Login = () => {
     <div className="login">
       <div className="lContainer">
         <input
-          type="text"
-          placeholder="username"
-          id="username"
+          type="email"
+          placeholder="email"
+          name="email"
           onChange={handleChange}
           className="lInput"
         />
         <input
           type="password"
           placeholder="password"
-          id="password"
+          name="password"
           onChange={handleChange}
           className="lInput"
         />
