@@ -19,6 +19,55 @@ adminRouter.get("/get-rooms", async (req, res) => {
   }
 });
 
+// Update a room
+adminRouter.post("/update-room", async (req, res) => {
+  const {
+    title,
+    description,
+    maxPlayers,
+    durationMinutes,
+    adultRate,
+    childRate,
+    privateRate,
+    additionalDetails,
+    // availability: {
+    //   availableDays: [
+    //     {
+    //       Sunday: { isAvailable: sundayStatus, timeslots: timeslots },
+    //     },
+    //   ],
+    //   repeatWeekly: repeatStatus,
+    // },
+  } = req.body;
+
+  try {
+    Room.findOneAndUpdate({title: title},{
+      Subject: title,
+      description: description,
+      maxPlayers: maxPlayers,
+      durationMinutes: durationMinutes,
+      adultRate: adultRate,
+      childRate: childRate,
+      privateRate: privateRate,
+      additionalDetails: additionalDetails,
+    },
+    (error, data) => {
+      if (error) {
+        console.log(error)
+        res.json({
+          sucess: false, message: 'Unable to update room.'
+        })
+      } else {
+        res.json({
+          success: true
+        })
+      }
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 // Post route to pass room info from client to server
 adminRouter.post("/add-room", async (req, res) => {
   const {
@@ -49,17 +98,17 @@ adminRouter.post("/add-room", async (req, res) => {
     childRate: childRate,
     privateRate: privateRate,
     additionalDetails: additionalDetails,
-    availability: {
-      availableDays: [
-        {
-          Sunday: {
-            isAvailable: sundayStatus,
-            timeslots: timeslots,
-          },
-        },
-      ],
-      repeatWeekly: repeatStatus,
-    },
+    // availability: {
+    //   availableDays: [
+    //     {
+    //       Sunday: {
+    //         isAvailable: sundayStatus,
+    //         timeslots: timeslots,
+    //       },
+    //     },
+    //   ],
+    //   repeatWeekly: repeatStatus,
+    // },
   });
 
   try {

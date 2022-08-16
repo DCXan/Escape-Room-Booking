@@ -11,6 +11,26 @@ const RoomModal = ({ room }) => {
     })
   }
 
+  const updateRoom = async () => {
+    
+    const response = await fetch('http://localhost:8000/admin/update-room', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(roomDetails)
+    })
+
+    const result = await response.json()
+
+    if (result.success) {
+      setShowModal(false)
+    } else {
+      alert(result.message)
+    }
+
+  }
+
   return (
     <div>
       <button
@@ -61,8 +81,8 @@ const RoomModal = ({ room }) => {
                     <p className="text-xl">Room Description:</p>
                     <div className="md:w-2/3 self-center">
                       {/* <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="additionalDetails" name="additionalDetails" type="textarea" defaultValue={room.description} onChange={handleChange}/> */}
-                      <textarea className="self-center mt-5" rows={8} cols={60} name="description" onChange={handleChange}>
-                      {room.description}
+                      <textarea className="self-center mt-5" rows={8} cols={60} name="description" defaultValue={room.description} onChange={handleChange}>
+                      
                       </textarea>
                     </div>
                 </div>
@@ -93,7 +113,7 @@ const RoomModal = ({ room }) => {
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={updateRoom}
                   >
                     Save Changes
                   </button>

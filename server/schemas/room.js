@@ -21,7 +21,7 @@ const roomSchema = new mongoose.Schema({
   childRate: Number,
   privateRate: Number,
   additionalDetails: String,
-  availability: availabilitySchema,
+  // availability: availabilitySchema,
   createdAt: {
     type: Date,
     immutable: true,
