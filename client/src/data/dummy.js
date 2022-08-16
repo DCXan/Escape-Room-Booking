@@ -24,7 +24,7 @@ import {
 } from "react-icons/bs";
 import { BiColorFill } from "react-icons/bi";
 import { IoMdContacts } from "react-icons/io";
-import { RiContactsLine, RiStockLine } from "react-icons/ri";
+import { RiContactsLine, RiStockLine, RiLogoutBoxLine } from "react-icons/ri";
 import { MdOutlineSupervisorAccount } from "react-icons/md";
 import { HiOutlineRefresh } from "react-icons/hi";
 import { TiTick } from "react-icons/ti";
@@ -401,21 +401,33 @@ export const LinePrimaryYAxis = {
 export const customersGrid = [
   { type: "checkbox", width: "50" },
   {
-    headerText: "Name",
-    width: "150",
-    template: customerGridImage,
+    field: "first_name",
+    headerText: "First Name",
+    width: "120",
+    textAlign: "Center",
+  },
+  {
+    field: "last_name",
+    headerText: "Last Name",
+    width: "120",
     textAlign: "Center",
   },
 
   {
-    field: "Location",
-    headerText: "Location",
-    width: "150",
+    field: "email",
+    headerText: "Email",
+    width: "120",
+    textAlign: "Center",
+  },
+  {
+    field: "phone",
+    headerText: "Phone",
+    width: "120",
     textAlign: "Center",
   },
 
   {
-    field: "CustomerID",
+    field: "_id",
     headerText: "Customer ID",
     width: "120",
     textAlign: "Center",
@@ -551,6 +563,15 @@ export const links = [
       {
         name: "stacked",
         icon: <AiOutlineBarChart />,
+      },
+    ],
+  },
+  {
+    title: "Logout",
+    links: [
+      {
+        name: "Logout",
+        icon: <RiLogoutBoxLine />,
       },
     ],
   },

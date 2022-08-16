@@ -10,10 +10,13 @@ require("dotenv").config();
 // Routers
 
 const adminRouter = require("./routes/admin");
+const userRouter = require("./routes/User");
 const customerRouter = require("./routes/customer");
 const checkoutRouter = require("./routes/stripe");
-app.use("/admin", adminRouter);
+
 app.use("/customer", customerRouter);
+app.use("/admin", adminRouter);
+app.use("/user", userRouter);
 app.use("/checkout", checkoutRouter);
 
 // Connect MongoDB to server

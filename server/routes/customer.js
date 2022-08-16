@@ -1,6 +1,6 @@
 const express = require("express");
 const customerRouter = express.Router();
-const Customer = require("../schemas/customer");
+const Customer = require("../schemas/Customer");
 const Room = require("../schemas/room");
 
 customerRouter.get("/get-rooms", async (req, res) => {
@@ -35,6 +35,28 @@ customerRouter.get("/get-customers", async (req, res) => {
       message: error,
     });
     console.log(error);
+  }
+});
+
+customerRouter.post("/confirmed-booking", async (req, res) => {
+  const { first_name, last_name, email, phone } = req.body;
+
+  const customer = new Customer({
+    first_name: first_name,
+    last_name: last_name,
+    email: email,
+    phone: phone,
+  });
+  try {
+    await customer.save();
+    res.json({
+      success: true,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    });
   }
 });
 

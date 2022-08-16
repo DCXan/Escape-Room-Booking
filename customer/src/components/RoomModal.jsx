@@ -1,15 +1,15 @@
-import React, { useState } from "react"
-import { loadStripe } from "@stripe/stripe-js"
-import Booking from "./Calendar"
+import React, { useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import Booking from "./Calendar";
 //public key for stripe
-const stripePromise = loadStripe("pk_test_fmwCa9Gs1HrmcSrEAjsAvKQO00KtWSZf8C")
+const stripePromise = loadStripe("pk_test_fmwCa9Gs1HrmcSrEAjsAvKQO00KtWSZf8C");
 
 const RoomModal = ({ room }) => {
-  const [showModal, setShowModal] = useState(false)
-  const [ticket, setTicket] = useState({})
-  const [adult, setAdult] = useState({})
-  const [children, setChildren] = useState({})
-  const info = ["Adult", "Child", "Private Room"]
+  const [showModal, setShowModal] = useState(false);
+  const [ticket, setTicket] = useState({});
+  const [adult, setAdult] = useState({});
+  const [children, setChildren] = useState({});
+  const info = ["Adult", "Child", "Private Room"];
 
   const handleCheckout = async () => {
     const line_items = [
@@ -24,7 +24,7 @@ const RoomModal = ({ room }) => {
         },
         quantity: room.maxPlayers,
       },
-    ]
+    ];
     const response = await fetch(
       "http://localhost:8000/checkout/create-checkout-session",
       {
@@ -34,32 +34,32 @@ const RoomModal = ({ room }) => {
         },
         body: JSON.stringify({ room }),
       }
-    )
-    const results = await response.json()
+    );
+    const results = await response.json();
     if (results.success) {
-      console.log(results.sessionid)
-      const stripe = await stripePromise
+      console.log(results.sessionid);
+      const stripe = await stripePromise;
       stripe.redirectToCheckout({
         sessionId: results.sessionID,
-      })
+      });
     }
-  }
-  const handleAdult = e => {
+  };
+  const handleAdult = (e) => {
     setAdult({
       adult: e.target.value,
-    })
+    });
     if (adult <= 7) {
       // setChildren
     }
-  }
-  const handleChildren = e => {
+  };
+  const handleChildren = (e) => {
     setTicket({
       children: e.target.value,
-    })
-  }
+    });
+  };
   const handleTicket = () => {
-    console.log(ticket)
-  }
+    console.log(ticket);
+  };
 
   return (
     <div>
@@ -83,14 +83,14 @@ const RoomModal = ({ room }) => {
                   <span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6"
+                      className="h-6 w-6"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                     >
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
+                        clipRule="evenodd"
                       />
                     </svg>
                   </span>
@@ -189,7 +189,7 @@ const RoomModal = ({ room }) => {
         </div>
       ) : null}
     </div>
-  )
-}
+  );
+};
 
-export default RoomModal
+export default RoomModal;

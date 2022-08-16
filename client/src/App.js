@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
@@ -22,12 +22,21 @@ import {
   ColorMapping,
   Editor,
   RoomsList
-} from "./pages"
-import Modal from "react-modal"
-Modal.setAppElement("#root")
+  Login,
+  Logout,
+} from "./pages";
+import Modal from "react-modal";
+import { AuthContext } from "./contexts/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+Modal.setAppElement("#root");
+
 
 const App = () => {
   const { activeMenu } = useStateContext();
+
+  // const ProtectedRoute = ({ children }) => {
+  //   const { user } = useContext(AuthContext);
+  // };
 
   return (
     <div>
@@ -71,7 +80,14 @@ const App = () => {
 
                 {/* Pages */}
                 <Route path="/orders" element={<Orders />} />
-                <Route path="/employees" element={<Employees />} />
+                <Route
+                  path="/employees"
+                  element={
+                    <ProtectedRoute>
+                      <Employees />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="/customers" element={<Customers />} />
                 <Route path="/rooms" element={<RoomsList />} />
                 
@@ -91,6 +107,10 @@ const App = () => {
                 <Route path="/color-mapping" element={<ColorMapping />} />
                 <Route path="/pyramid" element={<Pyramid />} />
                 <Route path="/stacked" element={<Stacked />} />
+
+                {/* authentication */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/logout" element={<Logout />} />
               </Routes>
             </div>
           </div>

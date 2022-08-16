@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   GridComponent,
   ColumnsDirective,
@@ -11,20 +11,38 @@ import {
   Sort,
   Filter,
 } from "@syncfusion/ej2-react-grids";
-
-import { customersData, customersGrid } from "../data/dummy";
+import { customersGrid } from "../data/dummy";
 import { Header } from "../components";
 
 const Customers = () => {
+  const [customers, setCustomers] = useState([]);
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ["Delete"];
   const editing = { allowDeleting: true, allowEditing: true };
+
+  useEffect(() => {
+    displayCustomers();
+  }, []);
+
+  const displayCustomers = async () => {
+    const customers = await fetch(
+      process.env.REACT_APP_BASE_URL + "/customer//get-customers"
+    );
+    const result = await customers.json();
+
+    if (result.success) {
+      console.log(result);
+      setCustomers(result.customers);
+    } else {
+      console.log(result.message);
+    }
+  };
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category="Page" title="Customers" />
       <GridComponent
-        dataSource={customersData}
+        dataSource={customers}
         enableHover={false}
         allowPaging
         pageSettings={{ pageCount: 5 }}
