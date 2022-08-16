@@ -1,40 +1,13 @@
 const express = require("express");
-const {
-  updateUser,
-  deleteUser,
-  getUser,
-  getUsers,
-} = require("../controllers/user.js");
-const {
-  verifyAdmin,
-  verifyToken,
-  verifyUser,
-} = require("../utils/verifyToken.js");
-
 const userRouter = express.Router();
 
-// router.get("/checkauthentication", verifyToken, (req,res,next)=>{
-//   res.send("hello user, you are logged in")
-// })
+const UserController = require("../controllers/user");
+const checkAuth = require("../middleware/check-auth");
 
-// router.get("/checkuser/:id", verifyUser, (req,res,next)=>{
-//   res.send("hello user, you are logged in and you can delete your account")
-// })
+userRouter.post("/signup", UserController.user_signup);
 
-// router.get("/checkadmin/:id", verifyAdmin, (req,res,next)=>{
-//   res.send("hello admin, you are logged in and you can delete all accounts")
-// })
+userRouter.post("/login", UserController.user_login);
 
-//UPDATE
-userRouter.put("/:id", verifyUser, updateUser);
+userRouter.delete("/:userId", checkAuth, UserController.user_delete);
 
-//DELETE
-userRouter.delete("/:id", verifyUser, deleteUser);
-
-//GET
-userRouter.get("/:id", verifyUser, getUser);
-
-//GET ALL
-userRouter.get("/", verifyAdmin, getUsers);
-
-module.exports = { userRouter };
+module.exports = userRouter;
