@@ -21,7 +21,7 @@ const RoomModal = ({ room }) => {
       </button>
       {showModal ? (
         <div>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none mx-2">
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
@@ -61,19 +61,23 @@ const RoomModal = ({ room }) => {
                     <p className="text-xl">Room Description:</p>
                     <div className="md:w-2/3 self-center">
                       {/* <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="additionalDetails" name="additionalDetails" type="textarea" defaultValue={room.description} onChange={handleChange}/> */}
-                      <textarea className="self-center mt-5" rows={10} cols={60} name="description" onChange={handleChange}>
+                      <textarea className="self-center mt-5" rows={8} cols={60} name="description" onChange={handleChange}>
                       {room.description}
                       </textarea>
                     </div>
                 </div>
                 <div className="flex flex-col justify-start p-6 border-t border-solid border-slate-200 rounded-b text-left">
-                  <p className="font-bold text-lg">Additional Details</p>
-                  <div>
-                    {room.adultRate ? <p>${room.adultRate} per adult</p> : null}
-                    {room.childRate ? <p>${room.childRate} per child</p> : null}
+                  <p className="font-bold text-lg self-center">Additional Details</p>
+                  <div className="self-center text-center">
+                    <p className="content-between">
+                      Adult Ticket Price: $
+                      <input className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="adultRate" name="adultRate" type="text" defaultValue={room.adultRate} onChange={handleChange}/>
+                    </p>
+                      Child Ticket Price: $
+                      <input className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="achildRate" name="childRate" type="text" defaultValue={room.childRate} onChange={handleChange}/>
                     <p>
-                      ${room.privateRate} for a private room ({room.maxPlayers}{" "}
-                      people maximum)
+                      Private Room Rate: $
+                      <input className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="achildRate" name="childRate" type="text" defaultValue={room.privateRate} onChange={handleChange}/>
                     </p>
                   </div>
                 </div>
@@ -84,7 +88,7 @@ const RoomModal = ({ room }) => {
                     type="button"
                     onClick={() => setShowModal(false)}
                   >
-                    Go Back
+                    Cancel
                   </button>
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
