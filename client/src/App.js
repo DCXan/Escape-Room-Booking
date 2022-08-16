@@ -21,7 +21,7 @@ import {
   ColorPicker,
   ColorMapping,
   Editor,
-  RoomsList
+  RoomsList,
   Login,
   Logout,
 } from "./pages";
