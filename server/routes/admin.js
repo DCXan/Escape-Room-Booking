@@ -19,6 +19,50 @@ adminRouter.get("/get-rooms", async (req, res) => {
   }
 });
 
+// Update a room
+adminRouter.post("/update-room/:roomID", async (req, res) => {
+
+  const roomID = req.params.roomID
+
+  const {
+    title,
+    description,
+    maxPlayers,
+    durationMinutes,
+    adultRate,
+    childRate,
+    privateRate,
+    additionalDetails,
+  } = req.body;
+  
+  try {
+    Room.findByIdAndUpdate(roomID,{
+      Subject: title,
+      description: description,
+      maxPlayers: maxPlayers,
+      durationMinutes: durationMinutes,
+      adultRate: adultRate,
+      childRate: childRate,
+      privateRate: privateRate,
+      additionalDetails: additionalDetails,
+    },
+    (error, data) => {
+      if (error) {
+        console.log(error)
+        res.json({
+          sucess: false, message: 'Unable to update room.'
+        })
+      } else {
+        res.json({
+          success: true
+        })
+      }
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 // Post route to pass room info from client to server
 adminRouter.post("/add-room", async (req, res) => {
   const {
@@ -30,14 +74,6 @@ adminRouter.post("/add-room", async (req, res) => {
     childRate,
     privateRate,
     additionalDetails,
-    availability: {
-      availableDays: [
-        {
-          Sunday: { isAvailable: sundayStatus, timeslots: timeslots },
-        },
-      ],
-      repeatWeekly: repeatStatus,
-    },
   } = req.body;
 
   const room = new Room({
@@ -49,22 +85,11 @@ adminRouter.post("/add-room", async (req, res) => {
     childRate: childRate,
     privateRate: privateRate,
     additionalDetails: additionalDetails,
-    availability: {
-      availableDays: [
-        {
-          Sunday: {
-            isAvailable: sundayStatus,
-            timeslots: timeslots,
-          },
-        },
-      ],
-      repeatWeekly: repeatStatus,
-    },
   });
 
   try {
     await room.save();
-    // console.log(savedRoom)
+    
     res.json({
       success: true,
     });

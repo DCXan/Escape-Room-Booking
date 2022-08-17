@@ -1,14 +1,38 @@
 import React, { useState } from "react"
 
-const RoomModal = ({ room }) => {
+const RoomModal = (props) => {
   const [showModal, setShowModal] = useState(false)
   const [roomDetails, setRoomDetails] = useState({})
+
 
   const handleChange = (e) => {
     setRoomDetails({
       ...roomDetails,
       [e.target.name]: e.target.value
     })
+  }
+
+  const updateRoom = async () => {
+    
+    const response = await fetch(`http://localhost:8000/admin/update-room/${props.room._id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(roomDetails)
+    })
+
+    console.log(JSON.stringify(roomDetails));
+    const result = await response.json()
+    
+
+    if (result.success) {
+      setShowModal(false)
+      props.callback()
+    } else {
+      alert(result.message)
+    }
+
   }
 
   return (
@@ -48,21 +72,21 @@ const RoomModal = ({ room }) => {
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                   <p className="text-xl">Room Name:</p>
                   <div className="md:w-2/3">
-                    <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="roomTitle" name="title" type="text" defaultValue={room.Subject} onChange={handleChange}/>
+                    <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="roomTitle" name="title" type="text" defaultValue={props.room.Subject} onChange={handleChange}/>
                   </div>
                   <p className="text-xl mt-3">Additional Details:</p>
                   <div className="md:w-2/3">
-                    <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="additionalDetails" name="additionalDetails" type="text" defaultValue={room.additionalDetails} onChange={handleChange}/>
+                    <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="additionalDetails" name="additionalDetails" type="text" defaultValue={props.room.additionalDetails} onChange={handleChange}/>
                   </div>
                 </div>
-                <img src={room.image} />
+                <img src={props.room.image} />
                 {/*Room Description*/}
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                     <p className="text-xl">Room Description:</p>
                     <div className="md:w-2/3 self-center">
                       {/* <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="additionalDetails" name="additionalDetails" type="textarea" defaultValue={room.description} onChange={handleChange}/> */}
-                      <textarea className="self-center mt-5" rows={8} cols={60} name="description" onChange={handleChange}>
-                      {room.description}
+                      <textarea className="self-center mt-5" rows={8} cols={60} name="description" defaultValue={props.room.description} onChange={handleChange}>
+                      
                       </textarea>
                     </div>
                 </div>
@@ -71,13 +95,13 @@ const RoomModal = ({ room }) => {
                   <div className="self-center text-center">
                     <p className="content-between">
                       Adult Ticket Price: $
-                      <input className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="adultRate" name="adultRate" type="text" defaultValue={room.adultRate} onChange={handleChange}/>
+                      <input className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="adultRate" name="adultRate" type="text" defaultValue={props.room.adultRate} onChange={handleChange}/>
                     </p>
                       Child Ticket Price: $
-                      <input className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="achildRate" name="childRate" type="text" defaultValue={room.childRate} onChange={handleChange}/>
+                      <input className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="achildRate" name="childRate" type="text" defaultValue={props.room.childRate} onChange={handleChange}/>
                     <p>
                       Private Room Rate: $
-                      <input className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="achildRate" name="childRate" type="text" defaultValue={room.privateRate} onChange={handleChange}/>
+                      <input className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="achildRate" name="childRate" type="text" defaultValue={props.room.privateRate} onChange={handleChange}/>
                     </p>
                   </div>
                 </div>
@@ -93,7 +117,7 @@ const RoomModal = ({ room }) => {
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={updateRoom}
                   >
                     Save Changes
                   </button>
