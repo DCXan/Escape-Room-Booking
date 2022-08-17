@@ -36,7 +36,7 @@ const RoomsList = () => {
         />
         <b className="text-2xl">{room.Subject}</b>
         <p className="my-1">{room.additionalDetails}</p>
-        <RoomModal room={room} callback={getRooms}/>
+        <RoomModal room={room} callback={getRooms} />
       </li>
     );
   });

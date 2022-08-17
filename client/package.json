@@ -8,6 +8,7 @@
     "@fullcalendar/react": "^5.11.2",
     "@redux-devtools/extension": "^3.2.3",
     "@syncfusion/ej2": "^19.4.48",
+    "@syncfusion/ej2-notifications": "^20.2.43",
     "@syncfusion/ej2-react-calendars": "^19.4.48",
     "@syncfusion/ej2-react-charts": "^19.4.50",
     "@syncfusion/ej2-react-dropdowns": "^19.4.52",
