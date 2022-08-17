@@ -21,8 +21,8 @@ import {
   ColorPicker,
   ColorMapping,
   Editor,
+  RoomsList,
   Login,
-  Logout,
 } from "./pages";
 import Modal from "react-modal";
 import { AuthContext } from "./contexts/AuthContext";
@@ -87,6 +87,7 @@ const App = () => {
                   }
                 />
                 <Route path="/customers" element={<Customers />} />
+                <Route path="/rooms" element={<RoomsList />} />
 
                 {/* Apps */}
 
@@ -106,7 +107,6 @@ const App = () => {
 
                 {/* authentication */}
                 <Route path="/login" element={<Login />} />
-                <Route path="/logout" element={<Logout />} />
               </Routes>
             </div>
           </div>

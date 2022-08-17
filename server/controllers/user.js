@@ -88,6 +88,27 @@ exports.user_login = (req, res, next) => {
     });
 };
 
+exports.user_login = async (req, res, next) => {
+  try {
+    const users = await User.find({});
+    // const users = await User.find({});
+    // const userMap = {};
+    // try {
+    //   users.forEach((user) => {
+    //     if (user.isAdmin !== true) userMap[user._id] = user;
+    //   });
+    res.json({
+      success: true,
+      users: users,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    });
+  }
+};
+
 exports.user_delete = (req, res, next) => {
   User.remove({ _id: req.params.userId })
     .exec()
