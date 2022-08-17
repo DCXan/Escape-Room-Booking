@@ -10,7 +10,9 @@ const availabilitySchema = new mongoose.Schema({
     },
   ],
   repeatWeekly: Boolean,
-});
+  },
+  {timestamps: true}
+);
 
 const roomSchema = new mongoose.Schema({
   Subject: String,
@@ -30,7 +32,10 @@ const roomSchema = new mongoose.Schema({
   //   type: Date,
   //   default: () => Date.now(),
   // },
-});
+  },
+  {timestamps: true}
+
+);
 
 const Availability = mongoose.model("Availability", availabilitySchema);
 const Room = mongoose.model("Room", roomSchema);
