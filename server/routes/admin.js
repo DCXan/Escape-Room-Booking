@@ -1,8 +1,10 @@
 const express = require("express");
 const adminRouter = express.Router();
 const Room = require("../schemas/room");
-const Availability = require("../schemas/room")
+const Availability = require("../schemas/Availability")
 
+
+// Retrieve Rooms List
 adminRouter.get("/get-rooms", async (req, res) => {
   try {
     const rooms = await Room.find({});
@@ -10,6 +12,24 @@ adminRouter.get("/get-rooms", async (req, res) => {
     res.json({
       success: true,
       rooms: rooms,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    });
+    console.log(error);
+  }
+});
+
+// Retrieve Availabilities List
+adminRouter.get("/get-availabilities", async (req, res) => {
+  try {
+    const availabilities = await Availability.find({});
+
+    res.json({
+      success: true,
+      availabilities: availabilities,
     });
   } catch (error) {
     res.json({
@@ -36,7 +56,7 @@ adminRouter.post("/update-room/:roomID", async (req, res) => {
     additionalDetails,
   } = req.body;
   
-  // console.log(req.body)
+  console.log(req.body)
 
   try {
     Room.findByIdAndUpdate(roomID,{
@@ -105,7 +125,7 @@ adminRouter.post("/add-room", async (req, res) => {
 });
 
 // Set room availability
-adminRouter.post("add-availability/:roomID", async (req, res) => {
+adminRouter.post("/add-availability/:roomID", async (req, res) => {
 
   const roomID = req.params.roomID
 
@@ -119,27 +139,25 @@ adminRouter.post("add-availability/:roomID", async (req, res) => {
     saturdayStatus,
     timeslots,
     repeatWeekly,
-  } = req.body
+  } = req.body;
 
-  console.log(roomID)
-  console.log(req.body)
-
+  try {
   const availability = new Availability({
     roomID: roomID,
-    availableDays: [
-      {Sunday: sundayStatus},
-      {Monday: mondayStatus},
-      {Tuesday: tuesdayStatus},
-      {Wednesday: wednesdayStatus},
-      {Thursday: thursdayStatus},
-      {Friday: fridayStatus},
-      {Saturday: saturdayStatus},
-    ],
+    availableDays: {
+      Sunday: sundayStatus,
+      Monday: mondayStatus,
+      Tuesday: tuesdayStatus,
+      Wednesday: wednesdayStatus,
+      Thursday: thursdayStatus,
+      Friday: fridayStatus,
+      Saturday: saturdayStatus,
+    },
     timeslots: timeslots,
     repeatWeekly: repeatWeekly
   })
 
-  try {
+  
     await availability.save();
     
     res.json({
