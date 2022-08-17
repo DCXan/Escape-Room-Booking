@@ -29,7 +29,6 @@ import { AuthContext } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 Modal.setAppElement("#root");
 
-
 const App = () => {
   const { activeMenu } = useStateContext();
 
@@ -89,7 +88,6 @@ const App = () => {
                 />
                 <Route path="/customers" element={<Customers />} />
                 <Route path="/rooms" element={<RoomsList />} />
-                
 
                 {/* Apps */}
 
