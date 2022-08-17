@@ -1,11 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
-const RoomModal = ({ room }) => {
+const RoomModal = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [roomDetails, setRoomDetails] = useState({});
-  const modalRef = useRef();
 
+  const handleChange = (e) => {
+    setRoomDetails({
+      ...roomDetails,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const modalRef = useRef();
   useEffect(() => {
     const options = {
       reserveScrollBarGap: true,
@@ -17,11 +24,27 @@ const RoomModal = ({ room }) => {
     }
   }, [showModal, modalRef]);
 
-  const handleChange = (e) => {
-    setRoomDetails({
-      ...roomDetails,
-      [e.target.name]: e.target.value,
-    });
+  const updateRoom = async () => {
+    const response = await fetch(
+      `http://localhost:8000/admin/update-room/${props.room._id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(roomDetails),
+      }
+    );
+
+    console.log(JSON.stringify(roomDetails));
+    const result = await response.json();
+
+    if (result.success) {
+      setShowModal(false);
+      props.callback();
+    } else {
+      alert(result.message);
+    }
   };
 
   return (
@@ -69,7 +92,7 @@ const RoomModal = ({ room }) => {
                       id="roomTitle"
                       name="title"
                       type="text"
-                      defaultValue={room.Subject}
+                      defaultValue={props.room.Subject}
                       onChange={handleChange}
                     />
                   </div>
@@ -80,12 +103,12 @@ const RoomModal = ({ room }) => {
                       id="additionalDetails"
                       name="additionalDetails"
                       type="text"
-                      defaultValue={room.additionalDetails}
+                      defaultValue={props.room.additionalDetails}
                       onChange={handleChange}
                     />
                   </div>
                 </div>
-                <img src={room.image} alt="Escape Room" />
+                <img src={props.room.image} alt="Escape Room" />
                 {/*Room Description*/}
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                   <p className="text-xl">Room Description:</p>
@@ -93,13 +116,12 @@ const RoomModal = ({ room }) => {
                     {/* <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="additionalDetails" name="additionalDetails" type="textarea" defaultValue={room.description} onChange={handleChange}/> */}
                     <textarea
                       className="self-center mt-5"
-                      rows={4}
-                      cols={50}
+                      rows={6}
+                      cols={60}
                       name="description"
+                      defaultValue={props.room.description}
                       onChange={handleChange}
-                    >
-                      {room.description}
-                    </textarea>
+                    ></textarea>
                   </div>
                 </div>
                 <div className="flex flex-col justify-start p-6 border-t border-solid border-slate-200 rounded-b text-left">
@@ -114,7 +136,7 @@ const RoomModal = ({ room }) => {
                         id="adultRate"
                         name="adultRate"
                         type="text"
-                        defaultValue={room.adultRate}
+                        defaultValue={props.room.adultRate}
                         onChange={handleChange}
                       />
                     </p>
@@ -124,7 +146,7 @@ const RoomModal = ({ room }) => {
                       id="achildRate"
                       name="childRate"
                       type="text"
-                      defaultValue={room.childRate}
+                      defaultValue={props.room.childRate}
                       onChange={handleChange}
                     />
                     <p>
@@ -134,7 +156,7 @@ const RoomModal = ({ room }) => {
                         id="achildRate"
                         name="childRate"
                         type="text"
-                        defaultValue={room.privateRate}
+                        defaultValue={props.room.privateRate}
                         onChange={handleChange}
                       />
                     </p>
@@ -152,7 +174,7 @@ const RoomModal = ({ room }) => {
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={updateRoom}
                   >
                     Save Changes
                   </button>
@@ -161,6 +183,7 @@ const RoomModal = ({ room }) => {
             </div>
           </div>
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          //{" "}
         </div>
       ) : null}
     </div>
