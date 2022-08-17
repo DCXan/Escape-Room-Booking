@@ -7,7 +7,7 @@ const Login = () => {
   let Navigate = useNavigate();
 
   const [credentials, setCredentials] = useState({
-    username: undefined,
+    email: undefined,
     password: undefined,
   });
 

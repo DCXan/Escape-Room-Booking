@@ -26,7 +26,7 @@ const Customers = () => {
 
   const displayCustomers = async () => {
     const customers = await fetch(
-      process.env.REACT_APP_BASE_URL + "/customer//get-customers"
+      process.env.REACT_APP_BASE_URL + "/customer/get-customers"
     );
     const result = await customers.json();
 
