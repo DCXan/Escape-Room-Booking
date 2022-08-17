@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 const AvailabilityModal = (props) => {
   const [showModal, setShowModal] = useState(false)
   const [availability, setAvailability] = useState({})
+  const [currentAvailability, setCurrentAvailability] = useState([])
 
     useEffect(() => {
         getAvailabilities();
@@ -23,13 +24,14 @@ const AvailabilityModal = (props) => {
     const result = await response.json();
 
     if (result.success) {
-      console.log(result)
+      setCurrentAvailability(result.availabilities)
     
     } else {
       console.log(result.message);
     }
   }
 
+  // Update or Add availabilities
   const updateAvailability = async () => {
     
     const response = await fetch(`http://localhost:8000/admin/add-availability/${props.room._id}`, {
@@ -88,22 +90,54 @@ const AvailabilityModal = (props) => {
                   </span>
                 </button>
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200">
-                  <p className="text-xl">Editing Availability for: <div className="font-bold">{props.room.Subject}</div></p>
+                  <p className="text-xl mb-2 font-bold">Editing Availability for:</p>
+                  <div className="">{props.room.Subject}</div>
                 </div>
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <p className="text-xl">Current Availabilities:</p>
-                  <div className="md:w-2/3">
-                    
+                  <p className="text-xl mb-2 font-bold">Current Availabilities:</p>
+                  <div className="">
+                    {currentAvailability.length > 0 ? (
+                        `Number of Availabilities:  ${currentAvailability.length}`
+                    ) : 'No Timeslots Set'}
                   </div>
                 </div>
                 {/*Room Description*/}
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200">
-                    <p className="text-xl">Set Timeslots:</p>
+                    <p className="text-xl mb-2 font-bold">Set Timeslots:</p>
                 </div>
                 <div className="flex flex-col justify-center p-5 border-b border-solid border-slate-200">
-                  <p className="text-xl">Set Days:</p>
+                  <p className="text-xl mb-2 font-bold">Set Days:</p>
                   <div className="self-center text-center">
-                    
+                    <div className="items-center">
+                        <label>
+                        <input className="mr-1 ml-5" type="checkbox" name="sundayStatus" value="Sunday" id="Sunday"/>
+                            Sunday
+                        </label>
+                        <label>
+                        <input className="mr-1 ml-5" type="checkbox" name="mondayStatus" value="Monday" id="Monday"/>
+                            Monday
+                        </label>
+                        <label>
+                        <input className="mr-1 ml-5" type="checkbox" name="tuesdayStatus" value="Tuesday" id="Tuesday"/>
+                        Tuesday
+                        </label>
+                        <label>
+                        <input className="mr-1 ml-5" type="checkbox" name="wednesdayStatus" value="Wednesday" id="Wednesday"/>
+                        Wednesday
+                        </label>
+                        <label>
+                        <input className="mr-1 ml-5" type="checkbox" name="thursdayStatus" value="Thursday" id="Thursday"/>
+                        Thursday
+                        </label>
+                        <label>
+                        <input className="mr-1 ml-5" type="checkbox" name="fridayStatus" value="Friday" id="Friday"/>
+                        Friday
+                        </label>
+                        <label>
+                        <input className="mr-1 ml-5" type="checkbox" name="saturdayStatus" value="Saturday" id="Saturday"/>
+                        Saturday
+                        </label>
+                    </div>
                   </div>
                 </div>
                 {/*footer*/}
