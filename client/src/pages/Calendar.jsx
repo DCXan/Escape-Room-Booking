@@ -88,17 +88,16 @@ const Scheduler = (props) => {
         // onChange={handleChanges}
         selectedDate={new Date()}
         eventSettings={{ dataSource: events }}
-        dragStart={onDragStart}
+        // dragStart={onDragStart}
         // onClick={handleChanges}
+        readonly={true}
       >
         <ViewsDirective>
           {["Day", "Week", "WorkWeek", "Month", "Agenda"].map((item) => (
             <ViewDirective key={item} option={item} />
           ))}
         </ViewsDirective>
-        <Inject
-          services={[Day, Week, WorkWeek, Month, Agenda, Resize, DragAndDrop]}
-        />
+        <Inject services={[Day, Week, WorkWeek, Month, Agenda, Resize]} />
       </ScheduleComponent>
       <PropertyPane>
         <table style={{ width: "100%", background: "white" }}>
