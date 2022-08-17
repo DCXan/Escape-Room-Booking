@@ -57,14 +57,6 @@ const Navbar = () => {
 
   const handleActiveMenu = () => setActiveMenu(!activeMenu);
 
-  function checkUserPermission() {
-    if ("serviceWorker" in navigator && "PushManager" in window) {
-      console.log(true);
-    } else {
-      console.log(false);
-    }
-  }
-
   return (
     <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
       <NavButton
@@ -79,7 +71,6 @@ const Navbar = () => {
           dotColor="rgb(254, 201, 15)"
           customFunc={() => {
             handleClick("notification");
-            checkUserPermission();
           }}
           color={currentColor}
           icon={<RiNotification3Line />}
