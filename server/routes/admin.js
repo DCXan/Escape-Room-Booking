@@ -23,9 +23,12 @@ adminRouter.get("/get-rooms", async (req, res) => {
 });
 
 // Retrieve Availabilities List
-adminRouter.get("/get-availabilities", async (req, res) => {
+adminRouter.get("/get-availabilities/:roomID", async (req, res) => {
+
+  const roomID = req.params.roomID
+
   try {
-    const availabilities = await Availability.find({});
+    const availabilities = await Availability.find({roomID: roomID});
 
     res.json({
       success: true,
@@ -166,7 +169,7 @@ adminRouter.post("/add-availability/:roomID", async (req, res) => {
   } catch (error) {
     res.json({
       success: false,
-      message: "error",
+      message: error,
     });
   }
 })

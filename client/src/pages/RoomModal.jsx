@@ -38,10 +38,10 @@ const RoomModal = (props) => {
   return (
     <div>
       <button
-        className="bg-blue-500 text-white font-medium px-3 py-2 my-3 rounded-2xl hover:bg-blue-900 hover:drop-shadow-xl"
+        className="bg-blue-500 text-white font-medium px-3 py-2 m-3 rounded-xl hover:bg-blue-900 hover:drop-shadow-xl"
         onClick={() => setShowModal(true)}
       >
-        Edit Details
+        Edit Room Details
       </button>
       {showModal ? (
         <div>
@@ -90,7 +90,7 @@ const RoomModal = (props) => {
                       </textarea>
                     </div>
                 </div>
-                <div className="flex flex-col justify-start p-6 border-t border-solid border-slate-200 rounded-b text-left">
+                <div className="flex flex-col justify-start p-6 border-solid border-slate-200 rounded-b text-left">
                   <p className="font-bold text-lg self-center">Additional Details</p>
                   <div className="self-center text-center">
                     <p className="content-between">
