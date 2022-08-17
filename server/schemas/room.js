@@ -1,14 +1,17 @@
 const mongoose = require("mongoose");
 
 const availabilitySchema = new mongoose.Schema({
+  roomID: mongoose.SchemaTypes.ObjectId,
   availableDays: [
-    {
-      Sunday: {
-        isAvailable: Boolean,
-        timeslots: [Number],
-      },
-    },
+    {Sunday: Boolean},
+    {Monday: Boolean},
+    {Tuesday: Boolean},
+    {Wednesday: Boolean},
+    {Thursday: Boolean},
+    {Friday: Boolean},
+    {Saturday: Boolean},
   ],
+  timeslots: [Number],
   repeatWeekly: Boolean,
   },
   {timestamps: true}
@@ -23,15 +26,6 @@ const roomSchema = new mongoose.Schema({
   childRate: Number,
   privateRate: Number,
   additionalDetails: String,
-  // createdAt: {
-  //   type: Date,
-  //   immutable: true,
-  //   default: () => Date.now(),
-  // },
-  // updatedAt: {
-  //   type: Date,
-  //   default: () => Date.now(),
-  // },
   },
   {timestamps: true}
 

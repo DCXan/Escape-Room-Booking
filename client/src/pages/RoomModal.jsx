@@ -101,7 +101,7 @@ const RoomModal = (props) => {
                       <input className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="achildRate" name="childRate" type="text" defaultValue={props.room.childRate} onChange={handleChange}/>
                     <p>
                       Private Room Rate: $
-                      <input className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="achildRate" name="childRate" type="text" defaultValue={props.room.privateRate} onChange={handleChange}/>
+                      <input className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="achildRate" name="privateRate" type="text" defaultValue={props.room.privateRate} onChange={handleChange}/>
                     </p>
                   </div>
                 </div>
