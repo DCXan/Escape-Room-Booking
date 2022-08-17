@@ -90,13 +90,10 @@ exports.user_login = (req, res, next) => {
 
 exports.user_login = async (req, res, next) => {
   try {
-    const users = await User.find({});
-    // const users = await User.find({});
-    // const userMap = {};
-    // try {
-    //   users.forEach((user) => {
-    //     if (user.isAdmin !== true) userMap[user._id] = user;
-    //   });
+    const users = await User.find({
+      isAdmin: false,
+    });
+
     res.json({
       success: true,
       users: users,
@@ -106,7 +103,27 @@ exports.user_login = async (req, res, next) => {
       success: false,
       message: error,
     });
+    console.log(error);
   }
+  // try {
+  // const users = await User.find({});
+  // const users = await User.find({});
+  // const userMap = {};
+  // try {
+  //   users.forEach((user) => {
+  //     if (user.isAdmin !== true) userMap[user._id] = user;
+  //   });
+  //   res.json({
+  //     success: true,
+  //     userMap: userMap,
+  //     // users: users,
+  //   });
+  // } catch (error) {
+  //   res.json({
+  //     success: false,
+  //     message: error,
+  //   });
+  // }
 };
 
 exports.user_delete = (req, res, next) => {
