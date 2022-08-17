@@ -1,7 +1,10 @@
 const express = require("express");
 const adminRouter = express.Router();
 const Room = require("../schemas/room");
+const Availability = require("../schemas/Availability")
 
+
+// Retrieve Rooms List
 adminRouter.get("/get-rooms", async (req, res) => {
   try {
     const rooms = await Room.find({});
@@ -9,6 +12,24 @@ adminRouter.get("/get-rooms", async (req, res) => {
     res.json({
       success: true,
       rooms: rooms,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    });
+    console.log(error);
+  }
+});
+
+// Retrieve Availabilities List
+adminRouter.get("/get-availabilities", async (req, res) => {
+  try {
+    const availabilities = await Availability.find({});
+
+    res.json({
+      success: true,
+      availabilities: availabilities,
     });
   } catch (error) {
     res.json({
@@ -35,6 +56,8 @@ adminRouter.post("/update-room/:roomID", async (req, res) => {
     additionalDetails,
   } = req.body;
   
+  console.log(req.body)
+
   try {
     Room.findByIdAndUpdate(roomID,{
       Subject: title,
@@ -50,7 +73,7 @@ adminRouter.post("/update-room/:roomID", async (req, res) => {
       if (error) {
         console.log(error)
         res.json({
-          sucess: false, message: 'Unable to update room.'
+          success: false, message: 'Unable to update room.'
         })
       } else {
         res.json({
@@ -100,5 +123,52 @@ adminRouter.post("/add-room", async (req, res) => {
     });
   }
 });
+
+// Set room availability
+adminRouter.post("/add-availability/:roomID", async (req, res) => {
+
+  const roomID = req.params.roomID
+
+  const {
+    sundayStatus,
+    mondayStatus,
+    tuesdayStatus,
+    wednesdayStatus,
+    thursdayStatus,
+    fridayStatus,
+    saturdayStatus,
+    timeslots,
+    repeatWeekly,
+  } = req.body;
+
+  try {
+  const availability = new Availability({
+    roomID: roomID,
+    availableDays: {
+      Sunday: sundayStatus,
+      Monday: mondayStatus,
+      Tuesday: tuesdayStatus,
+      Wednesday: wednesdayStatus,
+      Thursday: thursdayStatus,
+      Friday: fridayStatus,
+      Saturday: saturdayStatus,
+    },
+    timeslots: timeslots,
+    repeatWeekly: repeatWeekly
+  })
+
+  
+    await availability.save();
+    
+    res.json({
+      success: true,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: "error",
+    });
+  }
+})
 
 module.exports = adminRouter;
