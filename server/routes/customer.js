@@ -23,22 +23,22 @@ customerRouter.get("/get-rooms", async (req, res) => {
 });
 
 //Route will find one room based on roomID
-customerRouter.get("/get-booked-room/:roomID", async (req, res) => {
-  const roomID = req.params.roomID;
-  try {
-    const rooms = await Room.findById(roomID, {});
-    res.json({
-      success: true,
-      rooms: rooms,
-    });
-  } catch (error) {
-    res.json({
-      success: false,
-      message: error,
-    });
-    console.log(error);
-  }
-});
+// customerRouter.get("/get-booked-room", async (req, res) => {
+//   const roomID = req.params.roomID;
+//   try {
+//     const rooms = await Customer.findById(roomID, {});
+//     res.json({
+//       success: true,
+//       rooms: rooms,
+//     });
+//   } catch (error) {
+//     res.json({
+//       success: false,
+//       message: error,
+//     });
+//     console.log(error);
+//   }
+// });
 
 //admin will receive customer information
 
@@ -59,33 +59,30 @@ customerRouter.get("/get-customers", async (req, res) => {
   }
 });
 
-customerRouter.post("/confirmed-booking/:roomID", async (req, res) => {
-  const roomID = req.params.roomID;
-  console.log(roomID);
+// customerRouter.post("/confirmed-booking", async (req, res) => {
+//   const { first_name, last_name, email, phone, dateAndTime, numberOfPlayers } =
+//     req.body;
+//   console.log(req.body);
 
-  const { first_name, last_name, email, phone, dateAndTime, numberOfPlayers } =
-    req.body;
-
-  const customer = new Customer({
-    roomID: roomID,
-    first_name: first_name,
-    last_name: last_name,
-    email: email,
-    phone: phone,
-    dateAndTime: dateAndTime,
-    numberOfPlayers: numberOfPlayers,
-  });
-  try {
-    await customer.save();
-    res.json({
-      success: true,
-    });
-  } catch (error) {
-    res.json({
-      success: false,
-      message: error,
-    });
-  }
-});
+//   const customer = new Customer({
+//     first_name: first_name,
+//     last_name: last_name,
+//     email: email,
+//     phone: phone,
+//     dateAndTime: dateAndTime,
+//     numberOfPlayers: numberOfPlayers,
+//   });
+//   try {
+//     await customer.save();
+//     res.json({
+//       success: true,
+//     });
+//   } catch (error) {
+//     res.json({
+//       success: false,
+//       message: error,
+//     });
+//   }
+// });
 
 module.exports = customerRouter;

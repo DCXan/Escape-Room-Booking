@@ -16,8 +16,67 @@ import {
 
 import { ordersData, contextMenuItems, ordersGrid } from "../data/dummy";
 import { Header } from "../components";
+import OrdersData from "./OrdersData";
 
-const Orders = (props) => {
+const Orders = () => {
+  const [rooms, setRooms] = useState([]);
+  const [customers, setCustomers] = useState([]);
+
+  useEffect(() => {
+    getRooms();
+    getCustomers();
+  }, []);
+
+  const getRooms = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/customer/get-customers`
+    );
+    const result = await response.json();
+    if (result.success) {
+      setCustomers(result.customers);
+      // console.log(result);
+    } else {
+      console.log(result.message);
+    }
+  };
+
+  const getCustomers = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/customer/get-rooms`
+    );
+
+    const result = await response.json();
+
+    if (result.success) {
+      setRooms(result.rooms);
+      // console.log(result.rooms);
+    } else {
+      console.log(result.message);
+    }
+  };
+
+  // const customerItem = customers.map((customer) => {
+  //   // console.log(room);
+  //   return (
+  //     <li
+  //       key={room._id}
+  //       className="border-gray-800 border-0 text-center bg-fixed rounded-3xl shadow-2xl"
+  //     >
+  //       <img
+  //         src={room.image}
+  //         width={500}
+  //         className="rounded-t-3xl max-h-48 object-cover mb-3"
+  //         alt=""
+  //       />
+  //       <b className="text-2xl">{room.Subject}</b>
+  //       <p className="my-1">{room.additionalDetails}</p>
+  //       <div className="flex flex-row justify-center">
+  //         <OrdersData room={room} callback={getRooms} />
+  //       </div>
+  //     </li>
+  //   );
+  // });
+
   const editing = { allowDeleting: true, allowEditing: true };
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">

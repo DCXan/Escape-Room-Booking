@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const customerSchema = new mongoose.Schema(
   {
-    roomID: mongoose.SchemaTypes.ObjectId,
     first_name: {
       type: String,
       required: true,
@@ -27,6 +26,12 @@ const customerSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    room: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Room",
+      },
+    ],
   },
   { timestamps: true }
 );

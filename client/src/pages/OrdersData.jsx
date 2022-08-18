@@ -1,42 +1,31 @@
 import React, { useEffect, useState } from "react";
 
 function OrdersData(props) {
-  const [room, setRoom] = useState([]);
-  const [customer, setCustomer] = useState([]);
+  console.log(props);
 
-  useEffect(() => {
-    getBookedRoom();
-    getCustomer();
-  }, []);
+  //   const customers = props.customers;
+  //   useEffect(() => {
+  //     // getBookedRoom();
+  //   }, []);
 
-  const getBookedRoom = async () => {
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/customer/get-booked-room/${props.room._id}`
-    );
-    const result = await response.json();
+  //   const roomid = customers.map((customer) => customer.roomID);
+  //   console.log(roomid);
 
-    if (result.success) {
-      console.log(result);
-      setRoom(result.room);
-    } else {
-      console.log(result.message);
-    }
-  };
+  //   const getBookedRoom = async () => {
+  //     const response = await fetch(
+  //       `${process.env.REACT_APP_BASE_URL}/customer/get-booked-room/${roomid}`
+  //     );
+  //     const result = await response.json();
 
-  const getCustomer = async () => {
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/customer/get-customers`
-    );
-    const result = await response.json();
-    if (result.success) {
-      console.log(result);
-      setCustomer(result.customer);
-    } else {
-      console.log(result.message);
-    }
-  };
-
-  return <div>OrdersData</div>;
+  //     if (result.success) {
+  //       console.log(result);
+  //       //   setRoom(result);
+  //       //   props.callback();
+  //     } else {
+  //       console.log(result.message);
+  //     }
+  //   };
+  return <div>hi</div>;
 }
 
 export default OrdersData;

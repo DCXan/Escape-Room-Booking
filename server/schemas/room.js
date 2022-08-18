@@ -10,6 +10,7 @@ const roomSchema = new mongoose.Schema(
     childRate: Number,
     privateRate: Number,
     additionalDetails: String,
+    customer: { type: mongoose.Types.ObjectId, ref: "Customer" },
   },
   { timestamps: true }
 );
