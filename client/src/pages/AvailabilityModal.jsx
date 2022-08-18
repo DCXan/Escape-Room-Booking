@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import TimeslotDropdown from "../components/TimeslotDropdown"
 
 const AvailabilityModal = (props) => {
   const [showModal, setShowModal] = useState(false)
@@ -90,7 +91,7 @@ const AvailabilityModal = (props) => {
                   </span>
                 </button>
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200">
-                  <p className="text-xl mb-2 font-bold">Editing Availability for:</p>
+                  <p className="text-xl mb-2 font-bold">Set Availability for:</p>
                   <div className="">{props.room.Subject}</div>
                 </div>
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
@@ -154,7 +155,7 @@ const AvailabilityModal = (props) => {
                     type="button"
                     onClick={updateAvailability}
                   >
-                    Save Changes
+                    Create Availability
                   </button>
                 </div>
               </div>
