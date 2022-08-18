@@ -4,10 +4,29 @@ const customerRouter = express.Router();
 const Customer = require("../schemas/Customer");
 const Room = require("../schemas/room");
 
+//Route will display all rooms in database
 customerRouter.get("/get-rooms", async (req, res) => {
   try {
     const rooms = await Room.find({});
 
+    res.json({
+      success: true,
+      rooms: rooms,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    });
+    console.log(error);
+  }
+});
+
+//Route will find one room based on roomID
+customerRouter.get("/get-booked-room/:roomID", async (req, res) => {
+  const roomID = req.params.roomID;
+  try {
+    const rooms = await Room.findById(roomID, {});
     res.json({
       success: true,
       rooms: rooms,
