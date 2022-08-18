@@ -64,7 +64,7 @@ const RoomModal = ({ room }) => {
   return (
     <div>
       <button
-        className="bg-blue-500 text-white font-medium px-3 py-2 my-3 rounded-2xl hover:bg-blue-900 hover:drop-shadow-xl"
+        className="bg-blue-500 text-white font-medium px-3 py-2 my-3 rounded-xl hover:bg-blue-900 hover:drop-shadow-xl"
         onClick={() => setShowModal(true)}
       >
         Room Details
