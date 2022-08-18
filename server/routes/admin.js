@@ -1,8 +1,7 @@
 const express = require("express");
 const adminRouter = express.Router();
 const Room = require("../schemas/room");
-const Availability = require("../schemas/Availability")
-
+const Availability = require("../schemas/Availability");
 
 // Retrieve Rooms List
 adminRouter.get("/get-rooms", async (req, res) => {
@@ -23,9 +22,11 @@ adminRouter.get("/get-rooms", async (req, res) => {
 });
 
 // Retrieve Availabilities List
-adminRouter.get("/get-availabilities", async (req, res) => {
+adminRouter.get("/get-availabilities/:roomID", async (req, res) => {
+  const roomID = req.params.roomID;
+
   try {
-    const availabilities = await Availability.find({});
+    const availabilities = await Availability.find({ roomID: roomID });
 
     res.json({
       success: true,
@@ -42,8 +43,7 @@ adminRouter.get("/get-availabilities", async (req, res) => {
 
 // Update a room
 adminRouter.post("/update-room/:roomID", async (req, res) => {
-
-  const roomID = req.params.roomID
+  const roomID = req.params.roomID;
 
   const {
     title,
@@ -55,36 +55,40 @@ adminRouter.post("/update-room/:roomID", async (req, res) => {
     privateRate,
     additionalDetails,
   } = req.body;
-  
-  console.log(req.body)
+
+  console.log(req.body);
 
   try {
-    Room.findByIdAndUpdate(roomID,{
-      Subject: title,
-      description: description,
-      maxPlayers: maxPlayers,
-      durationMinutes: durationMinutes,
-      adultRate: adultRate,
-      childRate: childRate,
-      privateRate: privateRate,
-      additionalDetails: additionalDetails,
-    },
-    (error, data) => {
-      if (error) {
-        console.log(error)
-        res.json({
-          success: false, message: 'Unable to update room.'
-        })
-      } else {
-        res.json({
-          success: true
-        })
+    Room.findByIdAndUpdate(
+      roomID,
+      {
+        Subject: title,
+        description: description,
+        maxPlayers: maxPlayers,
+        durationMinutes: durationMinutes,
+        adultRate: adultRate,
+        childRate: childRate,
+        privateRate: privateRate,
+        additionalDetails: additionalDetails,
+      },
+      (error, data) => {
+        if (error) {
+          console.log(error);
+          res.json({
+            success: false,
+            message: "Unable to update room.",
+          });
+        } else {
+          res.json({
+            success: true,
+          });
+        }
       }
-    })
+    );
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-})
+});
 
 // Post route to pass room info from client to server
 adminRouter.post("/add-room", async (req, res) => {
@@ -112,7 +116,7 @@ adminRouter.post("/add-room", async (req, res) => {
 
   try {
     await room.save();
-    
+
     res.json({
       success: true,
     });
@@ -126,49 +130,43 @@ adminRouter.post("/add-room", async (req, res) => {
 
 // Set room availability
 adminRouter.post("/add-availability/:roomID", async (req, res) => {
-
-  const roomID = req.params.roomID
+  const roomID = req.params.roomID;
 
   const {
-    sundayStatus,
-    mondayStatus,
-    tuesdayStatus,
-    wednesdayStatus,
-    thursdayStatus,
-    fridayStatus,
-    saturdayStatus,
-    timeslots,
-    repeatWeekly,
+    sundayTimeslots,
+    mondayTimeslots,
+    tuesdayTimeslots,
+    wednesdayTimeslots,
+    thursdayTimeslots,
+    fridayTimeslots,
+    saturdayTimeslots,
   } = req.body;
 
   try {
-  const availability = new Availability({
-    roomID: roomID,
-    availableDays: {
-      Sunday: sundayStatus,
-      Monday: mondayStatus,
-      Tuesday: tuesdayStatus,
-      Wednesday: wednesdayStatus,
-      Thursday: thursdayStatus,
-      Friday: fridayStatus,
-      Saturday: saturdayStatus,
-    },
-    timeslots: timeslots,
-    repeatWeekly: repeatWeekly
-  })
+    const availability = new Availability({
+      roomID: roomID,
+      timeslots: {
+        sunday: sundayTimeslots,
+        monday: mondayTimeslots,
+        tuesday: tuesdayTimeslots,
+        wednesday: wednesdayTimeslots,
+        thursday: thursdayTimeslots,
+        friday: fridayTimeslots,
+        saturday: saturdayTimeslots,
+      }
+    });
 
-  
     await availability.save();
-    
+
     res.json({
       success: true,
     });
   } catch (error) {
     res.json({
       success: false,
-      message: "error",
+      message: error,
     });
   }
-})
+});
 
 module.exports = adminRouter;
