@@ -26,6 +26,7 @@ const TimeslotDropdown = () => {
 
     const handleTimeslotSelection = (e) => {
         setTimeslot(e.target.value)
+        console.log(timeslot)
     }
 
     const addTimeslot = (e) => {
@@ -33,21 +34,16 @@ const TimeslotDropdown = () => {
         setAllTimeslots(timeslot)
     }
 
-    console.log(timeslots)
-
-    // const timeslotItem = timeslots.map((timeslot, index) => {
-    //     return (
-    //         <li key={index}>
-    //             {timeslot.id}: {timeslot.time}
-    //         </li>
-    //     )
-    // })
+    // console.log(timeslots)
 
   return (
-    <select onChange={handleTimeslotSelection}>
-        <option value="Select a Timeslot">Select a Timeslot</option>
-        {timeslots.map((timeslot) => <option value={timeslot.id}>{timeslot.time}</option>)}
-    </select>
+    <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200">
+        <p className="text-xl mb-2 font-bold">Set Timeslots:</p>
+        <select onChange={handleTimeslotSelection}>
+            <option value="Select a Timeslot">Select a Timeslot</option>
+            {timeslots.map((timeslot, index) => <option key={index} value={timeslot.id}>{timeslot.time}</option>)}
+        </select>
+    </div>
   )
 }
 

@@ -39,7 +39,7 @@ const RoomsList = () => {
         <p className="my-1">{room.additionalDetails}</p>
         <div className="flex flex-row justify-center">
           <RoomModal room={room} callback={getRooms}/>
-          <AvailabilityModal room={room} callback={getRooms}/>
+          <AvailabilityModal room={room}/>
         </div>
       </li>
     );
