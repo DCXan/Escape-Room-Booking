@@ -13,36 +13,61 @@ moment.locale()
 const Booking = ({ room }) => {
   const [showModal, setShowModal] = useState(false)
   const [date, setDate] = useState(new Date())
-  const [showMyModal, setShowMyModal] = useState(false)
-  const [ticket, setTicket] = useState(false)
-  const [adult, setAdult] = useState({})
-  const [children, setChildren] = useState({})
-  const info = ["Adult", "Child", "Private Room"]
 
+  const [ticket, setTicket] = useState(false)
+  const [answer, setAnswer] = useState(null)
   const handleBooking = async () => {}
-  const handleAdult = e => {
-    setAdult(
-      {
-        adult: e.target.value,
-      },
-      setChildren({
-        children: e.target.value,
-      })
-    )
-    if (adult <= room.maxPlayers) {
-    }
-  }
-  const handleChildren = e => {
-    setTicket({
-      children: e.target.value,
-    })
-  }
+
   const handleTicket = () => {
     console.log(ticket)
   }
-  const handleSlots = value => {
-    setDate(value)
+
+  const handleSlots = async value => {
+    let timeAvailable = []
+    let timepicked = []
+    let startTime = moment("11:00", "hh:mm")
+    let endTime = moment("12:00", "hh:mm")
+    for (let i = 1; i <= 49; i++) {
+      timeAvailable.push({
+        i: `${new moment(startTime).format("hh:mm A")}- ${new moment(
+          endTime
+        ).format("hh:mm A")} `,
+      })
+      startTime.add(15, "minutes")
+      endTime.add(15, "minutes")
+    }
+    // console.log(timeAvailable[0])
+    // setDate(value)
+    // const selectedDay = moment(value).format("dddd")
+    // console.log(selectedDay)
+    // const response = await fetch(
+    //   `http://localhost:8000/admin/get-availabilities/${room._id}`
+    // )
+    // const results = await response.json()
+    // console.log(results)
+
+    // const availability = results.availabilities[0].availableDays
+    // const availableTimeslots = results.availabilities[0].timeslots
+    // console.log(availability)
+    // const dailyAvaiabilities = Object.entries(availability)
+    // console.log(dailyAvaiabilities)
+    // const result = dailyAvaiabilities.filter(entry => entry[0] === selectedDay)
+    // console.log(result[0][1])
+    // if (result[0][1]) {
+    //   // console.log(availableTimeslots)
+    //   // for (let i = 0; i < availableTimeslots; i++) {
+    //   //   for (let z = 0; z < timeAvailable; i++) {
+    //   //     if (availableTimeslots[i] == timeAvailable[z]) {
+    //   //       console.log(timeAvailable)
+    //   //     }
+    //   //   }
+    //   // }
+    // } else {
+    //   console.log("no available bookings")
+    // }
+    console.log(timeAvailable)
   }
+
   const handleCheckout = () => {}
 
   return (

@@ -1,48 +1,49 @@
-const express = require("express");
-const adminRouter = express.Router();
-const Room = require("../schemas/room");
+const express = require("express")
+const adminRouter = express.Router()
+const Room = require("../schemas/room")
 const Availability = require("../schemas/Availability")
-
 
 // Retrieve Rooms List
 adminRouter.get("/get-rooms", async (req, res) => {
   try {
-    const rooms = await Room.find({});
+    const rooms = await Room.find({})
 
     res.json({
       success: true,
       rooms: rooms,
-    });
+    })
   } catch (error) {
     res.json({
       success: false,
       message: error,
-    });
-    console.log(error);
+    })
+    console.log(error)
   }
-});
+})
 
 // Retrieve Availabilities List
-adminRouter.get("/get-availabilities", async (req, res) => {
+adminRouter.get("/get-availabilities/:roomID", async (req, res) => {
+  const roomID = req.params.roomID
   try {
-    const availabilities = await Availability.find({});
+    const availabilities = await Availability.find({
+      roomID: roomID,
+    })
 
     res.json({
       success: true,
       availabilities: availabilities,
-    });
+    })
   } catch (error) {
     res.json({
       success: false,
       message: error,
-    });
-    console.log(error);
+    })
+    console.log(error)
   }
-});
+})
 
 // Update a room
 adminRouter.post("/update-room/:roomID", async (req, res) => {
-
   const roomID = req.params.roomID
 
   const {
@@ -54,33 +55,37 @@ adminRouter.post("/update-room/:roomID", async (req, res) => {
     childRate,
     privateRate,
     additionalDetails,
-  } = req.body;
-  
+  } = req.body
+
   console.log(req.body)
 
   try {
-    Room.findByIdAndUpdate(roomID,{
-      Subject: title,
-      description: description,
-      maxPlayers: maxPlayers,
-      durationMinutes: durationMinutes,
-      adultRate: adultRate,
-      childRate: childRate,
-      privateRate: privateRate,
-      additionalDetails: additionalDetails,
-    },
-    (error, data) => {
-      if (error) {
-        console.log(error)
-        res.json({
-          success: false, message: 'Unable to update room.'
-        })
-      } else {
-        res.json({
-          success: true
-        })
+    Room.findByIdAndUpdate(
+      roomID,
+      {
+        Subject: title,
+        description: description,
+        maxPlayers: maxPlayers,
+        durationMinutes: durationMinutes,
+        adultRate: adultRate,
+        childRate: childRate,
+        privateRate: privateRate,
+        additionalDetails: additionalDetails,
+      },
+      (error, data) => {
+        if (error) {
+          console.log(error)
+          res.json({
+            success: false,
+            message: "Unable to update room.",
+          })
+        } else {
+          res.json({
+            success: true,
+          })
+        }
       }
-    })
+    )
   } catch (error) {
     console.log(error)
   }
@@ -97,7 +102,7 @@ adminRouter.post("/add-room", async (req, res) => {
     childRate,
     privateRate,
     additionalDetails,
-  } = req.body;
+  } = req.body
 
   const room = new Room({
     Subject: title,
@@ -108,25 +113,24 @@ adminRouter.post("/add-room", async (req, res) => {
     childRate: childRate,
     privateRate: privateRate,
     additionalDetails: additionalDetails,
-  });
+  })
 
   try {
-    await room.save();
-    
+    await room.save()
+
     res.json({
       success: true,
-    });
+    })
   } catch (error) {
     res.json({
       success: false,
       message: error,
-    });
+    })
   }
-});
+})
 
 // Set room availability
 adminRouter.post("/add-availability/:roomID", async (req, res) => {
-
   const roomID = req.params.roomID
 
   const {
@@ -139,36 +143,35 @@ adminRouter.post("/add-availability/:roomID", async (req, res) => {
     saturdayStatus,
     timeslots,
     repeatWeekly,
-  } = req.body;
+  } = req.body
 
   try {
-  const availability = new Availability({
-    roomID: roomID,
-    availableDays: {
-      Sunday: sundayStatus,
-      Monday: mondayStatus,
-      Tuesday: tuesdayStatus,
-      Wednesday: wednesdayStatus,
-      Thursday: thursdayStatus,
-      Friday: fridayStatus,
-      Saturday: saturdayStatus,
-    },
-    timeslots: timeslots,
-    repeatWeekly: repeatWeekly
-  })
+    const availability = new Availability({
+      roomID: roomID,
+      availableDays: {
+        Sunday: sundayStatus,
+        Monday: mondayStatus,
+        Tuesday: tuesdayStatus,
+        Wednesday: wednesdayStatus,
+        Thursday: thursdayStatus,
+        Friday: fridayStatus,
+        Saturday: saturdayStatus,
+      },
+      timeslots: timeslots,
+      repeatWeekly: repeatWeekly,
+    })
 
-  
-    await availability.save();
-    
+    await availability.save()
+
     res.json({
       success: true,
-    });
+    })
   } catch (error) {
     res.json({
       success: false,
       message: "error",
-    });
+    })
   }
 })
 
-module.exports = adminRouter;
+module.exports = adminRouter
