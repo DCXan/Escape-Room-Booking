@@ -105,6 +105,7 @@ const AvailabilityModal = (props) => {
                 {/*Room Description*/}
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200">
                     <p className="text-xl mb-2 font-bold">Set Timeslots:</p>
+                    <TimeslotDropdown/>
                 </div>
                 <div className="flex flex-col justify-center p-5 border-b border-solid border-slate-200">
                   <p className="text-xl mb-2 font-bold">Set Days:</p>
