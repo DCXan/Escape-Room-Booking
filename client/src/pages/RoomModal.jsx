@@ -50,10 +50,10 @@ const RoomModal = (props) => {
   return (
     <div className="Modal">
       <button
-        className="bg-blue-500 text-white font-medium px-3 py-2 my-3 rounded-2xl hover:bg-blue-900 hover:drop-shadow-xl"
+        className="bg-blue-500 text-white font-medium px-3 py-2 m-3 rounded-xl hover:bg-blue-900 hover:drop-shadow-xl"
         onClick={() => setShowModal(true)}
       >
-        Edit Details
+        Edit Room Details
       </button>
       {showModal ? (
         <div>
@@ -143,7 +143,7 @@ const RoomModal = (props) => {
                     Child Ticket Price: $
                     <input
                       className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500"
-                      id="achildRate"
+                      id="childRate"
                       name="childRate"
                       type="text"
                       defaultValue={props.room.childRate}

@@ -1,9 +1,9 @@
 import Calendar from "react-calendar"
 import "../calendar.css"
 import { loadStripe } from "@stripe/stripe-js"
-import React, { useState } from "react"
-import "react-phone-input-2/lib/style.css"
+import React, { useEffect, useState } from "react"
 import PhoneInput from "react-phone-input-2"
+import "react-phone-input-2/lib/material.css"
 import moment from "moment"
 import TextField from "@mui/material/TextField"
 
@@ -12,10 +12,11 @@ const stripePromise = loadStripe("pk_test_fmwCa9Gs1HrmcSrEAjsAvKQO00KtWSZf8C")
 moment.locale()
 const Booking = ({ room }) => {
   const [showModal, setShowModal] = useState(false)
+  const [activeButton, setActiveButton] = useState(false)
   const [date, setDate] = useState(new Date())
-
+  const [asdff, setAsdff] = useState([])
   const [ticket, setTicket] = useState(false)
-  const [answer, setAnswer] = useState(null)
+  const [answer, setAnswer] = useState([])
   const handleBooking = async () => {}
 
   const handleTicket = () => {
@@ -24,51 +25,84 @@ const Booking = ({ room }) => {
 
   const handleSlots = async value => {
     let timeAvailable = []
-    let timepicked = []
+    let timebyDay = []
+
     let startTime = moment("11:00", "hh:mm")
     let endTime = moment("12:00", "hh:mm")
     for (let i = 1; i <= 49; i++) {
       timeAvailable.push({
-        i: `${new moment(startTime).format("hh:mm A")}- ${new moment(
+        day: `${new moment(startTime).format("hh:mm A")}-${new moment(
           endTime
-        ).format("hh:mm A")} `,
+        ).format("hh:mm A")}`,
       })
+
       startTime.add(15, "minutes")
       endTime.add(15, "minutes")
     }
-    // console.log(timeAvailable[0])
-    // setDate(value)
-    // const selectedDay = moment(value).format("dddd")
-    // console.log(selectedDay)
-    // const response = await fetch(
-    //   `http://localhost:8000/admin/get-availabilities/${room._id}`
-    // )
-    // const results = await response.json()
-    // console.log(results)
-
-    // const availability = results.availabilities[0].availableDays
-    // const availableTimeslots = results.availabilities[0].timeslots
-    // console.log(availability)
-    // const dailyAvaiabilities = Object.entries(availability)
-    // console.log(dailyAvaiabilities)
-    // const result = dailyAvaiabilities.filter(entry => entry[0] === selectedDay)
-    // console.log(result[0][1])
-    // if (result[0][1]) {
-    //   // console.log(availableTimeslots)
-    //   // for (let i = 0; i < availableTimeslots; i++) {
-    //   //   for (let z = 0; z < timeAvailable; i++) {
-    //   //     if (availableTimeslots[i] == timeAvailable[z]) {
-    //   //       console.log(timeAvailable)
-    //   //     }
-    //   //   }
-    //   // }
-    // } else {
-    //   console.log("no available bookings")
-    // }
     console.log(timeAvailable)
+    setDate(value)
+    let selectedDay = moment(value).format("dddd").toLowerCase()
+
+    console.log(selectedDay)
+    const response = await fetch(
+      `http://localhost:8000/admin/get-availabilities/${room._id}`
+    )
+    const results = await response.json()
+    console.log(results)
+
+    const availability = results.availabilities[0].timeslots
+    console.log(availability)
+
+    const fodder = results.availabilities.map(time => {
+      const asdf = Object.entries(time.timeslots)
+      console.log(asdf)
+      const wasd = asdf.filter(
+        availability => availability[0] === selectedDay.toLocaleLowerCase()
+      )
+
+      for (let elements of wasd[0][1]) {
+        const jj = timeAvailable[elements - 1]
+        timebyDay.push(jj)
+      }
+    })
+    setAnswer(timebyDay)
   }
 
-  const handleCheckout = () => {}
+  const handleCheckout = async () => {
+    const line_items = [
+      {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: room.Subject,
+            description: `adult ${room.adultRate}`,
+          },
+          unit_amount: room.adultRate * 100,
+        },
+        quantity: room.maxPlayers,
+      },
+    ]
+    const response = await fetch(
+      "http://localhost:8000/checkout/create-checkout-session",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ room }),
+      }
+    )
+    const results = await response.json()
+    if (results.success) {
+      const stripe = await stripePromise
+      stripe.redirectToCheckout({
+        sessionId: results.sessionID,
+      })
+    }
+  }
+  const handleTimeslots = e => {
+    console.log(e.target.value)
+  }
 
   return (
     <>
@@ -109,27 +143,39 @@ const Booking = ({ room }) => {
                 </div>
 
                 <div className=" relative p-6 flex-auto">
-                  <div className="grid grid-cols-2  0 divide-x">
-                    <div className="justify-self-center">
+                  <div className="flex flex-row  justify-evenly">
+                    <div>
                       <Calendar
                         minDetail="month"
                         onClickDay={value => handleSlots(value)}
                       />
                     </div>
-                    <div>
+                    <div className="items-center">
                       <p className=" text-2xl font-semibold ">
                         {date.toDateString()}
                       </p>
+                      {answer.map(index => {
+                        return (
+                          <button
+                            className="  border-2 border-black bg-white-500 text-black active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            onClick={e => handleTimeslots(e)}
+                            value={index.day}
+                          >
+                            {index.day}
+                          </button>
+                        )
+                      })}
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 divide-x border-t border-solid border-slate-200 ">
-                    <div className="flex-row ">
-                      <div className="text-2xl">
+                  <div className=" border-t border-solid border-slate-200  max-w-full max-h-full">
+                    <div className="flex flex-col">
+                      <div className="text-2xl ">
                         <p>Customer info</p>
                       </div>
-                      <div className="flex-col ">
+                      <div className="w-2/6 mb-12">
                         <TextField
+                          className="mb-"
                           size="small"
                           label="First Name"
                           placeholder="Enter first name"
@@ -145,17 +191,23 @@ const Booking = ({ room }) => {
                         />
 
                         <TextField
-                          size="small"
+                          size="medium"
                           type="email"
                           label="Email"
                           placeholder="Enter email"
                           variant="outlined"
                           required
                         />
-                        <PhoneInput InputProps={{ label: "email" }} />
+                        <PhoneInput
+                          disableDropdown="true"
+                          disableSearchIcon="true"
+                          country="us"
+                          InputProps={{ width: "30px" }}
+                          containerStyle={{ width: "200px" }}
+                          inputStyle={{ width: "267px" }}
+                        />
                       </div>
                     </div>
-                    <p>Booking</p>
                   </div>
                 </div>
 
@@ -234,4 +286,3 @@ export default Booking
 //       sessionId: results.sessionID,
 //     })
 //   }
-//
