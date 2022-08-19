@@ -5,7 +5,7 @@ import moment from 'moment'
 const TimeslotDropdown = () => {
 
     const [timeslot, setTimeslot] = useState(null)
-    const [allTimeslots, setAllTimeslots] = useState([])
+    // const [allTimeslots, setAllTimeslots] = useState([])
 
     // Generate the timeslots
     let timeslots = []
