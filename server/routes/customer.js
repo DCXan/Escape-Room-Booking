@@ -1,5 +1,4 @@
 const express = require("express");
-const { default: mongoose } = require("mongoose");
 const customerRouter = express.Router();
 const Customer = require("../schemas/Customer");
 const Room = require("../schemas/room");
@@ -22,26 +21,72 @@ customerRouter.get("/get-rooms", async (req, res) => {
   }
 });
 
-//Route will find one room based on roomID
-// customerRouter.get("/get-booked-room", async (req, res) => {
-//   const roomID = req.params.roomID;
-//   try {
-//     const rooms = await Customer.findById(roomID, {});
-//     res.json({
-//       success: true,
-//       rooms: rooms,
-//     });
-//   } catch (error) {
-//     res.json({
-//       success: false,
-//       message: error,
-//     });
-//     console.log(error);
+customerRouter.post("/update-booking/:customerID", async (req, res) => {
+  const { customerID, roomID } = req.params.customerID;
+  console.log(req.params);
+  const { first_name, last_name, email, phone, dateAndTime } = req.body;
+
+  console.log(req.body);
+
+  try {
+    Room.findByIdAndUpdate(customerID, {
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+      phone: phone,
+      dateAndTime: dateAndTime,
+      roomID: roomID,
+    });
+    res.json({
+      success: true,
+    });
+  } catch (err) {
+    res.status(404).json({ success: false, message: "room not found" });
+  }
+});
+// Room.findByIdAndUpdate(
+//   customerID,
+//   {
+//     first_name: first_name,
+//     last_name: last_name,
+//     email: email,
+//     phone: phone,
+//     dateAndTime: dateAndTime,
+//   },
+//   (error, data) => {
+//     if (error) {
+//       console.log(error);
+//       res.json({
+//         success: false,
+//         message: "Unable to update customer.",
+//       });
+//     } else {
+//       res.json({
+//         success: true,
+//       });
+//     }
 //   }
-// });
+// );
 
-//admin will receive customer information
+//Route will find one customer based on their id
+customerRouter.get("/get-booked-room/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const rooms = await Customer.findById(id, {});
+    res.json({
+      success: true,
+      rooms: rooms,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    });
+    console.log(error);
+  }
+});
 
+//admin will receive ALL CUSTOMERS
 customerRouter.get("/get-customers", async (req, res) => {
   try {
     const customers = await Customer.find({});
@@ -58,31 +103,5 @@ customerRouter.get("/get-customers", async (req, res) => {
     console.log(error);
   }
 });
-
-// customerRouter.post("/confirmed-booking", async (req, res) => {
-//   const { first_name, last_name, email, phone, dateAndTime, numberOfPlayers } =
-//     req.body;
-//   console.log(req.body);
-
-//   const customer = new Customer({
-//     first_name: first_name,
-//     last_name: last_name,
-//     email: email,
-//     phone: phone,
-//     dateAndTime: dateAndTime,
-//     numberOfPlayers: numberOfPlayers,
-//   });
-//   try {
-//     await customer.save();
-//     res.json({
-//       success: true,
-//     });
-//   } catch (error) {
-//     res.json({
-//       success: false,
-//       message: error,
-//     });
-//   }
-// });
 
 module.exports = customerRouter;
