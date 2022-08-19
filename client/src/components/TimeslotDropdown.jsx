@@ -24,23 +24,24 @@ const TimeslotDropdown = () => {
       endTime.add(15, "minutes")
     }
 
+
+    // Store timeslot in state when it is selected from dropdown
     const handleTimeslotSelection = (e) => {
         setTimeslot(e.target.value)
-        console.log(timeslot)
     }
 
-    const addTimeslot = (e) => {
-        handleTimeslotSelection();
-        setAllTimeslots(timeslot)
-    }
+    // const addTimeslot = (e) => {
+    //     handleTimeslotSelection();
+    //     setAllTimeslots(timeslot)
+    // }
 
     // console.log(timeslots)
 
   return (
     <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200">
-        <p className="text-xl mb-2 font-bold">Set Timeslots:</p>
+        <p className="text-xl mb-2 font-bold">Select Timeslot:</p>
         <select onChange={handleTimeslotSelection}>
-            <option value="Select a Timeslot">Select a Timeslot</option>
+            <option value="Select a Timeslot">Timeslots</option>
             {timeslots.map((timeslot, index) => <option key={index} value={timeslot.id}>{timeslot.time}</option>)}
         </select>
     </div>
