@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   GridComponent,
   ColumnsDirective,
@@ -14,27 +14,39 @@ import {
   Inject,
 } from "@syncfusion/ej2-react-grids";
 
-import { ordersData, contextMenuItems, ordersGrid } from "../data/dummy";
+import { contextMenuItems, ordersGrid } from "../data/dummy";
 import { Header } from "../components";
 import OrdersData from "./OrdersData";
 
 const Orders = () => {
   const [rooms, setRooms] = useState([]);
   const [customers, setCustomers] = useState([]);
+  const [roomID, setRoomID] = useState([]);
 
   useEffect(() => {
     getRooms();
     getCustomers();
+    // if (customers) {
+    //   customers.map((customer) => {
+    //     setRoomID(customer.roomID, ...roomID);
+    //     //   setRoomID({
+    //     //     roomID: customer.roomID,
+    //     //   });
+    //   });
+    // }
   }, []);
+
+  console.log(roomID);
 
   const getRooms = async () => {
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/customer/get-customers`
+      `${process.env.REACT_APP_BASE_URL}/admin/get-rooms`
     );
     const result = await response.json();
     if (result.success) {
-      setCustomers(result.customers);
-      // console.log(result);
+      setRooms(result.rooms);
+
+      console.log(result);
     } else {
       console.log(result.message);
     }
@@ -42,40 +54,22 @@ const Orders = () => {
 
   const getCustomers = async () => {
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/customer/get-rooms`
+      `${process.env.REACT_APP_BASE_URL}/customer/get-customers`
     );
 
     const result = await response.json();
 
     if (result.success) {
-      setRooms(result.rooms);
-      // console.log(result.rooms);
+      setCustomers(result.customers);
     } else {
       console.log(result.message);
     }
   };
-
-  // const customerItem = customers.map((customer) => {
-  //   // console.log(room);
-  //   return (
-  //     <li
-  //       key={room._id}
-  //       className="border-gray-800 border-0 text-center bg-fixed rounded-3xl shadow-2xl"
-  //     >
-  //       <img
-  //         src={room.image}
-  //         width={500}
-  //         className="rounded-t-3xl max-h-48 object-cover mb-3"
-  //         alt=""
-  //       />
-  //       <b className="text-2xl">{room.Subject}</b>
-  //       <p className="my-1">{room.additionalDetails}</p>
-  //       <div className="flex flex-row justify-center">
-  //         <OrdersData room={room} callback={getRooms} />
-  //       </div>
-  //     </li>
-  //   );
+  // console.log(roomID);
+  // const ordersData = customers.map((customer) => {
+  //   return { setRoomID: customer.roomID };
   // });
+  // console.log(roomID);
 
   const editing = { allowDeleting: true, allowEditing: true };
   return (
@@ -83,7 +77,7 @@ const Orders = () => {
       <Header category="Page" title="Orders" />
       <GridComponent
         id="gridcomp"
-        dataSource={ordersData}
+        dataSource={customers}
         allowPaging
         allowSorting
         allowExcelExport
