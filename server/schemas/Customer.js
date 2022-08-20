@@ -2,38 +2,39 @@ const mongoose = require("mongoose");
 
 const customerSchema = new mongoose.Schema(
   {
-    _id: mongoose.Schema.Types.ObjectId,
-    // roomID: mongoose.SchemaTypes.ObjectId,
-    name: {
+    first_name: {
       type: String,
       required: true,
     },
-    // last_name: {
-    //   type: String,
-    //   required: true,
-    // },
-    // email: {
-    //   type: String,
-    //   required: true,
-    // },
-    // phone: {
-    //   type: String,
-    //   required: true,
-    // },
-    // dateAndTime: {
-    //   type: String,
-    //   required: true,
-    // },
-    // numberOfPlayers: {
-    //   type: Number,
-    //   required: true,
-    // },
-    // room: [
-    //   {
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: "Room",
-    //   },
-    // ],
+    last_name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    dateAndTime: {
+      type: String,
+      required: true,
+    },
+    numberOfPlayers: {
+      type: Number,
+      required: true,
+    },
+    amountPaid: {
+      type: Number,
+      required: true,
+    },
+    checkoutStatus: {
+      type: String,
+      required: true,
+    },
+    roomID: mongoose.SchemaTypes.ObjectId,
   },
   { timestamps: true }
 );
