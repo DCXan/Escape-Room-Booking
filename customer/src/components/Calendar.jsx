@@ -6,6 +6,14 @@ import PhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
 import moment from "moment"
 import TextField from "@mui/material/TextField"
+import Select from "@mui/material/Select"
+import MenuItem from "@mui/material/MenuItem"
+import Radio from "@mui/material/Radio"
+import RadioGroup from "@mui/material/RadioGroup"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import FormControl from "@mui/material/FormControl"
+import FormLabel from "@mui/material/FormLabel"
+import { Grid } from "@mui/material"
 
 //public key for stripe
 const stripePromise = loadStripe("pk_test_fmwCa9Gs1HrmcSrEAjsAvKQO00KtWSZf8C")
@@ -13,17 +21,51 @@ moment.locale()
 const Booking = ({ room }) => {
   const [showModal, setShowModal] = useState(false)
   const [activeButton, setActiveButton] = useState(false)
+  const [chosenDay, setChoseDay] = useState("")
   const [date, setDate] = useState(new Date())
   const [asdff, setAsdff] = useState([])
-  const [ticket, setTicket] = useState(false)
+  const [ticket, setTicket] = useState([])
+  const [adultPrice, setAdultPrice] = useState("")
+  const [adultQuantity, setAdultQuantity] = useState("")
+  const [privateRoom, setPrivateRoom] = useState("")
+  const [childrenPrice, setChildrenPrice] = useState("")
+  const [childrenQuantity, setChildrenQuantity] = useState("")
+  const [showTickets, setShowTickets] = useState(false)
+  const [chosenSlot, setChosenSlot] = useState("")
   const [answer, setAnswer] = useState([])
+  const [itemChosenChildren, setItemChosenChildren] = useState({})
+  const [itemChosenAdult, setItemChosenAdult] = useState({})
+  let itemCart = []
+  // const [adultPrice, setAdultPrice] = useState([])
   const handleBooking = async () => {}
 
-  const handleTicket = () => {
-    console.log(ticket)
+  const handleAdult = e => {
+    const total = e.target.value * room.adultRate
+    setAdultPrice(total)
+    setAdultQuantity(e.target.value)
+    setItemChosenAdult({
+      description: `Adult Tickets for ${room.Subject} on ${chosenSlot}`,
+      unit_amount: room.adultRate,
+      quantity: e.target.value,
+    })
+  }
+  const handleChildren = e => {
+    const total = e.target.value * room.childRate
+    console.log(total)
+    console.log(e.target.value)
+    setChildrenPrice(total)
+    setChildrenQuantity(e.target.value)
+    setItemChosenChildren({
+      description: `Children Tickets for ${room.Subject} on ${chosenSlot}`,
+      unit_amount: room.childRate,
+      quantity: e.target.value,
+    })
   }
 
   const handleSlots = async value => {
+    console.log(itemCart)
+    setChoseDay(moment().format("MMM Do YY"))
+    console.log(chosenDay)
     let timeAvailable = []
     let timebyDay = []
 
@@ -66,32 +108,41 @@ const Booking = ({ room }) => {
       }
     })
     setAnswer(timebyDay)
+    console.log(answer)
   }
 
   const handleCheckout = async () => {
-    const line_items = [
-      {
+    if (childrenQuantity != 0) {
+      itemCart.push(itemChosenChildren)
+    }
+    if (adultQuantity != 0) {
+      itemCart.push(itemChosenAdult)
+    }
+
+    console.log(itemCart)
+    const line_items = itemCart.map(item => {
+      return {
         price_data: {
           currency: "usd",
           product_data: {
             name: room.Subject,
-            description: `adult ${room.adultRate}`,
+            description: item.description,
           },
-          unit_amount: room.adultRate * 100,
+          unit_amount: item.unit_amount * 100,
         },
-        quantity: room.maxPlayers,
-      },
-    ]
-    const response = await fetch(
-      "http://localhost:8000/checkout/create-checkout-session",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ room }),
+        quantity: item.quantity,
       }
-    )
+    })
+    console.log(line_items)
+
+    const response = await fetch("http://localhost:8000/checkout/payment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ line_items }),
+    })
+
     const results = await response.json()
     if (results.success) {
       const stripe = await stripePromise
@@ -101,9 +152,13 @@ const Booking = ({ room }) => {
     }
   }
   const handleTimeslots = e => {
-    console.log(e.target.value)
+    setChosenSlot(e.target.value)
   }
 
+  const handlePrivate = e => {}
+  const fontColor = {
+    style: { color: "rgb(50, 50, 50)" },
+  }
   return (
     <>
       <button
@@ -154,59 +209,151 @@ const Booking = ({ room }) => {
                       <p className=" text-2xl font-semibold ">
                         {date.toDateString()}
                       </p>
-                      {answer.map(index => {
+                      {answer.map(pickedSlot => {
                         return (
                           <button
+                            key={pickedSlot.index}
                             className="  border-2 border-black bg-white-500 text-black active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                             onClick={e => handleTimeslots(e)}
-                            value={index.day}
+                            value={pickedSlot.day}
                           >
-                            {index.day}
+                            {pickedSlot.day}
                           </button>
                         )
                       })}
                     </div>
                   </div>
 
-                  <div className=" border-t border-solid border-slate-200  max-w-full max-h-full">
-                    <div className="flex flex-col">
-                      <div className="text-2xl ">
-                        <p>Customer info</p>
-                      </div>
-                      <div className="w-2/6 mb-12">
-                        <TextField
-                          className="mb-"
-                          size="small"
-                          label="First Name"
-                          placeholder="Enter first name"
-                          variant="outlined"
-                          required
-                        />
-                        <TextField
-                          size="small"
-                          label="Last Name"
-                          placeholder="Enter last name"
-                          variant="outlined"
-                          required
-                        />
+                  <div className=" border-t border-solid border-slate-200 ">
+                    <div className="flex flex-row justify-around">
+                      <Grid>
+                        <div className="text-2xl ">
+                          <p>Customer info</p>
+                        </div>
+                        <Grid xs={6} m={3}>
+                          <TextField
+                            className="mb-"
+                            size="small"
+                            label="First Name"
+                            placeholder="Enter first name"
+                            variant="outlined"
+                            required
+                          />
+                        </Grid>
+                        <Grid xs={6} m={3}>
+                          <TextField
+                            size="small"
+                            label="Last Name"
+                            placeholder="Enter last name"
+                            variant="outlined"
+                            required
+                          />
+                        </Grid>
+                        <Grid xs={6} m={3}>
+                          <TextField
+                            size="medium"
+                            type="email"
+                            label="Email"
+                            placeholder="Enter email"
+                            variant="outlined"
+                            required
+                          />
+                        </Grid>
+                        <Grid xs={6} m={3}>
+                          <PhoneInput
+                            disableDropdown="true"
+                            disableSearchIcon="true"
+                            country="us"
+                            inputProps={{}}
+                            inputStyle={{
+                              width: 220,
+                            }}
+                            required
+                          />
+                        </Grid>
+                      </Grid>
+                      <Grid>
+                        <Grid>
+                          <Grid>
+                            <p>Tickets</p>
+                            <Select
+                              value={adultQuantity}
+                              onChange={handleAdult}
+                              displayEmpty
+                              inputProps={{ "aria-label": "Without label" }}
+                            >
+                              <MenuItem value="0">
+                                <em></em>
+                              </MenuItem>
+                              <MenuItem value={1}>1</MenuItem>
+                              <MenuItem value={2}>2</MenuItem>
+                              <MenuItem value={3}>3</MenuItem>
+                              <MenuItem value={4}>4</MenuItem>
+                              <MenuItem value={5}>5</MenuItem>
+                              <MenuItem value={6}>6</MenuItem>
+                              <MenuItem value={7}>7</MenuItem>
+                            </Select>
+                            <TextField
+                              sx={{
+                                "& .MuiInputBase-input.Mui-disabled": {
+                                  WebkitTextFillColor: "black",
+                                },
+                              }}
+                              disabled
+                              defaultValue={`adult 13+    $${room.adultRate}`}
+                            />
+                          </Grid>
+                          <Grid>
+                            <Select
+                              value={childrenQuantity}
+                              onChange={handleChildren}
+                              displayEmpty
+                              defaultValue=""
+                              inputProps={{ "aria-label": "Without label" }}
+                            >
+                              <MenuItem value={0}>0</MenuItem>
+                              <MenuItem value={1}>1</MenuItem>
+                              <MenuItem value={2}>2</MenuItem>
+                              <MenuItem value={3}>3</MenuItem>
+                              <MenuItem value={4}>4</MenuItem>
+                              <MenuItem value={5}>5</MenuItem>
+                              <MenuItem value={6}>6</MenuItem>
+                              <MenuItem value={7}>7</MenuItem>
+                            </Select>
+                            <TextField
+                              disabled
+                              sx={{
+                                "& .MuiInputBase-input.Mui-disabled": {
+                                  WebkitTextFillColor: "black",
+                                },
+                              }}
+                              defaultValue={`Child 6-12    $${room.childRate}`}
+                            />
+                          </Grid>
+                          <Grid></Grid>
+                        </Grid>
 
+                        <Select
+                          value={privateRoom}
+                          onChange={handlePrivate}
+                          displayEmpty
+                          defaultValue=""
+                          inputProps={{ "aria-label": "Without label" }}
+                        >
+                          <MenuItem value={0}>0</MenuItem>
+                          <MenuItem value={room.privateRate}>1</MenuItem>
+                        </Select>
                         <TextField
-                          size="medium"
-                          type="email"
-                          label="Email"
-                          placeholder="Enter email"
-                          variant="outlined"
-                          required
+                          disabled
+                          sx={{
+                            "& .MuiInputBase-input.Mui-disabled": {
+                              WebkitTextFillColor: "black",
+                            },
+                          }}
+                          defaultValue={`Private Room     $${room.privateRate}`}
                         />
-                        <PhoneInput
-                          disableDropdown="true"
-                          disableSearchIcon="true"
-                          country="us"
-                          InputProps={{ width: "30px" }}
-                          containerStyle={{ width: "200px" }}
-                          inputStyle={{ width: "267px" }}
-                        />
-                      </div>
+                      </Grid>
+                      <Grid contained direction={"column"} spacing={4}></Grid>
                     </div>
                   </div>
                 </div>

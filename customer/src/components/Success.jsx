@@ -1,17 +1,10 @@
 import React, { useEffect } from "react"
 
 const Success = () => {
-  useEffect(() => {
-    getData()
-  }, [])
-  const getData = async () => {
-    const response = await fetch("http://localhost:3001/success")
-    const results = await response.json()
-    console.log(results.customer)
-  }
   return (
     <div>
-      <p></p>
+      <p className="text-4xl">Your booking has been confirmed</p>
+      <p>A confirmation email has beent sent.</p>
     </div>
   )
 }
