@@ -27,7 +27,7 @@ const TimeslotDropdown = ({setTimeslot}) => {
     // Store timeslot in state when it is selected from dropdown
     const handleTimeslotSelection = (e) => {
 
-        setTimeslot(e.target.value)
+        setTimeslot(parseInt(e.target.value))
         
   
     }

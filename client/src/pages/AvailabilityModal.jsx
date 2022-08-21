@@ -15,7 +15,7 @@ const AvailabilityModal = (props) => {
   })
   const [currentAvailability, setCurrentAvailability] = useState([])
 
-  const [timeslot, setTimeslot] = useState("")
+  const [timeslot, setTimeslot] = useState()
   const [selectedDays, setSelectedDays] = useState([])
 
     useEffect(() => {
@@ -43,18 +43,38 @@ const AvailabilityModal = (props) => {
     
     console.log(timeslot);
     console.log(selectedDays);
-    console.log(availability)
-    console.log(currentAvailability)
+    console.log(currentAvailability.timeslots)
 
-    for (let i = 0; i < selectedDays.length; i++) {
-      for (let day in availability) {
-        if (day === (selectedDays[i]).toLowerCase()) {
-          availability[day] = [timeslot]
+    const keys = Object.keys(currentAvailability.timeslots)
+    console.log(keys);
+
+    for (let i = 0; i < keys.length; i++) {
+      for (let j = 0; j < selectedDays.length; j++) {
+        if (selectedDays[j].toLowerCase() === keys[i]) {
+          if (timeslot) {
+            currentAvailability.timeslots[keys[i]].push(timeslot)
+
+          } else {
+            alert('No timeslot selected.')
+          }
         }
       }
-      
     }
+
+    console.log(currentAvailability);
     
+
+    // for (let i = 0; i < selectedDays.length; i++) {
+    //   for (let day in availability) {
+    //     if (day === (selectedDays[i]).toLowerCase()) {
+    //       // setAvailability({
+    //       //   ...availability,
+
+    //       // })
+    //       console.log(day);
+    //     }
+    //   }
+    // }
     // const response = await fetch(`http://localhost:8000/admin/add-availability/${props.room._id}`, {
     //   method: 'POST',
     //   headers: {
@@ -75,6 +95,8 @@ const AvailabilityModal = (props) => {
     // }
 
   }
+
+  
 
   const closeModal = () => {
     setTimeslot()
@@ -128,7 +150,7 @@ const AvailabilityModal = (props) => {
                   <p className="text-xl mb-2 font-bold">Current Availabilities:</p>
                   <div className="">
                     {currentAvailability ? (
-                        `Number of Availabilities:  ${currentAvailability.timeslots.saturday}`
+                        `Number of Availabilities:  ${currentAvailability.timeslots.friday}`
                     ) : 'No Timeslots Set'}
                   </div>
                 </div>
