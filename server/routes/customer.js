@@ -40,7 +40,7 @@ customerRouter.get("/get-customers", async (req, res) => {
     const customers = await Customer.find({}).populate({
       path: "rooms",
       select:
-        "-EndTime -RecurrenceRule -StartTime -additionalDetails -adultRate -childRate -createdAt -date -description -durationMinutes  -maxPlayers -privateRate -updatedAt -__v -_id",
+        "-EndTime -RecurrenceRule -StartTime -additionalDetails -adultRate -childRate -createdAt -date -description -durationMinutes -maxPlayers -privateRate -updatedAt -__v -_id",
     });
     res.json({
       success: true,
@@ -55,15 +55,8 @@ customerRouter.get("/get-customers", async (req, res) => {
   }
 });
 
-customerRouter.post("/confirmed-booking", async (req, res) => {
-  const { first_name, last_name, email, phone } = req.body;
-
-  const customer = new Customer({
-    first_name: first_name,
-    last_name: last_name,
-    email: email,
-    phone: phone,
-  });
+//sends only selected data
+customerRouter.get("/get-limited-customer-details", async (req, res) => {
   try {
     const customers = await Customer.find(
       {},
@@ -83,6 +76,7 @@ customerRouter.post("/confirmed-booking", async (req, res) => {
     });
     res.json({
       success: true,
+      customers: customers,
     });
   } catch (error) {
     res.json({

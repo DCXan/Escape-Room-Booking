@@ -9,10 +9,10 @@ import { Orders } from "../pages";
 import NotificationSocket from "./NotificationSocket";
 
 const Notification = (props) => {
-  const { currentColor } = useStateContext();
   const [loadClient, setLoadClient] = useState(true);
 
   const customers = props.rooms;
+  console.log(customers);
 
   return (
     <div className="nav-item absolute right-5 md:right-40 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
