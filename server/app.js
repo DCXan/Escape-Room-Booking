@@ -1,23 +1,22 @@
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const mongoose = require("mongoose");
-
-app.use(cors());
-app.use(express.json());
-require("dotenv").config();
+const express = require("express")
+const app = express()
+const cors = require("cors")
+const mongoose = require("mongoose")
+app.use(cors())
+app.use(express.json())
+require("dotenv").config()
 
 // Routers
 
-const adminRouter = require("./routes/admin");
-const userRouter = require("./routes/User");
-const customerRouter = require("./routes/customer");
-const checkoutRouter = require("./routes/stripe");
+const adminRouter = require("./routes/admin")
+const userRouter = require("./routes/User")
+const customerRouter = require("./routes/customer")
+const checkoutRouter = require("./routes/stripe")
 
-app.use("/customer", customerRouter);
-app.use("/admin", adminRouter);
-app.use("/user", userRouter);
-app.use("/checkout", checkoutRouter);
+app.use("/customer", customerRouter)
+app.use("/admin", adminRouter)
+app.use("/user", userRouter)
+app.use("/checkout", checkoutRouter)
 
 // Connect MongoDB to server
 
@@ -27,16 +26,16 @@ mongoose.connect(
     useNewUrlParser: true,
     useUnifiedTopology: true,
   },
-  (error) => {
+  error => {
     if (error) {
-      console.log(error);
+      console.log(error)
     } else {
-      console.log("Successfully connected to MongoDB database");
+      console.log("Successfully connected to MongoDB database")
     }
   }
-);
+)
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8000
 app.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
-});
+  console.log(`Server is running on ${PORT}`)
+})
