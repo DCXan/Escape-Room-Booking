@@ -911,6 +911,61 @@ export const pieChartData = [
   { x: "Insurance", y: 16, text: "16%" },
 ];
 
+const ordersGrid = [
+  {
+    headerText: "Image",
+    field: "image",
+    textAlign: "Center",
+    width: "120",
+  },
+  {
+    field: "Subject",
+    headerText: "Room",
+    width: "150",
+    editType: "dropdownedit",
+    textAlign: "Center",
+  },
+
+  {
+    field: "first_name",
+    headerText: "Customer",
+    width: "50",
+    textAlign: "Center",
+  },
+  {
+    field: "last_name",
+    headerText: "Name",
+    width: "50",
+    textAlign: "Center",
+  },
+  {
+    field: "amountPaid",
+    headerText: "Total Amount",
+    format: "C2",
+    textAlign: "Center",
+    editType: "numericedit",
+    width: "150",
+  },
+  {
+    headerText: "Date and Time",
+    field: "dateAndTime",
+    textAlign: "Center",
+    width: "120",
+  },
+  {
+    headerText: "Status",
+    field: "checkoutStatus",
+    textAlign: "Center",
+    width: "120",
+  },
+  // {
+  //   field: "_id",
+  //   headerText: "Order ID",
+  //   width: "120",
+  //   textAlign: "Center",
+  // },
+];
+
 export const contextMenuItems = [
   "AutoFit",
   "AutoFitAll",

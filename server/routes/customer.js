@@ -33,28 +33,44 @@ customerRouter.post("/customer-booking/:id", async (req, res) => {
   });
 });
 
-//admin will receive ALL CUSTOMERS
-// customerRouter.get("/get-customers", async (req, res) => {
-//   try {
-//     // const customers = await Customer.find({});
-//     const customers = await Customer.find({}).populate("rooms");
-//     res.json({
-//       success: true,
-//       customers: customers,
-//     });
-//   } catch (error) {
-//     res.json({
-//       success: false,
-//       message: error,
-//     });
-//     console.log(error);
-//   }
-// });
+//Sends all customer orders with room attached
 
 customerRouter.get("/get-customers", async (req, res) => {
   try {
-    // const customers = await Customer.find({});
     const customers = await Customer.find({}).populate({
+      path: "rooms",
+      select:
+        "-EndTime -RecurrenceRule -StartTime -additionalDetails -adultRate -childRate -createdAt -date -description -durationMinutes -image -maxPlayers -privateRate -updatedAt -__v -_id",
+    });
+    res.json({
+      success: true,
+      customers: customers,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    });
+    console.log(error);
+  }
+});
+
+//sends only selected data
+customerRouter.get("/get-limited-customer-details", async (req, res) => {
+  try {
+    const customers = await Customer.find(
+      {},
+      {
+        createdAt: 0,
+        updatedAt: 0,
+        isActive: 0,
+        _id: 0,
+        __v: 0,
+        email: 0,
+        phone: 0,
+      }
+    )
+    .populate({
       path: "rooms",
       select:
         "-EndTime -RecurrenceRule -StartTime -additionalDetails -adultRate -childRate -createdAt -date -description -durationMinutes -image -maxPlayers -privateRate -updatedAt -__v -_id",

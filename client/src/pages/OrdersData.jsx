@@ -18,10 +18,6 @@ import { connect } from "react-redux";
 import { contextMenuItems } from "../data/dummy";
 
 function OrdersData(props) {
-  const [details, setDetails] = useState();
-
-  useEffect(() => {}, []);
-
   const customers = props.customers;
 
   const editing = { allowDeleting: true, allowEditing: true };
@@ -30,7 +26,7 @@ function OrdersData(props) {
     <div>
       <GridComponent
         id="gridcomp"
-        dataSource={props.customers}
+        dataSource={customers}
         allowPaging
         allowSorting
         allowExcelExport
@@ -40,13 +36,11 @@ function OrdersData(props) {
       >
         <ColumnsDirective>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          {/* {ordersGrid.map((item, index) => (
-            <ColumnDirective key={index} {...item} />
-          ))} */}
+
           <ColumnsDirective
-            headerText="Stasdfasdfasdfsdfasdfasdftus"
+            headerText="Status"
             field="customers"
-            width="20"
+            width="120"
             textAlign="Center"
           ></ColumnsDirective>
         </ColumnsDirective>
