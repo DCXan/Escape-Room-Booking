@@ -26,11 +26,14 @@ const notificationRouter = require("./routes/socket");
 
 app.use("/customer", customerRouter);
 app.use("/admin", adminRouter);
-app.use("/", adminRouter);
 app.use("/user", userRouter);
 app.use("/checkout", checkoutRouter);
 app.use("/notifications", notificationRouter);
 app.use(compression());
+
+app.get("/", (req, res) => {
+  res.redirect("/admin/get-rooms");
+});
 // Connect MongoDB to server
 
 mongoose.connect(
