@@ -1,16 +1,18 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+
 import { MdOutlineCancel } from "react-icons/md";
+
 import { Button } from ".";
-// import { chatData } from "../data/dummy";
 import { connect } from "react-redux";
 import { useStateContext } from "../contexts/ContextProvider";
+import { Orders } from "../pages";
+import NotificationSocket from "./NotificationSocket";
 
 const Notification = (props) => {
   const { currentColor } = useStateContext();
-  const Navigate = useNavigate();
+  const [loadClient, setLoadClient] = useState(true);
+
   const customers = props.rooms;
-  console.log(customers);
 
   return (
     <div className="nav-item absolute right-5 md:right-40 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
@@ -19,9 +21,10 @@ const Notification = (props) => {
           <p className="font-semibold text-lg dark:text-gray-200">
             Notifications
           </p>
+          <NotificationSocket />
           <button
             type="button"
-            className="text-white text-xs rounded p-1 px-2 bg-orange-theme "
+            className="text-dark text-xs rounded p-1 px-2 bg-orange-theme "
           >
             {" "}
             5 New
@@ -36,6 +39,12 @@ const Notification = (props) => {
         />
       </div>
       <div className="mt-5 ">
+        {/* LOAD OR UNLOAD THE CLIENT */}
+        <button onClick={() => setLoadClient((prevState) => !prevState)}>
+          STOP CLIENT
+        </button>
+        {/* SOCKET IO CLIENT*/}
+        {loadClient ? <NotificationSocket /> : null}
         {customers?.map((customer, index) => (
           <div
             key={index}
@@ -64,15 +73,13 @@ const Notification = (props) => {
             </div>
           </div>
         ))}
-        <div className="mt-5">
-          <Button
-            color="white"
-            bgColor={currentColor}
-            text="See all notifications"
-            borderRadius="10px"
-            width="full"
-            // onClick={handleNotificationButton}
-          />
+        <div className="mt-5 flex justify-center">
+          <a
+            className="bg-blue-500 hover:bg-blue-700 w-full content-center text-white text-center font-bold py-2 px-4 rounded-full tracking-wide"
+            href={`http://localhost:3001/orders`}
+          >
+            See all notifications
+          </a>
         </div>
       </div>
     </div>

@@ -2,6 +2,13 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+const server = require("http").createServer(app);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "http://localhost:3001",
+    credentials: true,
+  },
+});
 
 app.use(cors());
 app.use(express.json());
@@ -13,12 +20,13 @@ const adminRouter = require("./routes/admin");
 const userRouter = require("./routes/User");
 const customerRouter = require("./routes/customer");
 const checkoutRouter = require("./routes/stripe");
+const notificationRouter = require("./routes/socket");
 
 app.use("/customer", customerRouter);
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/checkout", checkoutRouter);
-
+app.use("/notifications", notificationRouter);
 // Connect MongoDB to server
 
 mongoose.connect(
@@ -36,7 +44,36 @@ mongoose.connect(
   }
 );
 
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
+let interval;
+
+io.on("connection", (socket) => {
+  console.log("New client connected");
+  if (interval) {
+    clearInterval(interval);
+  }
+  interval = setInterval(() => getApiAndEmit(socket), 1000);
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+    clearInterval(interval);
+  });
 });
+
+const getApiAndEmit = (socket) => {
+  const response = new Date();
+  // Emitting a new message. Will be consumed by the client
+  socket.emit("FromAPI", response);
+};
+
+const PORT = process.env.PORT || 8000;
+
+io.on(
+  "connection",
+  (socket) => {
+    var clientIp = socket.request.connection.remoteAddress;
+
+    console.log(clientIp);
+  },
+  console.log(`Server is running on Port ${PORT}`)
+);
+
+server.listen(PORT);
