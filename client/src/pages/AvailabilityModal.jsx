@@ -1,61 +1,61 @@
-import React, { useEffect, useState } from "react"
-import DaySelection from "../components/DaySelection"
-import TimeslotDropdown from "../components/TimeslotDropdown"
+import React, { useEffect, useState } from "react";
+import DaySelection from "../components/DaySelection";
+import TimeslotDropdown from "../components/TimeslotDropdown";
 
 const AvailabilityModal = (props) => {
-  const [showModal, setShowModal] = useState(false)
-  const [availability, setAvailability] = useState({})
-  const [currentAvailability, setCurrentAvailability] = useState([])
+  const [showModal, setShowModal] = useState(false);
+  const [availability, setAvailability] = useState({});
+  const [currentAvailability, setCurrentAvailability] = useState([]);
 
-    useEffect(() => {
-        getAvailabilities();
-    }, []);
+  useEffect(() => {
+    getAvailabilities();
+  }, []);
 
   const handleChange = (e) => {
     setAvailability({
       ...availability,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   // Retrieve list of availabities for current room
   const getAvailabilities = async () => {
-
-    const response = await fetch(`http://localhost:8000/admin/get-availabilities/${props.room._id}`);
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/admin/get-availabilities/${props.room._id}`
+    );
 
     const result = await response.json();
 
     if (result.success) {
-      setCurrentAvailability(result.availabilities)
-    
+      setCurrentAvailability(result.availabilities);
     } else {
       console.log(result.message);
     }
-  }
+  };
 
   // Update or Add availabilities
   const updateAvailability = async () => {
-    
-    const response = await fetch(`http://localhost:8000/admin/add-availability/${props.room._id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(availability)
-    })
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/admin/add-availability/${props.room._id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(availability),
+      }
+    );
 
     console.log(JSON.stringify(availability));
-    const result = await response.json()
-    
+    const result = await response.json();
 
     if (result.success) {
-      setShowModal(false)
-      props.callback()
+      setShowModal(false);
+      props.callback();
     } else {
-      alert(result.message)
+      alert(result.message);
     }
-
-  }
+  };
 
   return (
     <div>
@@ -94,25 +94,29 @@ const AvailabilityModal = (props) => {
 
                 {/* Room Name */}
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200">
-                  <p className="text-xl mb-2 font-bold">Set Availability for:</p>
+                  <p className="text-xl mb-2 font-bold">
+                    Set Availability for:
+                  </p>
                   <div className="">{props.room.Subject}</div>
                 </div>
 
                 {/* List of Current Availabilities */}
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <p className="text-xl mb-2 font-bold">Current Availabilities:</p>
+                  <p className="text-xl mb-2 font-bold">
+                    Current Availabilities:
+                  </p>
                   <div className="">
-                    {currentAvailability.length > 0 ? (
-                        `Number of Availabilities:  ${currentAvailability.length}`
-                    ) : 'No Timeslots Set'}
+                    {currentAvailability.length > 0
+                      ? `Number of Availabilities:  ${currentAvailability.length}`
+                      : "No Timeslots Set"}
                   </div>
                 </div>
 
                 {/*Timeslot Selection*/}
-                <TimeslotDropdown/>
-               
+                <TimeslotDropdown />
+
                 {/* Day Selection */}
-                <DaySelection/>
+                <DaySelection />
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6">
                   <button
@@ -137,7 +141,7 @@ const AvailabilityModal = (props) => {
         </div>
       ) : null}
     </div>
-  )
-}
+  );
+};
 
-export default AvailabilityModal
+export default AvailabilityModal;

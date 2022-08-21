@@ -1,28 +1,30 @@
-import React, { useState, useEffect } from "react"
-import RoomModal from "./RoomModal"
+import React, { useState, useEffect } from "react";
+import RoomModal from "./RoomModal";
 
 const RoomsList = () => {
-  const [rooms, setRooms] = useState([])
+  const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
-    getRooms()
-  }, [])
+    getRooms();
+  }, []);
 
   const getRooms = async () => {
-    const response = await fetch("http://localhost:8000/customer/get-rooms")
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/customer/get-rooms`
+    );
 
-    const result = await response.json()
+    const result = await response.json();
 
     if (result.success) {
-      setRooms(result.rooms)
-      console.log(result.rooms)
+      setRooms(result.rooms);
+      console.log(result.rooms);
     } else {
-      console.log(result.message)
+      console.log(result.message);
     }
-  }
+  };
 
-  const roomItem = rooms.map(room => {
-    console.log(room)
+  const roomItem = rooms.map((room) => {
+    console.log(room);
     return (
       <li
         key={room._id}
@@ -38,8 +40,8 @@ const RoomsList = () => {
         <p className="my-1">{room.additionalDetails}</p>
         <RoomModal room={room} />
       </li>
-    )
-  })
+    );
+  });
 
   return (
     <div className="bg-white">
@@ -48,7 +50,7 @@ const RoomsList = () => {
         {roomItem}
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default RoomsList
+export default RoomsList;
