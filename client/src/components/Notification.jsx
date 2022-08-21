@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
 import { Button } from ".";
 // import { chatData } from "../data/dummy";
@@ -7,6 +8,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 
 const Notification = (props) => {
   const { currentColor } = useStateContext();
+  const Navigate = useNavigate();
   const customers = props.rooms;
   console.log(customers);
 
@@ -69,6 +71,7 @@ const Notification = (props) => {
             text="See all notifications"
             borderRadius="10px"
             width="full"
+            // onClick={handleNotificationButton}
           />
         </div>
       </div>
