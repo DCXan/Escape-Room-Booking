@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import moment from 'moment'
 
 
-const TimeslotDropdown = () => {
+const TimeslotDropdown = ({setTimeslot}) => {
 
-    const [timeslot, setTimeslot] = useState(null)
     // const [allTimeslots, setAllTimeslots] = useState([])
 
     // Generate the timeslots
@@ -27,7 +26,10 @@ const TimeslotDropdown = () => {
 
     // Store timeslot in state when it is selected from dropdown
     const handleTimeslotSelection = (e) => {
+
         setTimeslot(e.target.value)
+        
+  
     }
 
     // const addTimeslot = (e) => {

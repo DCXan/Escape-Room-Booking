@@ -133,26 +133,26 @@ adminRouter.post("/add-availability/:roomID", async (req, res) => {
   const roomID = req.params.roomID;
 
   const {
-    sundayTimeslots,
-    mondayTimeslots,
-    tuesdayTimeslots,
-    wednesdayTimeslots,
-    thursdayTimeslots,
-    fridayTimeslots,
-    saturdayTimeslots,
+    sunday,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday
   } = req.body;
 
   try {
     const availability = new Availability({
       roomID: roomID,
       timeslots: {
-        sunday: sundayTimeslots,
-        monday: mondayTimeslots,
-        tuesday: tuesdayTimeslots,
-        wednesday: wednesdayTimeslots,
-        thursday: thursdayTimeslots,
-        friday: fridayTimeslots,
-        saturday: saturdayTimeslots,
+        sunday: sunday,
+        monday: monday,
+        tuesday: tuesday,
+        wednesday: wednesday,
+        thursday: thursday,
+        friday: friday,
+        saturday: saturday
       }
     });
 
