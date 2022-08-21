@@ -3,6 +3,7 @@ const customerRouter = express.Router()
 const Customer = require("../schemas/Customer")
 const Room = require("../schemas/room")
 
+// Route will display all rooms in database
 customerRouter.get("/get-rooms", async (req, res) => {
   try {
     const rooms = await Room.find({})

@@ -148,17 +148,15 @@ adminRouter.post("/add-availability/:roomID", async (req, res) => {
   try {
     const availability = new Availability({
       roomID: roomID,
-      availableDays: {
-        Sunday: sundayStatus,
-        Monday: mondayStatus,
-        Tuesday: tuesdayStatus,
-        Wednesday: wednesdayStatus,
-        Thursday: thursdayStatus,
-        Friday: fridayStatus,
-        Saturday: saturdayStatus,
+      timeslots: {
+        sunday: sundayTimeslots,
+        monday: mondayTimeslots,
+        tuesday: tuesdayTimeslots,
+        wednesday: wednesdayTimeslots,
+        thursday: thursdayTimeslots,
+        friday: fridayTimeslots,
+        saturday: saturdayTimeslots,
       },
-      timeslots: timeslots,
-      repeatWeekly: repeatWeekly,
     })
 
     await availability.save()
@@ -169,7 +167,7 @@ adminRouter.post("/add-availability/:roomID", async (req, res) => {
   } catch (error) {
     res.json({
       success: false,
-      message: "error",
+      message: error,
     })
   }
 })
