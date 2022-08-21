@@ -48,6 +48,7 @@ let interval;
 
 io.on("connection", (socket) => {
   console.log("New client connected");
+  io.emit("firstEvent", "hell this is test");
   if (interval) {
     clearInterval(interval);
   }
