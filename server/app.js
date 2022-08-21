@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 require("dotenv").config();
 
-// Routers
+// Routes
 
 const adminRouter = require("./routes/admin");
 const userRouter = require("./routes/user");
