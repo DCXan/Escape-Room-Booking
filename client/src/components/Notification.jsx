@@ -1,11 +1,18 @@
-import React from "react";
-import { MdOutlineCancel } from "react-icons/md";
-import { Button } from ".";
-// import { chatData } from "../data/dummy";
-import { useStateContext } from "../contexts/ContextProvider";
+import React, { useState, useEffect } from "react";
 
-const Notification = () => {
-  const { currentColor } = useStateContext();
+import { MdOutlineCancel } from "react-icons/md";
+
+import { Button } from ".";
+import { connect } from "react-redux";
+import { useStateContext } from "../contexts/ContextProvider";
+import { Orders } from "../pages";
+import NotificationSocket from "./NotificationSocket";
+
+const Notification = (props) => {
+  const [loadClient, setLoadClient] = useState(true);
+
+  const customers = props.rooms;
+  console.log(customers);
 
   return (
     <div className="nav-item absolute right-5 md:right-40 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
@@ -14,9 +21,10 @@ const Notification = () => {
           <p className="font-semibold text-lg dark:text-gray-200">
             Notifications
           </p>
+          <NotificationSocket />
           <button
             type="button"
-            className="text-white text-xs rounded p-1 px-2 bg-orange-theme "
+            className="text-dark text-xs rounded p-1 px-2 bg-orange-theme "
           >
             {" "}
             5 New
@@ -31,37 +39,56 @@ const Notification = () => {
         />
       </div>
       <div className="mt-5 ">
-        {/* {chatData?.map((item, index) => (
+        {/* LOAD OR UNLOAD THE CLIENT */}
+        <button onClick={() => setLoadClient((prevState) => !prevState)}>
+          STOP CLIENT
+        </button>
+        {/* SOCKET IO CLIENT*/}
+        {loadClient ? <NotificationSocket /> : null}
+        {customers?.map((customer, index) => (
           <div
             key={index}
             className="flex items-center leading-8 gap-5 border-b-1 border-color p-3"
           >
             <img
               className="rounded-full h-10 w-10"
-              src={item.image}
-              alt={item.message}
+              src={customer.rooms.image}
+              alt="Escape Room"
             />
             <div>
-              <p className="font-semibold dark:text-gray-200">{item.message}</p>
-              <p className="text-gray-500 text-sm dark:text-gray-400">
+              <h5 className="font-bold dark:text-gray-200">
+                {customer.rooms.Subject}
+              </h5>
+              <p className=" text-gray-500 text-sm  dark:text-gray-400">
                 {" "}
-                {item.desc}{" "}
+                Customer Name: {customer.first_name} {customer.last_name}{" "}
+              </p>
+              <p className=" text-gray-500 text-sm  dark:text-gray-200">
+                Players Booked: {customer.numberOfPlayers}
+              </p>
+              <p className=" text-gray-500 text-sm  dark:text-gray-400">
+                {" "}
+                Total Paid: ${customer.amountPaid}{" "}
               </p>
             </div>
           </div>
-        ))} */}
-        <div className="mt-5">
-          <Button
-            color="white"
-            bgColor={currentColor}
-            text="See all notifications"
-            borderRadius="10px"
-            width="full"
-          />
+        ))}
+        <div className="mt-5 flex justify-center">
+          <a
+            className="bg-blue-500 hover:bg-blue-700 w-full content-center text-white text-center font-bold py-2 px-4 rounded-full tracking-wide"
+            href={`http://localhost:3000/orders`}
+          >
+            See all notifications
+          </a>
         </div>
       </div>
     </div>
   );
 };
+const mapStateToProps = (state) => {
+  return {
+    rooms: state.roomReducer.rooms,
+  };
+};
 
-export default Notification;
+export default connect(mapStateToProps)(Notification);
