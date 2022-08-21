@@ -11,6 +11,7 @@ const roomSchema = new mongoose.Schema(
     privateRate: Number,
     additionalDetails: String,
   },
+
   { timestamps: true }
 );
 

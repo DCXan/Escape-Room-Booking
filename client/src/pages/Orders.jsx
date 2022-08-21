@@ -16,9 +16,11 @@ import {
 
 import { contextMenuItems, ordersGrid } from "../data/dummy";
 import { Header } from "../components";
+import { connect } from "react-redux";
+import * as actionCreators from "../contexts/creators/actionCreators";
 import OrdersData from "./OrdersData";
 
-const Orders = () => {
+const Orders = (props) => {
   const [rooms, setRooms] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [roomID, setRoomID] = useState([]);
@@ -26,17 +28,8 @@ const Orders = () => {
   useEffect(() => {
     getRooms();
     getCustomers();
-    // if (customers) {
-    //   customers.map((customer) => {
-    //     setRoomID(customer.roomID, ...roomID);
-    //     //   setRoomID({
-    //     //     roomID: customer.roomID,
-    //     //   });
-    //   });
-    // }
+    // getRoomDetails();
   }, []);
-
-  console.log(roomID);
 
   const getRooms = async () => {
     const response = await fetch(
@@ -44,9 +37,9 @@ const Orders = () => {
     );
     const result = await response.json();
     if (result.success) {
+      props.getRooms(result.rooms);
       setRooms(result.rooms);
-
-      console.log(result);
+      // console.log(result);
     } else {
       console.log(result.message);
     }
@@ -56,7 +49,6 @@ const Orders = () => {
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/customer/get-customers`
     );
-
     const result = await response.json();
 
     if (result.success) {
@@ -65,15 +57,11 @@ const Orders = () => {
       console.log(result.message);
     }
   };
-  // console.log(roomID);
-  // const ordersData = customers.map((customer) => {
-  //   return { setRoomID: customer.roomID };
-  // });
-  // console.log(roomID);
 
   const editing = { allowDeleting: true, allowEditing: true };
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+      <OrdersData rooms={rooms} customers={customers} />
       <Header category="Page" title="Orders" />
       <GridComponent
         id="gridcomp"
@@ -107,4 +95,18 @@ const Orders = () => {
     </div>
   );
 };
-export default Orders;
+const mapStateToProps = (state) => {
+  return {
+    roomID: state.roomReducer.roomID,
+    rooms: state.roomReducer.rooms,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getRooms: (rooms) => dispatch(actionCreators.getRooms(rooms)),
+    getRoomID: (roomID) => dispatch(actionCreators.getRoomID(roomID)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Orders);

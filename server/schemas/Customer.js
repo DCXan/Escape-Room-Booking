@@ -34,7 +34,12 @@ const customerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    roomID: mongoose.SchemaTypes.ObjectId,
+    rooms: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Room",
+      },
+    ],
   },
   { timestamps: true }
 );
