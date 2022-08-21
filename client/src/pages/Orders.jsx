@@ -9,6 +9,7 @@ const Orders = (props) => {
 
   useEffect(() => {
     getCustomers();
+    getCustomersDetails();
   }, []);
 
   const getCustomers = async () => {
@@ -18,8 +19,19 @@ const Orders = (props) => {
     const result = await response.json();
 
     if (result.success) {
-      props.getRooms(result.customers);
       setCustomers(result.customers);
+    } else {
+      console.log(result.message);
+    }
+  };
+
+  const getCustomersDetails = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/customer/get-customers`
+    );
+    const result = await response.json();
+    if (result.success) {
+      props.getRooms(result.customers);
     } else {
       console.log(result.message);
     }

@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 
-import Booking from "./Calendar"
+import Booking from "./Calendar";
 
 const RoomModal = ({ room }) => {
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div>
@@ -27,14 +27,14 @@ const RoomModal = ({ room }) => {
                   <span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6"
+                      className="h-6 w-6"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                     >
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
+                        clipRule="evenodd"
                       />
                     </svg>
                   </span>
@@ -47,7 +47,11 @@ const RoomModal = ({ room }) => {
                 </div>
                 <div className="">
                   <div className="flex flex-col ">
-                    <img src={room.image} className="w-10/12 self-center" />
+                    <img
+                      src={room.image}
+                      className="w-10/12 self-center"
+                      alt="Escape Room"
+                    />
                     {/*Room Description*/}
                     <div className="relative p-6 flex-auto">
                       <p className="my-4 text-slate-500 text-lg text-justify">
@@ -92,7 +96,7 @@ const RoomModal = ({ room }) => {
         </div>
       ) : null}
     </div>
-  )
-}
+  );
+};
 
-export default RoomModal
+export default RoomModal;
