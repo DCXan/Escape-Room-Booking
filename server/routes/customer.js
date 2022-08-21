@@ -40,7 +40,7 @@ customerRouter.get("/get-customers", async (req, res) => {
     const customers = await Customer.find({}).populate({
       path: "rooms",
       select:
-        "-EndTime -RecurrenceRule -StartTime -additionalDetails -adultRate -childRate -createdAt -date -description -durationMinutes -image -maxPlayers -privateRate -updatedAt -__v -_id",
+        "-EndTime -RecurrenceRule -StartTime -additionalDetails -adultRate -childRate -createdAt -date -description -durationMinutes  -maxPlayers -privateRate -updatedAt -__v -_id",
     });
     res.json({
       success: true,
@@ -69,8 +69,7 @@ customerRouter.get("/get-limited-customer-details", async (req, res) => {
         email: 0,
         phone: 0,
       }
-    )
-    .populate({
+    ).populate({
       path: "rooms",
       select:
         "-EndTime -RecurrenceRule -StartTime -additionalDetails -adultRate -childRate -createdAt -date -description -durationMinutes -image -maxPlayers -privateRate -updatedAt -__v -_id",

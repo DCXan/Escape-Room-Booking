@@ -2,10 +2,13 @@ import React from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import { Button } from ".";
 // import { chatData } from "../data/dummy";
+import { connect } from "react-redux";
 import { useStateContext } from "../contexts/ContextProvider";
 
-const Notification = () => {
+const Notification = (props) => {
   const { currentColor } = useStateContext();
+  const customers = props.rooms;
+  console.log(customers);
 
   return (
     <div className="nav-item absolute right-5 md:right-40 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
@@ -31,25 +34,34 @@ const Notification = () => {
         />
       </div>
       <div className="mt-5 ">
-        {/* {chatData?.map((item, index) => (
+        {customers?.map((customer, index) => (
           <div
             key={index}
             className="flex items-center leading-8 gap-5 border-b-1 border-color p-3"
           >
             <img
               className="rounded-full h-10 w-10"
-              src={item.image}
-              alt={item.message}
+              src={customer.rooms.image}
+              alt="Escape Room"
             />
             <div>
-              <p className="font-semibold dark:text-gray-200">{item.message}</p>
-              <p className="text-gray-500 text-sm dark:text-gray-400">
+              <h5 className="font-bold dark:text-gray-200">
+                {customer.rooms.Subject}
+              </h5>
+              <p className=" text-gray-500 text-sm  dark:text-gray-400">
                 {" "}
-                {item.desc}{" "}
+                Customer Name: {customer.first_name} {customer.last_name}{" "}
+              </p>
+              <p className=" text-gray-500 text-sm  dark:text-gray-200">
+                Players Booked: {customer.numberOfPlayers}
+              </p>
+              <p className=" text-gray-500 text-sm  dark:text-gray-400">
+                {" "}
+                Total Paid: ${customer.amountPaid}{" "}
               </p>
             </div>
           </div>
-        ))} */}
+        ))}
         <div className="mt-5">
           <Button
             color="white"
@@ -63,5 +75,10 @@ const Notification = () => {
     </div>
   );
 };
+const mapStateToProps = (state) => {
+  return {
+    rooms: state.roomReducer.rooms,
+  };
+};
 
-export default Notification;
+export default connect(mapStateToProps)(Notification);
