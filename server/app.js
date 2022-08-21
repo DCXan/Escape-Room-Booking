@@ -19,13 +19,14 @@ require("dotenv").config();
 // Routers
 
 const adminRouter = require("./routes/admin");
-const userRouter = require("./routes/User");
+const userRouter = require("./routes/user");
 const customerRouter = require("./routes/customer");
 const checkoutRouter = require("./routes/stripe");
 const notificationRouter = require("./routes/socket");
 
 app.use("/customer", customerRouter);
 app.use("/admin", adminRouter);
+app.use("/", adminRouter);
 app.use("/user", userRouter);
 app.use("/checkout", checkoutRouter);
 app.use("/notifications", notificationRouter);
