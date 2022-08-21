@@ -4,7 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const server = require("http").createServer(app);
 require("events").EventEmitter.defaultMaxListeners = Infinity;
-
+const compression = require("compression");
 const io = require("socket.io")(server, {
   cors: {
     origin: "http://localhost:3001",
@@ -29,6 +29,7 @@ app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/checkout", checkoutRouter);
 app.use("/notifications", notificationRouter);
+app.use(compression());
 // Connect MongoDB to server
 
 mongoose.connect(
