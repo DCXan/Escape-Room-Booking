@@ -3,6 +3,8 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 const server = require("http").createServer(app);
+require("events").EventEmitter.defaultMaxListeners = Infinity;
+
 const io = require("socket.io")(server, {
   cors: {
     origin: "http://localhost:3001",

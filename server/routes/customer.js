@@ -55,8 +55,15 @@ customerRouter.get("/get-customers", async (req, res) => {
   }
 });
 
-//sends only selected data
-customerRouter.get("/get-limited-customer-details", async (req, res) => {
+customerRouter.post("/confirmed-booking", async (req, res) => {
+  const { first_name, last_name, email, phone } = req.body;
+
+  const customer = new Customer({
+    first_name: first_name,
+    last_name: last_name,
+    email: email,
+    phone: phone,
+  });
   try {
     const customers = await Customer.find(
       {},
@@ -76,7 +83,6 @@ customerRouter.get("/get-limited-customer-details", async (req, res) => {
     });
     res.json({
       success: true,
-      customers: customers,
     });
   } catch (error) {
     res.json({
