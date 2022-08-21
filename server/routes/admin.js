@@ -153,7 +153,7 @@ adminRouter.post("/add-availability/:roomID", async (req, res) => {
         thursday: thursdayTimeslots,
         friday: fridayTimeslots,
         saturday: saturdayTimeslots,
-      }
+      },
     });
 
     await availability.save();
@@ -169,4 +169,23 @@ adminRouter.post("/add-availability/:roomID", async (req, res) => {
   }
 });
 
+// Find room by id
+
+adminRouter.get("/get-room/:roomID", async (req, res) => {
+  const roomID = req.params.roomID;
+  try {
+    const rooms = await Room.findById(roomID, {});
+
+    res.json({
+      success: true,
+      rooms: rooms,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    });
+    console.log(error);
+  }
+});
 module.exports = adminRouter;

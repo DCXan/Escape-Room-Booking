@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const customerSchema = new mongoose.Schema(
   {
     first_name: {
@@ -12,11 +13,30 @@ const customerSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: true,
     },
     phone: {
       type: String,
       required: true,
+    },
+    dateAndTime: {
+      type: String,
+      required: true,
+    },
+    numberOfPlayers: {
+      type: Number,
+      required: true,
+    },
+    amountPaid: {
+      type: Number,
+      required: true,
+    },
+    checkoutStatus: {
+      type: String,
+      required: true,
+    },
+    rooms: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Room",
     },
   },
   { timestamps: true }

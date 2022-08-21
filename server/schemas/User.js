@@ -4,11 +4,11 @@ const userSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   first_name: {
     type: String,
-    // required: true,
+    required: true,
   },
   last_name: {
     type: String,
-    // required: true,
+    required: true,
   },
   email: {
     type: String,

@@ -23,6 +23,8 @@ exports.user_signup = (req, res, next) => {
               _id: new mongoose.Types.ObjectId(),
               email: req.body.email,
               password: hash,
+              first_name: req.body.first_name,
+              last_name: req.body.last_name,
             });
             user
               .save()
@@ -90,13 +92,10 @@ exports.user_login = (req, res, next) => {
 
 exports.user_login = async (req, res, next) => {
   try {
-    const users = await User.find({});
-    // const users = await User.find({});
-    // const userMap = {};
-    // try {
-    //   users.forEach((user) => {
-    //     if (user.isAdmin !== true) userMap[user._id] = user;
-    //   });
+    const users = await User.find({
+      isAdmin: false,
+    });
+
     res.json({
       success: true,
       users: users,
@@ -106,6 +105,7 @@ exports.user_login = async (req, res, next) => {
       success: false,
       message: error,
     });
+    console.log(error);
   }
 };
 

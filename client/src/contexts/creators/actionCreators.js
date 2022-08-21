@@ -6,3 +6,10 @@ export const getRooms = (rooms) => {
     payload: rooms,
   };
 };
+
+export const getRoomID = (roomID) => {
+  return {
+    type: actionTypes.GET_ROOM_ID,
+    payload: roomID,
+  };
+};
