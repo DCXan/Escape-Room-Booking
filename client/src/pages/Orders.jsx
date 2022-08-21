@@ -24,26 +24,12 @@ const Orders = (props) => {
   const [rooms, setRooms] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [roomID, setRoomID] = useState([]);
+  // const customerDetails = [];
 
   useEffect(() => {
-    getRooms();
     getCustomers();
     // getRoomDetails();
   }, []);
-
-  const getRooms = async () => {
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/admin/get-rooms`
-    );
-    const result = await response.json();
-    if (result.success) {
-      props.getRooms(result.rooms);
-      setRooms(result.rooms);
-      // console.log(result);
-    } else {
-      console.log(result.message);
-    }
-  };
 
   const getCustomers = async () => {
     const response = await fetch(
@@ -52,46 +38,22 @@ const Orders = (props) => {
     const result = await response.json();
 
     if (result.success) {
+      props.getRooms(result.customers);
       setCustomers(result.customers);
+      // setCustomers({
+      //   ...result.customers,
+      //   customerDetails: [...result.customers, [result.customers.rooms]],
+      // });
     } else {
       console.log(result.message);
     }
   };
+  console.log(customers);
 
-  const editing = { allowDeleting: true, allowEditing: true };
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <OrdersData rooms={rooms} customers={customers} />
       <Header category="Page" title="Orders" />
-      <GridComponent
-        id="gridcomp"
-        dataSource={customers}
-        allowPaging
-        allowSorting
-        allowExcelExport
-        allowPdfExport
-        contextMenuItems={contextMenuItems}
-        editSettings={editing}
-      >
-        <ColumnsDirective>
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          {ordersGrid.map((item, index) => (
-            <ColumnDirective key={index} {...item} />
-          ))}
-        </ColumnsDirective>
-        <Inject
-          services={[
-            Resize,
-            Sort,
-            ContextMenu,
-            Filter,
-            Page,
-            ExcelExport,
-            Edit,
-            PdfExport,
-          ]}
-        />
-      </GridComponent>
+      <OrdersData customers={customers} />
     </div>
   );
 };

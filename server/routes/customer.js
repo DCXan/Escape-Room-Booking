@@ -34,10 +34,31 @@ customerRouter.post("/customer-booking/:id", async (req, res) => {
 });
 
 //admin will receive ALL CUSTOMERS
+// customerRouter.get("/get-customers", async (req, res) => {
+//   try {
+//     // const customers = await Customer.find({});
+//     const customers = await Customer.find({}).populate("rooms");
+//     res.json({
+//       success: true,
+//       customers: customers,
+//     });
+//   } catch (error) {
+//     res.json({
+//       success: false,
+//       message: error,
+//     });
+//     console.log(error);
+//   }
+// });
+
 customerRouter.get("/get-customers", async (req, res) => {
   try {
     // const customers = await Customer.find({});
-    const customers = await Customer.find({}).populate("rooms");
+    const customers = await Customer.find({}).populate({
+      path: "rooms",
+      select:
+        "-EndTime -RecurrenceRule -StartTime -additionalDetails -adultRate -childRate -createdAt -date -description -durationMinutes -image -maxPlayers -privateRate -updatedAt -__v -_id",
+    });
     res.json({
       success: true,
       customers: customers,
