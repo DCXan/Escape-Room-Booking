@@ -38,8 +38,8 @@ const RoomsList = () => {
         <b className="text-2xl">{room.Subject}</b>
         <p className="my-1">{room.additionalDetails}</p>
         <div className="flex flex-row justify-center">
-          <RoomModal room={room} callback={getRooms} />
-          <AvailabilityModal room={room} />
+          <RoomModal room={room} callback={getRooms}/>
+          <AvailabilityModal room={room} callback={getRooms}/>
         </div>
       </li>
     );
