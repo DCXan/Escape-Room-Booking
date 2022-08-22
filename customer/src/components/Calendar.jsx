@@ -1,7 +1,7 @@
 import Calendar from "react-calendar";
 import "../calendar.css";
 import { loadStripe } from "@stripe/stripe-js";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/material.css";
 import moment from "moment";
@@ -14,6 +14,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { Grid } from "@mui/material";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 //public key for stripe
 const stripePromise = loadStripe("pk_test_fmwCa9Gs1HrmcSrEAjsAvKQO00KtWSZf8C");
@@ -38,6 +39,18 @@ const Booking = ({ room }) => {
   const [userInfo, setUserInfo] = useState({});
   let itemCart = [];
   // const [adultPrice, setAdultPrice] = useState([])
+
+  const modalRef = useRef();
+  useEffect(() => {
+    const options = {
+      reserveScrollBarGap: true,
+    };
+    if (showModal) {
+      disableBodyScroll(modalRef, options);
+    } else {
+      enableBodyScroll(modalRef);
+    }
+  }, [showModal, modalRef]);
 
   const handleForm = (e) => {
     setUserInfo({
