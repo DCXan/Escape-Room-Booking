@@ -19,7 +19,7 @@ require("dotenv").config();
 // Routes
 
 const adminRouter = require("./routes/admin");
-const userRouter = require("./routes/User");
+const userRouter = require("./routes/user");
 const customerRouter = require("./routes/customer");
 const checkoutRouter = require("./routes/stripe");
 const notificationRouter = require("./routes/socket");
