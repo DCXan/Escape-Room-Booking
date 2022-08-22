@@ -14,7 +14,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { Grid } from "@mui/material";
-import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 //public key for stripe
 const stripePromise = loadStripe("pk_test_fmwCa9Gs1HrmcSrEAjsAvKQO00KtWSZf8C");
@@ -40,18 +39,6 @@ const Booking = ({ room }) => {
   let itemCart = [];
   // const [adultPrice, setAdultPrice] = useState([])
 
-  // const modalRef = useRef();
-  // useEffect(() => {
-  //   const options = {
-  //     reserveScrollBarGap: true,
-  //   };
-  //   if (showModal) {
-  //     disableBodyScroll(modalRef, options);
-  //   } else {
-  //     enableBodyScroll(modalRef);
-  //   }
-  // }, [showModal, modalRef]);
-
   const handleForm = (e) => {
     setUserInfo({
       ...userInfo,
@@ -69,6 +56,7 @@ const Booking = ({ room }) => {
       quantity: e.target.value,
     });
   };
+
   const handleChildren = (e) => {
     const total = e.target.value * room.childRate;
     console.log(total);
@@ -193,7 +181,7 @@ const Booking = ({ room }) => {
   return (
     <>
       <button
-        className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        className="bg-emerald-500 text-white active:bg-emerald-600 focus:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:bg-emerald-600 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
         type="button"
         onClick={() => setShowModal(true)}
       >
