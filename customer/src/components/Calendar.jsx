@@ -94,17 +94,12 @@ const Booking = ({ room }) => {
 
     console.log(selectedDay)
     const response = await fetch(
-<<<<<<< HEAD
-      `http://localhost:8000/admin/get-availabilities/${room._id}`
-    )
-    const results = await response.json()
-    console.log(results)
-=======
+
       `${process.env.REACT_APP_BASE_URL}/admin/get-availabilities/${room._id}`
     );
     const results = await response.json();
     console.log(results);
->>>>>>> 9eb3718c01aee360f3341ac5e10f08a04af2781a
+
 
     const availability = results.availabilities[0].timeslots
     console.log(availability)
