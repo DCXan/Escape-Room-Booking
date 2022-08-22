@@ -38,6 +38,7 @@ const Booking = ({ room }) => {
   const [userInfo, setUserInfo] = useState({})
   let itemCart = []
   // const [adultPrice, setAdultPrice] = useState([])
+
   const handleForm = e => {
     setUserInfo({
       ...userInfo,
@@ -128,6 +129,7 @@ const Booking = ({ room }) => {
     if (adultQuantity != 0) {
       itemCart.push(itemChosenAdult)
     }
+    const totalQuantity = childrenQuantity + adultQuantity
     console.log(userInfo)
     console.log(itemCart)
     const line_items = itemCart.map(item => {
@@ -150,7 +152,7 @@ const Booking = ({ room }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ line_items, userInfo }),
+      body: JSON.stringify({ room, line_items, userInfo, totalQuantity }),
     })
 
     const results = await response.json()
@@ -160,7 +162,7 @@ const Booking = ({ room }) => {
         sessionId: results.sessionID,
       })
     } else {
-      alert(results.error.message)
+      alert(results.message)
     }
   }
   const handleTimeslots = e => {
@@ -269,7 +271,7 @@ const Booking = ({ room }) => {
                           <TextField
                             onChange={handleForm}
                             name="email"
-                            size="medium"
+                            size="small"
                             type="email"
                             label="Email"
                             placeholder="Enter email"
