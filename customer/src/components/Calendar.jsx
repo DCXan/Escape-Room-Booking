@@ -167,6 +167,7 @@ const Booking = ({ room }) => {
     } else {
       alert(results.message)
     }
+    //fixed this
   }
   const handleTimeslots = e => {
     setChosenSlot(e.target.value)
