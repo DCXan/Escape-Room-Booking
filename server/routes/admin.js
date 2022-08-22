@@ -115,8 +115,22 @@ adminRouter.post("/add-room", async (req, res) => {
     additionalDetails: additionalDetails,
   });
 
+  const availability = new Availability({
+    roomID: room._id,
+    timeslots: {
+      sunday: [],
+      monday: [],
+      tuesday: [],
+      wednesday: [],
+      thursday: [],
+      friday: [],
+      saturday: []
+    }
+  })
+
   try {
     await room.save();
+    await availability.save()
 
     res.json({
       success: true,

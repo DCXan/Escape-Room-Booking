@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import RoomModal from "./RoomModal";
 import AvailabilityModal from "./AvailabilityModal";
+import AddRoomModal from "./AddRoom";
 
 const RoomsList = () => {
   const [rooms, setRooms] = useState([]);
@@ -50,6 +51,9 @@ const RoomsList = () => {
       <div className="text-7xl text-center mb-6 mt-6">Our Rooms</div>
       <ul className="flex flex-wrap justify-center gap-6 mb-6 ml-6 mr-6">
         {roomItem}
+        <div className="border-gray-800 border-0 rounded-3xl shadow-2xl">
+          <AddRoomModal callback={getRooms}/>
+        </div>
       </ul>
     </div>
   );
