@@ -197,4 +197,34 @@ adminRouter.post("/add-availability/:availabilityID", async (req, res) => {
   }
 });
 
+adminRouter.delete("/delete-room/:roomID", async (req, res) => {
+  const roomID = req.params.roomID
+
+  try {
+    Room.findByIdAndDelete(
+      roomID,
+      (error, data) => {
+        if (error) {
+          console.log(error);
+          res.json({
+            success: false,
+            message: "Unable to update room.",
+          });
+        } else {
+          res.json({
+            success: true,
+          });
+        }
+      }
+    );
+
+    Availability.findOneAndDelete({
+      roomID: roomID,
+    })
+
+  } catch (error) {
+  console.log(error);
+  }
+})
+
 module.exports = adminRouter;
