@@ -5,15 +5,7 @@ import TimeslotDropdown from "../components/TimeslotDropdown";
 const AvailabilityModal = (props) => {
 
   const [showModal, setShowModal] = useState(false)
-  const [availability, setAvailability] = useState({
-    sunday: [],
-    monday: [],
-    tuesday: [],
-    wednesday: [],
-    thursday: [],
-    friday: [],
-    saturday: []
-  })
+  
   const [currentAvailability, setCurrentAvailability] = useState([])
 
   const [timeslot, setTimeslot] = useState()
