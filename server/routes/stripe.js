@@ -1,46 +1,65 @@
-const express = require("express");
-const checkoutRouter = express.Router();
+const express = require("express")
+const checkoutRouter = express.Router()
+const bodyParser = require("body-parser")
+const stripe = require("stripe")(process.env.STRIPE_SK)
+const Customer = require("../schemas/Customer")
 
-const stripe = require("stripe")(
-  "sk_test_51F8bRHLOnCTYLxxk3gEoLoDvkGaz4UWPqs69bKiArbf306fHovYU1L7ExCLqwznB5ZrQmqiPxUebEgqAPSXQSeNb00n0L71bb3"
-);
-
+checkoutRouter.use(bodyParser.urlencoded({ extended: false }))
 checkoutRouter.use((req, res, next) => {
-  if (req.originalUrl === "/webhook") {
-    next(); // Do nothing with the body because I need it in a raw state.
+  if (req.originalUrl === "/webhooks") {
+    next()
   } else {
-    express.json()(req, res, next); // ONLY do express.json() if the received request is NOT a WebHook from Stripe.
+    bodyParser.json()(req, res, next)
   }
-});
+})
+
+const addCustomer = async session => {
+  const newCustomer = new Customer({
+    first_name: session.metadata.firstName,
+    last_name: session.metadata.lastName,
+    email: session.customer_details.email,
+    phone: session.customer_details.phone,
+    dateAndTime: "8/21/22",
+    numberOfPlayers: session.metadata.totalQuantity,
+    amountPaid: session.amount_total * 0.01,
+    checkoutStatus: "confirmed",
+    rooms: session.metadata.room,
+  })
+  try {
+    await newCustomer.save()
+  } catch (error) {
+    console.log(error)
+  }
+}
 checkoutRouter.post(
   "/webhooks",
-  express.raw({ type: "application/json" }),
-
+  express.raw({ type: "*/*" }),
   async (req, res) => {
-    const sig = req.headers["stripe-signature"];
-    const payload = req.body;
-    console.log(sig);
+    const sig = req.headers["stripe-signature"]
+    const payload = req.body
 
+    let event
     const endpointSecret =
-      "whsec_ca7b3023d8dda0b657dffc2c3723d6a1214e900768f4f45fd80e6327813ccc61";
+      "whsec_ca7b3023d8dda0b657dffc2c3723d6a1214e900768f4f45fd80e6327813ccc61"
 
-    let event;
-    try {
-      event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
-    } catch (error) {
-      console.log(error);
-    }
-    if (event.type == "checkout.session.completed") {
-      console.log("asdd");
+    // try {
+    //   event = stripe.webhooks.constructEvent(payload, sig, endpointSecret)
+    // } catch (error) {
+    //   console.log(error.message)
+    // }
+    if (payload.type == "checkout.session.completed") {
+      const session = payload.data.object
+
+      return addCustomer(session)
     }
   }
-);
+)
 
 // connect to stripe
 checkoutRouter.post("/payment", async (req, res) => {
-  const { line_items } = req.body;
+  const { room, line_items, userInfo, totalQuantity } = req.body
 
-  const domainUrl = "http://localhost:3001";
+  const domainUrl = "http://localhost:3001"
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -53,20 +72,27 @@ checkoutRouter.post("/payment", async (req, res) => {
       phone_number_collection: {
         enabled: true,
       },
-    });
-    res.status(200).json({ success: true, sessionID: session.id });
+      metadata: {
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        totalQuantity,
+        room: room._id,
+      },
+    })
+    console.log(session)
+    res.status(200).json({ success: true, sessionID: session.id })
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-});
+})
 
 checkoutRouter.get("/success", async (req, res) => {
-  const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
-  const customer = await stripe.customers.retrieve(session.customer);
+  const session = await stripe.checkout.sessions.retrieve(req.query.session_id)
+  const customer = await stripe.customers.retrieve(session.customer)
 
-  console.log(customer);
+  console.log(customer)
 
-  res.json({ customer: customer });
-});
+  res.json({ customer: customer })
+})
 
-module.exports = checkoutRouter;
+module.exports = checkoutRouter
