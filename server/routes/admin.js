@@ -130,36 +130,47 @@ adminRouter.post("/add-room", async (req, res) => {
 });
 
 // Set room availability
-adminRouter.post("/add-availability/:roomID", async (req, res) => {
-  const roomID = req.params.roomID;
+
+adminRouter.post("/add-availability/:availabilityID", async (req, res) => {
+  const availabilityID = req.params.availabilityID;
 
   const {
-    sundayStatus,
-    mondayStatus,
-    tuesdayStatus,
-    wednesdayStatus,
-    thursdayStatus,
-    fridayStatus,
-    saturdayStatus,
-    timeslots,
-    repeatWeekly,
+    timeslots: {
+      sunday,
+      monday,
+      tuesday,
+      wednesday,
+      thursday,
+      friday,
+      saturday
+    }
   } = req.body;
 
-  try {
-    const availability = new Availability({
-      roomID: roomID,
-      timeslots: {
-        sunday: sundayTimeslots,
-        monday: mondayTimeslots,
-        tuesday: tuesdayTimeslots,
-        wednesday: wednesdayTimeslots,
-        thursday: thursdayTimeslots,
-        friday: fridayTimeslots,
-        saturday: saturdayTimeslots,
-      },
-    });
 
-    await availability.save();
+  console.log(req.body)
+
+  try {
+    
+      const availability = await Availability.findByIdAndUpdate(
+        availabilityID,
+        {
+          timeslots: {
+            sunday: sunday,
+            monday: monday,
+            tuesday: tuesday,
+            wednesday: wednesday,
+            thursday: thursday,
+            friday: friday,
+            saturday: saturday
+          }
+        }
+
+      )
+      
+    
+
+    // await availability.save(req.body);
+
 
     res.json({
       success: true,

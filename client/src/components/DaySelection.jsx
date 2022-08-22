@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from 'react'
 
-function DaySelection() {
+function DaySelection({setSelectedDays}) {
 
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-    const [selectedDays, setSelectedDays] = useState([])
+    // Create array to store checked status for each day
     const [checkedState, setCheckedState] = useState(
         new Array(days.length).fill(false)
     )
     
+    // When a checked status is changed 
     useEffect(() => {
       
-      const selDays = checkedState.map((result, index) => {
+      const checkedDays = checkedState.map((result, index) => {
        return result == true ? days[index] : null
       })
 
-      setSelectedDays(selDays.filter((day) => day != null))
+      setSelectedDays(checkedDays.filter((day) => day != null))
 
     }, checkedState)
   
 
-    const handleOnChange = (position, day) => {
+    const handleOnChange = (position) => {
 
         // Updates the checkedState array to change status when checkbox is clicked
         const updatedCheckedState = checkedState.map((dayOfWeek, index) =>
@@ -47,7 +48,7 @@ function DaySelection() {
                     name='day'
                     value={day}
                     checked={checkedState[index]}
-                    onChange={() => handleOnChange(index, day)}
+                    onChange={() => handleOnChange(index)}
                   />
                   <label>{day}</label>
                 </div>
