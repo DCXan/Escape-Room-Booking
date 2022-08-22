@@ -7,7 +7,7 @@ require("events").EventEmitter.defaultMaxListeners = Infinity;
 const compression = require("compression");
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
     credentials: true,
   },
 });
@@ -30,8 +30,8 @@ app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/checkout", checkoutRouter);
 app.use("/notifications", notificationRouter);
-// Connect MongoDB to server
 
+// Connect MongoDB to server
 mongoose.connect(
   `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.s4nxcwu.mongodb.net/?retryWrites=true&w=majority`,
   {
@@ -50,27 +50,6 @@ mongoose.connect(
     }
   }
 );
-
-// let interval;
-
-// io.on("connection", (socket) => {
-//   console.log("New client connected");
-//   io.emit("firstEvent", "hell this is test");
-//   if (interval) {
-//     clearInterval(interval);
-//   }
-//   interval = setInterval(() => getApiAndEmit(socket), 1000);
-//   socket.on("disconnect", () => {
-//     console.log("Client disconnected");
-//     clearInterval(interval);
-//   });
-// });
-
-// const getApiAndEmit = (socket) => {
-//   const response = new Date();
-//   // Emitting a new message. Will be consumed by the client.
-//   socket.emit("FromAPI", response);
-// };
 
 const PORT = process.env.PORT || 8000;
 
