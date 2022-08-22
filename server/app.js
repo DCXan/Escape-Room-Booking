@@ -4,7 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const server = require("http").createServer(app);
 require("events").EventEmitter.defaultMaxListeners = Infinity;
-
+const compression = require("compression");
 const io = require("socket.io")(server, {
   cors: {
     origin: "http://localhost:3001",
@@ -16,10 +16,10 @@ app.use(cors());
 app.use(express.json());
 require("dotenv").config();
 
-// Routers
+// Routes
 
 const adminRouter = require("./routes/admin");
-const userRouter = require("./routes/User");
+const userRouter = require("./routes/user");
 const customerRouter = require("./routes/customer");
 const checkoutRouter = require("./routes/stripe");
 const notificationRouter = require("./routes/socket");
@@ -29,6 +29,11 @@ app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/checkout", checkoutRouter);
 app.use("/notifications", notificationRouter);
+app.use(compression());
+
+app.get("/", (req, res) => {
+  res.redirect("/admin/get-rooms");
+});
 // Connect MongoDB to server
 
 mongoose.connect(
@@ -63,7 +68,7 @@ io.on("connection", (socket) => {
 
 const getApiAndEmit = (socket) => {
   const response = new Date();
-  // Emitting a new message. Will be consumed by the client
+  // Emitting a new message. Will be consumed by the client.
   socket.emit("FromAPI", response);
 };
 

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react"
-import DaySelection from "../components/DaySelection"
-import TimeslotDropdown from "../components/TimeslotDropdown"
+import React, { useEffect, useState } from "react";
+import DaySelection from "../components/DaySelection";
+import TimeslotDropdown from "../components/TimeslotDropdown";
 
 const AvailabilityModal = (props) => {
+
   const [showModal, setShowModal] = useState(false)
   const [availability, setAvailability] = useState({
     sunday: [],
@@ -25,21 +26,25 @@ const AvailabilityModal = (props) => {
 
   // Retrieve list of availabities for current room
   const getAvailabilities = async () => {
-
-    const response = await fetch(`http://localhost:8000/admin/get-availabilities/${props.room._id}`);
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/admin/get-availabilities/${props.room._id}`
+    );
 
     const result = await response.json();
 
     if (result.success) {
+
       setCurrentAvailability(result.availabilities[0])
     
+
     } else {
       console.log(result.message);
     }
-  }
+  };
 
   // Update or Add availabilities
   const updateAvailability = async () => {
+
     
     console.log(timeslot);
     console.log(selectedDays);
@@ -75,14 +80,14 @@ const AvailabilityModal = (props) => {
     const result = await response.json()
     
 
-    if (result.success) {
-      setShowModal(false)
-      props.callback()
-    } else {
-      alert(result.message)
-    }
 
-  }
+    if (result.success) {
+      setShowModal(false);
+      props.callback();
+    } else {
+      alert(result.message);
+    }
+  };
 
 
   const closeModal = () => {
@@ -128,14 +133,19 @@ const AvailabilityModal = (props) => {
 
                 {/* Room Name */}
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200">
-                  <p className="text-xl mb-2 font-bold">Set Availability for:</p>
+                  <p className="text-xl mb-2 font-bold">
+                    Set Availability for:
+                  </p>
                   <div className="">{props.room.Subject}</div>
                 </div>
 
                 {/* List of Current Availabilities */}
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <p className="text-xl mb-2 font-bold">Current Availabilities:</p>
+                  <p className="text-xl mb-2 font-bold">
+                    Current Availabilities:
+                  </p>
                   <div className="">
+
                     {currentAvailability ? (
                         `Sunday:  ${currentAvailability.timeslots.sunday}
 
@@ -151,14 +161,17 @@ const AvailabilityModal = (props) => {
 
                         Saturday:  ${currentAvailability.timeslots.saturday}`
                     ) : 'No Timeslots Set'}
+
                   </div>
                 </div>
 
                 {/*Timeslot Selection*/}
+
                 <TimeslotDropdown setTimeslot = {setTimeslot}/>
                
                 {/* Day Selection */}
                 <DaySelection setSelectedDays = {setSelectedDays}/>
+
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6">
                   <button
@@ -183,7 +196,7 @@ const AvailabilityModal = (props) => {
         </div>
       ) : null}
     </div>
-  )
-}
+  );
+};
 
-export default AvailabilityModal
+export default AvailabilityModal;

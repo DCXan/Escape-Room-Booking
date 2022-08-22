@@ -26,7 +26,7 @@ const RoomModal = (props) => {
 
   const updateRoom = async () => {
     const response = await fetch(
-      `http://localhost:8000/admin/update-room/${props.room._id}`,
+      `${process.env.REACT_APP_BASE_URL}/admin/update-room/${props.room._id}`,
       {
         method: "POST",
         headers: {
@@ -151,9 +151,14 @@ const RoomModal = (props) => {
                     />
                     <p>
                       Private Room Rate: $
-
-                      <input className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="childRate" name="privateRate" type="text" defaultValue={props.room.privateRate} onChange={handleChange}/>
-
+                      <input
+                        className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500"
+                        id="childRate"
+                        name="privateRate"
+                        type="text"
+                        defaultValue={props.room.privateRate}
+                        onChange={handleChange}
+                      />
                     </p>
                   </div>
                 </div>

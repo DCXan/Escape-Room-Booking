@@ -87,7 +87,7 @@ const Booking = ({ room }) => {
 
     console.log(selectedDay);
     const response = await fetch(
-      `http://localhost:8000/admin/get-availabilities/${room._id}`
+      `${process.env.REACT_APP_BASE_URL}/admin/get-availabilities/${room._id}`
     );
     const results = await response.json();
     console.log(results);
@@ -135,13 +135,16 @@ const Booking = ({ room }) => {
     });
     console.log(line_items);
 
-    const response = await fetch("http://localhost:8000/checkout/payment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ line_items }),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/checkout/payment`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ line_items }),
+      }
+    );
 
     const results = await response.json();
     if (results.success) {
