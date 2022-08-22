@@ -20,22 +20,6 @@ adminRouter.get("/get-rooms", async (req, res) => {
     console.log(error);
   }
 });
-adminRouter.get("/", async (req, res) => {
-  try {
-    const rooms = await Room.find({});
-
-    res.json({
-      success: true,
-      rooms: rooms,
-    });
-  } catch (error) {
-    res.json({
-      success: false,
-      message: error,
-    });
-    console.log(error);
-  }
-});
 
 // Retrieve Availabilities List
 adminRouter.get("/get-availabilities/:roomID", async (req, res) => {

@@ -10,10 +10,9 @@ const availabilitySchema = new mongoose.Schema({
     thursday: [Number],
     friday: [Number],
     saturday: [Number],
-  }
-})
+  },
+});
 
 const Availability = mongoose.model("Availability", availabilitySchema);
-
 
 module.exports = Availability;
