@@ -94,17 +94,10 @@ const Booking = ({ room }) => {
 
     console.log(selectedDay)
     const response = await fetch(
-<<<<<<< HEAD
-      `http://localhost:8000/admin/get-availabilities/${room._id}`
+      `${process.env.REACT_APP_BASE_URL}/admin/get-availabilities/${room._id}`
     )
     const results = await response.json()
     console.log(results)
-=======
-      `${process.env.REACT_APP_BASE_URL}/admin/get-availabilities/${room._id}`
-    );
-    const results = await response.json();
-    console.log(results);
->>>>>>> 9eb3718c01aee360f3341ac5e10f08a04af2781a
 
     const availability = results.availabilities[0].timeslots
     console.log(availability)
@@ -154,15 +147,6 @@ const Booking = ({ room }) => {
     })
     console.log(line_items)
 
-<<<<<<< HEAD
-    const response = await fetch("http://localhost:8000/checkout/payment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ room, line_items, userInfo, totalQuantity }),
-    })
-=======
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/checkout/payment`,
       {
@@ -170,10 +154,9 @@ const Booking = ({ room }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ line_items }),
+        body: JSON.stringify({ room, line_items, userInfo, totalQuantity }),
       }
-    );
->>>>>>> 9eb3718c01aee360f3341ac5e10f08a04af2781a
+    )
 
     const results = await response.json()
     if (results.success) {
@@ -184,6 +167,7 @@ const Booking = ({ room }) => {
     } else {
       alert(results.message)
     }
+    //fixed this
   }
   const handleTimeslots = e => {
     setChosenSlot(e.target.value)
