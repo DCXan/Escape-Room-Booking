@@ -1,7 +1,7 @@
 import Calendar from "react-calendar";
 import "../calendar.css";
 import { loadStripe } from "@stripe/stripe-js";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/material.css";
 import moment from "moment";
@@ -14,6 +14,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { Grid } from "@mui/material";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 //public key for stripe
 const stripePromise = loadStripe("pk_test_fmwCa9Gs1HrmcSrEAjsAvKQO00KtWSZf8C");
@@ -38,6 +39,18 @@ const Booking = ({ room }) => {
   const [userInfo, setUserInfo] = useState({});
   let itemCart = [];
   // const [adultPrice, setAdultPrice] = useState([])
+
+  // const modalRef = useRef();
+  // useEffect(() => {
+  //   const options = {
+  //     reserveScrollBarGap: true,
+  //   };
+  //   if (showModal) {
+  //     disableBodyScroll(modalRef, options);
+  //   } else {
+  //     enableBodyScroll(modalRef);
+  //   }
+  // }, [showModal, modalRef]);
 
   const handleForm = (e) => {
     setUserInfo({
@@ -188,10 +201,10 @@ const Booking = ({ room }) => {
       </button>
       {showModal ? (
         <>
-          <div className=" backdrop-blur-sm bg-white/30 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-6 mx-auto w-5/12 h-3/4">
+          <div className=" backdrop-blur-sm bg-white/30 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none mt-10 mb-10">
+            <div className="relative w-auto my-6 mx-auto w-5/12 h-3/4 ">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none bottom-20">
                 {/*header*/}
                 <div className="text-3xl font-semibold   border-solid border-slate-200 rounded-t">
                   <button

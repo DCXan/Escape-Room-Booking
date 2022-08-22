@@ -1,12 +1,24 @@
-import React, { useState } from "react";
-
+import React, { useState, useRef, useEffect } from "react";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import Booking from "./Calendar";
 
 const RoomModal = ({ room }) => {
   const [showModal, setShowModal] = useState(false);
+  const modalRef = useRef();
+
+  useEffect(() => {
+    const options = {
+      reserveScrollBarGap: true,
+    };
+    if (showModal) {
+      disableBodyScroll(modalRef, options);
+    } else {
+      enableBodyScroll(modalRef);
+    }
+  }, [showModal, modalRef]);
 
   return (
-    <div>
+    <div ref={modalRef}>
       <button
         className="bg-blue-500 text-white font-medium px-3 py-2 my-3 rounded-xl hover:bg-blue-900 hover:drop-shadow-xl"
         onClick={() => setShowModal(true)}
@@ -15,10 +27,10 @@ const RoomModal = ({ room }) => {
       </button>
       {showModal ? (
         <div>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none mx-2">
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none mx-2 mt-10 mb-10">
             <div className="relative w-auto my-6 mx-auto max-w-4xl">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none top-60">
                 {/*header*/}
                 <button
                   className="p-1 ml-auto bg-transparent border-0 text-black opacity-25 float-right text-2xl leading-none font-semibold outline-none focus:outline-none hover:bg-gray-500 hover:rounded-xl mx-2 mt-2"
