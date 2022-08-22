@@ -172,6 +172,24 @@ const AddRoomModal = (props) => {
                     ></textarea>
                   </div>
                 </div>
+
+                <div className="flex flex-col justify-start p-6 border-t border-solid border-slate-200 rounded-b text-left">
+                  <p className="font-bold text-lg self-center">Max Capacity:</p>
+                  <div className="self-center text-center">
+                    <p className="content-between">
+                      Number of Players:
+                      <input
+                        className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500"
+                        id="maxPlayers"
+                        name="maxPlayers"
+                        type="text"
+                        placeholder="Max Players"
+                        onChange={handleChange}
+                      />
+                    </p>
+                  </div>
+                </div>
+
                 <div className="flex flex-col justify-start p-6 border-t border-solid border-slate-200 rounded-b text-left">
                   <p className="font-bold text-lg self-center">Pricing:</p>
                   <div className="self-center text-center">

@@ -218,9 +218,9 @@ adminRouter.delete("/delete-room/:roomID", async (req, res) => {
       }
     );
 
-    Availability.findOneAndDelete({
-      roomID: roomID,
-    })
+    // Availability.findOneAndDelete({
+    //   roomID: roomID
+    // })
 
   } catch (error) {
   console.log(error);

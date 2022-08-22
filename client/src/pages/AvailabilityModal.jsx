@@ -13,7 +13,7 @@ const AvailabilityModal = (props) => {
 
     useEffect(() => {
         getAvailabilities();
-    }, [currentAvailability]);
+    }, []);
 
 
   // Retrieve list of availabities for current room
