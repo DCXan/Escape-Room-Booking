@@ -4,15 +4,27 @@ import { MdOutlineCancel } from "react-icons/md";
 
 import { Button } from ".";
 import { connect } from "react-redux";
-import { useStateContext } from "../contexts/ContextProvider";
-import { Orders } from "../pages";
-import NotificationSocket from "./NotificationSocket";
 
 const Notification = (props) => {
-  const [loadClient, setLoadClient] = useState(true);
+  const [customers, setCustomers] = useState([]);
 
-  const customers = props.rooms;
-  console.log(customers);
+  useEffect(() => {
+    getCustomers();
+  }, []);
+
+  const getCustomers = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/customer/get-limited-customers`
+    );
+    const result = await response.json();
+
+    if (result.success) {
+      setCustomers(result.customers);
+      console.log(result.customers);
+    } else {
+      console.log(result.message);
+    }
+  };
 
   return (
     <div className="nav-item absolute right-5 md:right-40 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
@@ -21,14 +33,6 @@ const Notification = (props) => {
           <p className="font-semibold text-lg dark:text-gray-200">
             Notifications
           </p>
-          <NotificationSocket />
-          <button
-            type="button"
-            className="text-dark text-xs rounded p-1 px-2 bg-orange-theme "
-          >
-            {" "}
-            5 New
-          </button>
         </div>
         <Button
           icon={<MdOutlineCancel />}
@@ -39,12 +43,6 @@ const Notification = (props) => {
         />
       </div>
       <div className="mt-5 ">
-        {/* LOAD OR UNLOAD THE CLIENT */}
-        <button onClick={() => setLoadClient((prevState) => !prevState)}>
-          STOP CLIENT
-        </button>
-        {/* SOCKET IO CLIENT*/}
-        {loadClient ? <NotificationSocket /> : null}
         {customers?.map((customer, index) => (
           <div
             key={index}

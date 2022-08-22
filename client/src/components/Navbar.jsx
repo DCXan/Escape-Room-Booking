@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
@@ -6,13 +6,19 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import avatar from "../data/avatar.jpg";
 import { Notification, UserProfile } from ".";
 import { useStateContext } from "../contexts/ContextProvider";
+import { io } from "socket.io-client";
+
+const ENDPOINT = `${process.env.REACT_APP_BASE_URL}`;
+const socket = io(ENDPOINT);
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
     {
       <button
         type="button"
-        onClick={() => customFunc()}
+        onClick={() => {
+          customFunc();
+        }}
         style={{ color }}
         className="relative text-xl rounded-full p-3 hover:bg-light-gray"
       >
@@ -36,6 +42,7 @@ const Navbar = () => {
     setScreenSize,
     screenSize,
   } = useStateContext();
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -55,6 +62,27 @@ const Navbar = () => {
     }
   }, [screenSize, setActiveMenu]);
 
+  useEffect(() => {
+    const handler = (notifications) => {
+      setNotifications([...notifications, notifications]);
+    };
+
+    socket.on("changes", handler);
+
+    return () => socket.off("changes", handler);
+  }, [notifications]);
+
+  useEffect(() => {
+    const handler = (notifications) => {
+      setNotifications((notifications) => notifications);
+    };
+    socket.on("changes", handler);
+
+    return () => socket.off("changes", handler);
+  }, []);
+
+  console.log(notifications.length);
+
   const handleActiveMenu = () => setActiveMenu(!activeMenu);
 
   return (
@@ -66,16 +94,26 @@ const Navbar = () => {
         icon={<AiOutlineMenu />}
       />
       <div className="flex">
-        <NavButton
-          title="Notification"
-          dotColor="rgb(254, 201, 15)"
-          customFunc={() => {
-            handleClick("notification");
-          }}
-          color={currentColor}
-          icon={<RiNotification3Line />}
-        />
-
+        {notifications.length == 0 ? (
+          <NavButton
+            title="Notification"
+            customFunc={() => {
+              handleClick("notification");
+            }}
+            color={currentColor}
+            icon={<RiNotification3Line />}
+          />
+        ) : (
+          <NavButton
+            title="Notification"
+            dotColor="rgb(254, 201, 15)"
+            customFunc={() => {
+              handleClick("notification");
+            }}
+            color={currentColor}
+            icon={<RiNotification3Line />}
+          />
+        )}
         <TooltipComponent content="Profile" position="BottomCenter">
           <div
             className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
