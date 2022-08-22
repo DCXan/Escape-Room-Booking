@@ -20,7 +20,7 @@ const AvailabilityModal = (props) => {
 
     useEffect(() => {
         getAvailabilities();
-    }, []);
+    }, [currentAvailability]);
 
 
   // Retrieve list of availabities for current room
@@ -46,7 +46,7 @@ const AvailabilityModal = (props) => {
     console.log(currentAvailability.timeslots)
 
     const keys = Object.keys(currentAvailability.timeslots)
-    console.log(keys);
+    // console.log(keys);
 
     for (let i = 0; i < keys.length; i++) {
       for (let j = 0; j < selectedDays.length; j++) {
@@ -61,42 +61,29 @@ const AvailabilityModal = (props) => {
       }
     }
 
-    console.log(currentAvailability);
+    console.log(currentAvailability._id);
+    
+    const response = await fetch(`http://localhost:8000/admin/add-availability/${currentAvailability._id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(currentAvailability)
+    })
+
+    console.log(JSON.stringify(currentAvailability));
+    const result = await response.json()
     
 
-    // for (let i = 0; i < selectedDays.length; i++) {
-    //   for (let day in availability) {
-    //     if (day === (selectedDays[i]).toLowerCase()) {
-    //       // setAvailability({
-    //       //   ...availability,
-
-    //       // })
-    //       console.log(day);
-    //     }
-    //   }
-    // }
-    // const response = await fetch(`http://localhost:8000/admin/add-availability/${props.room._id}`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(availability)
-    // })
-
-    // console.log(JSON.stringify(availability));
-    // const result = await response.json()
-    
-
-    // if (result.success) {
-    //   setShowModal(false)
-    //   props.callback()
-    // } else {
-    //   alert(result.message)
-    // }
+    if (result.success) {
+      setShowModal(false)
+      props.callback()
+    } else {
+      alert(result.message)
+    }
 
   }
 
-  
 
   const closeModal = () => {
     setTimeslot()
@@ -150,7 +137,19 @@ const AvailabilityModal = (props) => {
                   <p className="text-xl mb-2 font-bold">Current Availabilities:</p>
                   <div className="">
                     {currentAvailability ? (
-                        `Number of Availabilities:  ${currentAvailability.timeslots.friday}`
+                        `Sunday:  ${currentAvailability.timeslots.sunday}
+
+                        Monday:  ${currentAvailability.timeslots.monday}
+
+                        Tuesday:  ${currentAvailability.timeslots.tuesday}
+
+                        Wednesday:  ${currentAvailability.timeslots.wednesday}
+
+                        Thursday:  ${currentAvailability.timeslots.thursday}
+
+                        Friday:  ${currentAvailability.timeslots.friday}
+
+                        Saturday:  ${currentAvailability.timeslots.saturday}`
                     ) : 'No Timeslots Set'}
                   </div>
                 </div>
