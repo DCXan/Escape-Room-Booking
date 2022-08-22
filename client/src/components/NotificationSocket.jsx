@@ -1,35 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { io } from "socket.io-client";
-
 const ENDPOINT = `${process.env.REACT_APP_BASE_URL}`;
+const socket = io(ENDPOINT);
 
 export default function NotificationSocket() {
-  const [response, setResponse] = useState("");
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    const socket = io(ENDPOINT);
+    const handler = (notifications) => {
+      setNotifications([...notifications, notifications]);
+    };
 
-    console.log(
-      socket.on("firstEvent", (msj) => {
-        console.log(msj);
-      })
-    );
-    socket.on(
-      "FromAPI",
-      (data) => {
-        setResponse(data);
-      },
-      []
-    );
+    socket.on("changes", handler);
 
-    // CLEAN UP THE EFFECT
-    return () => socket.disconnect();
-    //
+    return () => socket.off("changes", handler);
+  }, [notifications]);
+
+  useEffect(() => {
+    const handler = (notifications) => {
+      setNotifications((notifications) => [...notifications, notifications]);
+    };
+
+    socket.on("changes", handler);
+
+    return () => socket.off("changes", handler);
   }, []);
 
-  return (
-    <p>
-      It's <time dateTime={response}>{response}</time>
-    </p>
-  );
+  console.log(notifications);
+
+  return <p>Notifications</p>;
 }

@@ -12,17 +12,17 @@ const AddRoomModal = (props) => {
     });
   };
 
-  // const modalRef = useRef();
-  // useEffect(() => {
-  //   const options = {
-  //     reserveScrollBarGap: true,
-  //   };
-  //   if (showModal) {
-  //     disableBodyScroll(modalRef, options);
-  //   } else {
-  //     enableBodyScroll(modalRef);
-  //   }
-  // }, [showModal, modalRef]);
+  const modalRef = useRef();
+  useEffect(() => {
+    const options = {
+      reserveScrollBarGap: true,
+    };
+    if (showModal) {
+      disableBodyScroll(modalRef, options);
+    } else {
+      enableBodyScroll(modalRef);
+    }
+  }, [showModal, modalRef]);
 
   const addRoom = async () => {
     const response = await fetch(
@@ -55,8 +55,19 @@ const AddRoomModal = (props) => {
       >
         Create a Room
         <div>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" className="self-center mt-5">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="self-center mt-5"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 4v16m8-8H4"
+            />
           </svg>
         </div>
       </button>
@@ -64,11 +75,11 @@ const AddRoomModal = (props) => {
         <div>
           <div
             // ref={modalRef}
-            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bottom-10"
           >
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full h-auto bg-white outline-none focus:outline-none">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full h-auto bg-white outline-none focus:outline-none top-40">
                 {/*header*/}
                 <button
                   className="p-1 ml-auto bg-transparent border-0 text-black opacity-25 float-right text-2xl leading-none font-semibold outline-none focus:outline-none hover:bg-gray-500 hover:rounded-xl mx-2 mt-2"
@@ -118,8 +129,10 @@ const AddRoomModal = (props) => {
                 {/* <img src="" alt="Escape Room" /> */}
                 {/*Room Description*/}
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <p className="font-bold text-lg self-center">Room Description:</p>
-                  <div >
+                  <p className="font-bold text-lg self-center">
+                    Room Description:
+                  </p>
+                  <div>
                     {/* <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500" id="description" name="description" type="text" rows ="10"placeholder="Description" onChange={handleChange}/> */}
                     <textarea
                       className="mt-5"
@@ -132,9 +145,7 @@ const AddRoomModal = (props) => {
                   </div>
                 </div>
                 <div className="flex flex-col justify-start p-6 border-t border-solid border-slate-200 rounded-b text-left">
-                  <p className="font-bold text-lg self-center">
-                    Pricing:
-                  </p>
+                  <p className="font-bold text-lg self-center">Pricing:</p>
                   <div className="self-center text-center">
                     <p className="content-between">
                       Adult Ticket Price: $
