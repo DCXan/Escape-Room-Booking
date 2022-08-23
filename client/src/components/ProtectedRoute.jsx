@@ -1,10 +1,13 @@
-import { Navigate } from "react-router-dom";
+import { Router, Route, Routes } from "react-router-dom";
+import Login from "../pages/authenticate/Login";
+import { useNavigate } from "react-router-dom";
 
 function ProtectedRoute(props) {
+  const Navigate = useNavigate();
   const token = localStorage.getItem("jsonwebtoken");
 
   if (!token) {
-    return <Navigate to="/login" replace />;
+    return Navigate("/login");
   }
 
   return props.children;

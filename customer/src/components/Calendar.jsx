@@ -18,7 +18,7 @@ import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 //public key for stripe
 
-const stripePromise = loadStripe("pk_test_fmwCa9Gs1HrmcSrEAjsAvKQO00KtWSZf8C");
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLICKEY);
 
 const Booking = ({ room }) => {
   const [showModal, setShowModal] = useState(false);
@@ -299,7 +299,7 @@ const Booking = ({ room }) => {
                           />
                         </Grid>
                         <Grid xs={6} m={3}>
-                          <TextField
+                          {/* <TextField
                             onChange={handleForm}
                             name="email"
                             size="small"
@@ -308,7 +308,7 @@ const Booking = ({ room }) => {
                             placeholder="Enter email"
                             variant="outlined"
                             required
-                          />
+                          /> */}
                         </Grid>
                       </Grid>
                       <Grid>

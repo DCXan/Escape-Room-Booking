@@ -3,18 +3,16 @@ import DaySelection from "../components/DaySelection";
 import TimeslotDropdown from "../components/TimeslotDropdown";
 
 const AvailabilityModal = (props) => {
+  const [showModal, setShowModal] = useState(false);
 
-  const [showModal, setShowModal] = useState(false)
-  
-  const [currentAvailability, setCurrentAvailability] = useState([])
+  const [currentAvailability, setCurrentAvailability] = useState([]);
 
-  const [timeslot, setTimeslot] = useState()
-  const [selectedDays, setSelectedDays] = useState([])
+  const [timeslot, setTimeslot] = useState();
+  const [selectedDays, setSelectedDays] = useState([]);
 
-    useEffect(() => {
-        getAvailabilities();
-    }, []);
-
+  useEffect(() => {
+    getAvailabilities();
+  }, []);
 
   // Retrieve list of availabities for current room
   const getAvailabilities = async () => {
@@ -25,10 +23,7 @@ const AvailabilityModal = (props) => {
     const result = await response.json();
 
     if (result.success) {
-
-      setCurrentAvailability(result.availabilities[0])
-    
-
+      setCurrentAvailability(result.availabilities[0]);
     } else {
       console.log(result.message);
     }
@@ -36,42 +31,40 @@ const AvailabilityModal = (props) => {
 
   // Update or Add availabilities
   const updateAvailability = async () => {
-
-    
     console.log(timeslot);
     console.log(selectedDays);
-    console.log(currentAvailability.timeslots)
+    console.log(currentAvailability.timeslots);
 
-    const keys = Object.keys(currentAvailability.timeslots)
+    const keys = Object.keys(currentAvailability.timeslots);
     // console.log(keys);
 
     for (let i = 0; i < keys.length; i++) {
       for (let j = 0; j < selectedDays.length; j++) {
         if (selectedDays[j].toLowerCase() === keys[i]) {
           if (timeslot) {
-            currentAvailability.timeslots[keys[i]].push(timeslot)
-
+            currentAvailability.timeslots[keys[i]].push(timeslot);
           } else {
-            alert('No timeslot selected.')
+            alert("No timeslot selected.");
           }
         }
       }
     }
 
     console.log(currentAvailability._id);
-    
-    const response = await fetch(`http://localhost:8000/admin/add-availability/${currentAvailability._id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(currentAvailability)
-    })
+
+    const response = await fetch(
+      `http://localhost:8000/admin/add-availability/${currentAvailability._id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(currentAvailability),
+      }
+    );
 
     console.log(JSON.stringify(currentAvailability));
-    const result = await response.json()
-    
-
+    const result = await response.json();
 
     if (result.success) {
       setShowModal(false);
@@ -81,12 +74,11 @@ const AvailabilityModal = (props) => {
     }
   };
 
-
   const closeModal = () => {
-    setTimeslot()
-    setSelectedDays([])
-    setShowModal(false)
-  }
+    setTimeslot();
+    setSelectedDays([]);
+    setShowModal(false);
+  };
 
   return (
     <div>
@@ -132,14 +124,13 @@ const AvailabilityModal = (props) => {
                 </div>
 
                 {/* List of Current Availabilities */}
-                <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                {/* <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                   <p className="text-xl mb-2 font-bold">
                     Current Availabilities:
                   </p>
-                  <div className="">
-
-                    {currentAvailability ? (
-                        `Sunday:  ${currentAvailability.timeslots.sunday}
+                  <div className="text-xl mb-2">
+                    {currentAvailability
+                      ? `Sunday:  ${currentAvailability.timeslots.sunday}
 
                         Monday:  ${currentAvailability.timeslots.monday}
 
@@ -152,17 +143,16 @@ const AvailabilityModal = (props) => {
                         Friday:  ${currentAvailability.timeslots.friday}
 
                         Saturday:  ${currentAvailability.timeslots.saturday}`
-                    ) : 'No Timeslots Set'}
-
+                      : "No Timeslots Set"}
                   </div>
-                </div>
+                </div> */}
 
                 {/*Timeslot Selection*/}
 
-                <TimeslotDropdown setTimeslot = {setTimeslot}/>
-               
+                <TimeslotDropdown setTimeslot={setTimeslot} />
+
                 {/* Day Selection */}
-                <DaySelection setSelectedDays = {setSelectedDays}/>
+                <DaySelection setSelectedDays={setSelectedDays} />
 
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6">
