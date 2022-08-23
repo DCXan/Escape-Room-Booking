@@ -299,7 +299,7 @@ const Booking = ({ room }) => {
                           />
                         </Grid>
                         <Grid xs={6} m={3}>
-                          <TextField
+                          {/* <TextField
                             onChange={handleForm}
                             name="email"
                             size="small"
@@ -308,7 +308,7 @@ const Booking = ({ room }) => {
                             placeholder="Enter email"
                             variant="outlined"
                             required
-                          />
+                          /> */}
                         </Grid>
                       </Grid>
                       <Grid>

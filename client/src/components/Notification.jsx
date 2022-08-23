@@ -74,7 +74,7 @@ const Notification = (props) => {
         <div className="mt-5 flex justify-center">
           <a
             className="bg-sky-500 hover:bg-blue-700 w-full content-center text-white text-center font-bold py-2 px-4 rounded-md tracking-wide"
-            href={`http://localhost:3000/orders`}
+            href={`https://flashbook-bookings.netlify.app/orders`}
           >
             See all notifications
           </a>
