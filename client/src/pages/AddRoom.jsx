@@ -139,11 +139,11 @@ const AddRoomModal = (props) => {
 
                 {/* Need to add image */}
                 {/* <img src="" alt="Escape Room" /> */}
-                {/* <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                   <p className="font-bold text-lg self-center my-3">Cover Photo:</p>
                   <div className="content-center">
                     <Filebase
-                      ref={inputRef}
+                      // ref={inputRef}
                       className="self-center"
                       type="file"
                       multiple={false}
@@ -153,7 +153,7 @@ const AddRoomModal = (props) => {
                   <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={clearImage}>Clear Image</button>
-                </div> */}
+                </div>
 
                 {/*Room Description*/}
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
