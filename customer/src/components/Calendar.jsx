@@ -17,7 +17,7 @@ import { Grid } from "@mui/material"
 
 //public key for stripe
 const stripePromise = loadStripe("pk_test_fmwCa9Gs1HrmcSrEAjsAvKQO00KtWSZf8C")
-moment.locale()
+
 const Booking = ({ room }) => {
   const [showModal, setShowModal] = useState(false)
   const [activeButton, setActiveButton] = useState(false)
@@ -30,14 +30,14 @@ const Booking = ({ room }) => {
   const [privateRoom, setPrivateRoom] = useState("")
   const [childrenPrice, setChildrenPrice] = useState("")
   const [childrenQuantity, setChildrenQuantity] = useState("")
-  const [showTickets, setShowTickets] = useState(false)
+
   const [chosenSlot, setChosenSlot] = useState("")
   const [answer, setAnswer] = useState([])
   const [itemChosenChildren, setItemChosenChildren] = useState({})
   const [itemChosenAdult, setItemChosenAdult] = useState({})
   const [userInfo, setUserInfo] = useState({})
-  const [firstNameError, setFirstNameError] = useState({})
-  const [lasttNameError, setLastNameError] = useState({})
+
+  const [selectedSlot, setSelectedSlot] = useState(0)
   let itemCart = []
   // const [adultPrice, setAdultPrice] = useState([])
 
@@ -118,27 +118,16 @@ const Booking = ({ room }) => {
     setAnswer(timebyDay)
     console.log(answer)
   }
-  const formValidation = () => {
-    const firstNameError = {}
 
-    let isValid = true
-    if (userInfo.length < 0) {
-      firstNameError.firstNameRequired = "Error form required"
-      isValid = false
-    }
-    setFirstNameError(firstNameError)
-  }
   const handleCheckout = async e => {
-    e.preventDefault()
     setUserInfo({
       ...userInfo,
       [e.target.name]: e.target.value,
     })
-    const isValid = formValidation()
-    if (isValid)
-      if (childrenQuantity != 0) {
-        itemCart.push(itemChosenChildren)
-      }
+
+    if (childrenQuantity != 0) {
+      itemCart.push(itemChosenChildren)
+    }
     if (adultQuantity != 0) {
       itemCart.push(itemChosenAdult)
     }
@@ -182,13 +171,20 @@ const Booking = ({ room }) => {
     //fixed this
   }
   const handleTimeslots = e => {
+    console.log(e)
     setChosenSlot(e.target.value)
+    setSelectedSlot(e.target.value)
   }
-
+  const handleClosed = () => {
+    setShowModal(false)
+    setSelectedSlot(0)
+    setDate(moment.toDate())
+  }
   const handlePrivate = e => {}
   const fontColor = {
     style: { color: "rgb(50, 50, 50)" },
   }
+
   return (
     <>
       <button
@@ -233,6 +229,8 @@ const Booking = ({ room }) => {
                       <Calendar
                         minDetail="month"
                         onClickDay={value => handleSlots(value)}
+                        minDate={moment().toDate()}
+                        locale="en-US"
                       />
                     </div>
                     <div className="items-center">
@@ -245,6 +243,12 @@ const Booking = ({ room }) => {
                             key={pickedSlot.index}
                             className="  border-2 border-black bg-white-500 text-black active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                             onClick={e => handleTimeslots(e)}
+                            style={{
+                              backgroundColor:
+                                pickedSlot.day === selectedSlot
+                                  ? "#D3D3D3"
+                                  : "",
+                            }}
                             value={pickedSlot.day}
                           >
                             {pickedSlot.day}
@@ -257,47 +261,45 @@ const Booking = ({ room }) => {
                   <div className=" border-t border-solid border-slate-200 ">
                     <div className="flex flex-row justify-around">
                       <Grid>
-                        <form onSubmit={handleCheckout}>
-                          <div className="text-2xl ">
-                            <p>Customer info</p>
-                          </div>
+                        <div className="text-2xl ">
+                          <p>Customer info</p>
+                        </div>
 
-                          <Grid xs={6} m={3}>
-                            <TextField
-                              onChange={handleForm}
-                              className="mb-"
-                              name="firstName"
-                              size="small"
-                              label="First Name"
-                              placeholder="Enter first name"
-                              variant="outlined"
-                              required
-                            />
-                          </Grid>
-                          <Grid xs={6} m={3}>
-                            <TextField
-                              onChange={handleForm}
-                              name="lastName"
-                              size="small"
-                              label="Last Name"
-                              placeholder="Enter last name"
-                              variant="outlined"
-                              required
-                            />
-                          </Grid>
-                          <Grid xs={6} m={3}>
-                            <TextField
-                              onChange={handleForm}
-                              name="email"
-                              size="small"
-                              type="email"
-                              label="Email"
-                              placeholder="Enter email"
-                              variant="outlined"
-                              required
-                            />
-                          </Grid>
-                        </form>
+                        <Grid xs={6} m={3}>
+                          <TextField
+                            onChange={handleForm}
+                            className="mb-"
+                            name="firstName"
+                            size="small"
+                            label="First Name"
+                            placeholder="Enter first name"
+                            variant="outlined"
+                            required
+                          />
+                        </Grid>
+                        <Grid xs={6} m={3}>
+                          <TextField
+                            onChange={handleForm}
+                            name="lastName"
+                            size="small"
+                            label="Last Name"
+                            placeholder="Enter last name"
+                            variant="outlined"
+                            required
+                          />
+                        </Grid>
+                        <Grid xs={6} m={3}>
+                          <TextField
+                            onChange={handleForm}
+                            name="email"
+                            size="small"
+                            type="email"
+                            label="Email"
+                            placeholder="Enter email"
+                            variant="outlined"
+                            required
+                          />
+                        </Grid>
                       </Grid>
                       <Grid>
                         <Grid>
@@ -391,7 +393,7 @@ const Booking = ({ room }) => {
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={handleClosed}
                   >
                     Close
                   </button>
