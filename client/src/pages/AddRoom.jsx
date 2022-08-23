@@ -1,9 +1,21 @@
 import React, { useState, useRef, useEffect } from "react";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
+import Filebase from 'react-file-base64'
 
 const AddRoomModal = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [roomDetails, setRoomDetails] = useState({});
+  const inputRef = useRef(null);
+
+  const closeModal = () => {
+    setRoomDetails({})
+    setShowModal(false)
+  }
+
+  const clearImage = () => {
+    // Reset input value
+    inputRef.current.value = null;
+  };
 
   const handleChange = (e) => {
     setRoomDetails({
@@ -79,7 +91,7 @@ const AddRoomModal = (props) => {
           >
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full h-auto bg-white outline-none focus:outline-none top-40">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full h-auto bg-white outline-none focus:outline-none">
                 {/*header*/}
                 <button
                   className="p-1 ml-auto bg-transparent border-0 text-black opacity-25 float-right text-2xl leading-none font-semibold outline-none focus:outline-none hover:bg-gray-500 hover:rounded-xl mx-2 mt-2"
@@ -127,6 +139,22 @@ const AddRoomModal = (props) => {
 
                 {/* Need to add image */}
                 {/* <img src="" alt="Escape Room" /> */}
+                <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                  <p className="font-bold text-lg self-center my-3">Cover Photo:</p>
+                  <div className="content-center">
+                    <Filebase
+                      // ref={inputRef}
+                      className="self-center"
+                      type="file"
+                      multiple={false}
+                      onDone={({base64}) => setRoomDetails({ ...roomDetails, image: base64})}
+                    />
+                  </div>
+                  <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={clearImage}>Clear Image</button>
+                </div>
+
                 {/*Room Description*/}
                 <div className="flex flex-col items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                   <p className="font-bold text-lg self-center">
@@ -144,6 +172,24 @@ const AddRoomModal = (props) => {
                     ></textarea>
                   </div>
                 </div>
+
+                <div className="flex flex-col justify-start p-6 border-t border-solid border-slate-200 rounded-b text-left">
+                  <p className="font-bold text-lg self-center">Max Capacity:</p>
+                  <div className="self-center text-center">
+                    <p className="content-between">
+                      Number of Players:
+                      <input
+                        className="md:w-1/3 m-2 self-end bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-500"
+                        id="maxPlayers"
+                        name="maxPlayers"
+                        type="text"
+                        placeholder="Max Players"
+                        onChange={handleChange}
+                      />
+                    </p>
+                  </div>
+                </div>
+
                 <div className="flex flex-col justify-start p-6 border-t border-solid border-slate-200 rounded-b text-left">
                   <p className="font-bold text-lg self-center">Pricing:</p>
                   <div className="self-center text-center">
@@ -185,7 +231,7 @@ const AddRoomModal = (props) => {
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={closeModal}
                   >
                     Cancel
                   </button>

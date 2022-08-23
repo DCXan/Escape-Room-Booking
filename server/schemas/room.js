@@ -5,7 +5,6 @@ const roomSchema = new mongoose.Schema(
     Subject: String,
     description: String,
     maxPlayers: Number,
-    durationMinutes: Number,
     adultRate: Number,
     childRate: Number,
     privateRate: Number,

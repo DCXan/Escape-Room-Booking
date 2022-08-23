@@ -14,6 +14,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { Grid } from "@mui/material";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 //public key for stripe
 const stripePromise = loadStripe("pk_test_fmwCa9Gs1HrmcSrEAjsAvKQO00KtWSZf8C");
@@ -39,6 +40,18 @@ const Booking = ({ room }) => {
   const [isActive, setIsActive] = useState(false);
   let itemCart = [];
   // const [adultPrice, setAdultPrice] = useState([])
+
+  // const modalRef = useRef();
+  // useEffect(() => {
+  //   const options = {
+  //     reserveScrollBarGap: true,
+  //   };
+  //   if (showModal) {
+  //     disableBodyScroll(modalRef, options);
+  //   } else {
+  //     enableBodyScroll(modalRef);
+  //   }
+  // }, [showModal, modalRef]);
 
   const handleForm = (e) => {
     setUserInfo({
