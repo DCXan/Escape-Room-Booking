@@ -47,10 +47,14 @@ checkoutRouter.post(
     // } catch (error) {
     //   console.log(error.message)
     // }
-    if (payload.type == "checkout.session.completed") {
-      const session = payload.data.object
-
-      return addCustomer(session)
+    try {
+      if (payload.type == "checkout.session.completed") {
+        const session = payload.data.object
+        console.log("IT WORKS")
+        return addCustomer(session)
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 )

@@ -36,6 +36,8 @@ const Booking = ({ room }) => {
   const [itemChosenChildren, setItemChosenChildren] = useState({})
   const [itemChosenAdult, setItemChosenAdult] = useState({})
   const [userInfo, setUserInfo] = useState({})
+  const [firstNameError, setFirstNameError] = useState({})
+  const [lasttNameError, setLastNameError] = useState({})
   let itemCart = []
   // const [adultPrice, setAdultPrice] = useState([])
 
@@ -99,9 +101,6 @@ const Booking = ({ room }) => {
     const results = await response.json()
     console.log(results)
 
-    const availability = results.availabilities[0].timeslots
-    console.log(availability)
-
     const fodder = results.availabilities.map(time => {
       const asdf = Object.entries(time.timeslots)
       console.log(asdf)
@@ -112,26 +111,39 @@ const Booking = ({ room }) => {
       for (let elements of wasd[0][1]) {
         const jj = timeAvailable[elements - 1]
         timebyDay.push(jj)
+        console.log(jj)
       }
+      console.log(wasd)
     })
     setAnswer(timebyDay)
     console.log(answer)
   }
+  const formValidation = () => {
+    const firstNameError = {}
 
+    let isValid = true
+    if (userInfo.length < 0) {
+      firstNameError.firstNameRequired = "Error form required"
+      isValid = false
+    }
+    setFirstNameError(firstNameError)
+  }
   const handleCheckout = async e => {
+    e.preventDefault()
     setUserInfo({
       ...userInfo,
       [e.target.name]: e.target.value,
     })
-    if (childrenQuantity != 0) {
-      itemCart.push(itemChosenChildren)
-    }
+    const isValid = formValidation()
+    if (isValid)
+      if (childrenQuantity != 0) {
+        itemCart.push(itemChosenChildren)
+      }
     if (adultQuantity != 0) {
       itemCart.push(itemChosenAdult)
     }
     const totalQuantity = childrenQuantity + adultQuantity
-    console.log(userInfo)
-    console.log(itemCart)
+
     const line_items = itemCart.map(item => {
       return {
         price_data: {
@@ -245,59 +257,47 @@ const Booking = ({ room }) => {
                   <div className=" border-t border-solid border-slate-200 ">
                     <div className="flex flex-row justify-around">
                       <Grid>
-                        <div className="text-2xl ">
-                          <p>Customer info</p>
-                        </div>
-                        <Grid xs={6} m={3}>
-                          <TextField
-                            onChange={handleForm}
-                            className="mb-"
-                            name="firstName"
-                            size="small"
-                            label="First Name"
-                            placeholder="Enter first name"
-                            variant="outlined"
-                            required
-                          />
-                        </Grid>
-                        <Grid xs={6} m={3}>
-                          <TextField
-                            onChange={handleForm}
-                            name="lastName"
-                            size="small"
-                            label="Last Name"
-                            placeholder="Enter last name"
-                            variant="outlined"
-                            required
-                          />
-                        </Grid>
-                        <Grid xs={6} m={3}>
-                          <TextField
-                            onChange={handleForm}
-                            name="email"
-                            size="small"
-                            type="email"
-                            label="Email"
-                            placeholder="Enter email"
-                            variant="outlined"
-                            required
-                          />
-                        </Grid>
-                        {/* <Grid xs={6} m={3}>
-                          <PhoneInput
-                            onChange={handleForm}
-                            disableDropdown="true"
-                            disableSearchIcon="true"
-                            country="us"
-                            inputProps={{
-                              name: "phone",
-                              required: true,
-                            }}
-                            inputStyle={{
-                              width: 220,
-                            }}
-                          />
-                        </Grid> */}
+                        <form onSubmit={handleCheckout}>
+                          <div className="text-2xl ">
+                            <p>Customer info</p>
+                          </div>
+
+                          <Grid xs={6} m={3}>
+                            <TextField
+                              onChange={handleForm}
+                              className="mb-"
+                              name="firstName"
+                              size="small"
+                              label="First Name"
+                              placeholder="Enter first name"
+                              variant="outlined"
+                              required
+                            />
+                          </Grid>
+                          <Grid xs={6} m={3}>
+                            <TextField
+                              onChange={handleForm}
+                              name="lastName"
+                              size="small"
+                              label="Last Name"
+                              placeholder="Enter last name"
+                              variant="outlined"
+                              required
+                            />
+                          </Grid>
+                          <Grid xs={6} m={3}>
+                            <TextField
+                              onChange={handleForm}
+                              name="email"
+                              size="small"
+                              type="email"
+                              label="Email"
+                              placeholder="Enter email"
+                              variant="outlined"
+                              required
+                            />
+                          </Grid>
+                        </form>
                       </Grid>
                       <Grid>
                         <Grid>
@@ -306,6 +306,7 @@ const Booking = ({ room }) => {
                             <Select
                               value={adultQuantity}
                               onChange={handleAdult}
+                              defaultValue="0"
                               displayEmpty
                               inputProps={{ "aria-label": "Without label" }}
                             >
@@ -335,7 +336,7 @@ const Booking = ({ room }) => {
                               value={childrenQuantity}
                               onChange={handleChildren}
                               displayEmpty
-                              defaultValue=""
+                              defaultValue="0"
                               inputProps={{ "aria-label": "Without label" }}
                             >
                               <MenuItem value={0}>0</MenuItem>
