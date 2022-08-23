@@ -1,7 +1,7 @@
 import Calendar from "react-calendar"
 import "../calendar.css"
 import { loadStripe } from "@stripe/stripe-js"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import PhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
 import moment from "moment"
@@ -14,6 +14,7 @@ import FormControlLabel from "@mui/material/FormControlLabel"
 import FormControl from "@mui/material/FormControl"
 import FormLabel from "@mui/material/FormLabel"
 import { Grid } from "@mui/material"
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock"
 
 //public key for stripe
 const stripePromise = loadStripe("pk_test_fmwCa9Gs1HrmcSrEAjsAvKQO00KtWSZf8C")
@@ -30,16 +31,26 @@ const Booking = ({ room }) => {
   const [privateRoom, setPrivateRoom] = useState("")
   const [childrenPrice, setChildrenPrice] = useState("")
   const [childrenQuantity, setChildrenQuantity] = useState("")
-
+  const [showTickets, setShowTickets] = useState(false)
   const [chosenSlot, setChosenSlot] = useState("")
   const [answer, setAnswer] = useState([])
   const [itemChosenChildren, setItemChosenChildren] = useState({})
   const [itemChosenAdult, setItemChosenAdult] = useState({})
   const [userInfo, setUserInfo] = useState({})
-
-  const [selectedSlot, setSelectedSlot] = useState(0)
   let itemCart = []
   // const [adultPrice, setAdultPrice] = useState([])
+
+  // const modalRef = useRef();
+  // useEffect(() => {
+  //   const options = {
+  //     reserveScrollBarGap: true,
+  //   };
+  //   if (showModal) {
+  //     disableBodyScroll(modalRef, options);
+  //   } else {
+  //     enableBodyScroll(modalRef);
+  //   }
+  // }, [showModal, modalRef]);
 
   const handleForm = e => {
     setUserInfo({
@@ -58,6 +69,7 @@ const Booking = ({ room }) => {
       quantity: e.target.value,
     })
   }
+
   const handleChildren = e => {
     const total = e.target.value * room.childRate
     console.log(total)
@@ -101,6 +113,9 @@ const Booking = ({ room }) => {
     const results = await response.json()
     console.log(results)
 
+    const availability = results.availabilities[0].timeslots
+    console.log(availability)
+
     const fodder = results.availabilities.map(time => {
       const asdf = Object.entries(time.timeslots)
       console.log(asdf)
@@ -111,9 +126,7 @@ const Booking = ({ room }) => {
       for (let elements of wasd[0][1]) {
         const jj = timeAvailable[elements - 1]
         timebyDay.push(jj)
-        console.log(jj)
       }
-      console.log(wasd)
     })
     setAnswer(timebyDay)
     console.log(answer)
@@ -124,7 +137,6 @@ const Booking = ({ room }) => {
       ...userInfo,
       [e.target.name]: e.target.value,
     })
-
     if (childrenQuantity != 0) {
       itemCart.push(itemChosenChildren)
     }
@@ -132,7 +144,8 @@ const Booking = ({ room }) => {
       itemCart.push(itemChosenAdult)
     }
     const totalQuantity = childrenQuantity + adultQuantity
-
+    console.log(userInfo)
+    console.log(itemCart)
     const line_items = itemCart.map(item => {
       return {
         price_data: {
@@ -171,24 +184,17 @@ const Booking = ({ room }) => {
     //fixed this
   }
   const handleTimeslots = e => {
-    console.log(e)
     setChosenSlot(e.target.value)
-    setSelectedSlot(e.target.value)
   }
-  const handleClosed = () => {
-    setShowModal(false)
-    setSelectedSlot(0)
-    setDate(moment.toDate())
-  }
+
   const handlePrivate = e => {}
   const fontColor = {
     style: { color: "rgb(50, 50, 50)" },
   }
-
   return (
     <>
       <button
-        className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        className="bg-emerald-500 text-white active:bg-emerald-600 focus:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:bg-emerald-600 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
         type="button"
         onClick={() => setShowModal(true)}
       >
@@ -196,10 +202,10 @@ const Booking = ({ room }) => {
       </button>
       {showModal ? (
         <>
-          <div className=" backdrop-blur-sm bg-white/30 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-6 mx-auto w-5/12 h-3/4">
+          <div className=" backdrop-blur-sm bg-white/30 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none mt-10 mb-10">
+            <div className="relative w-auto my-6 mx-auto w-5/12 h-3/4 ">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none bottom-20">
                 {/*header*/}
                 <div className="text-3xl font-semibold   border-solid border-slate-200 rounded-t">
                   <button
@@ -229,8 +235,6 @@ const Booking = ({ room }) => {
                       <Calendar
                         minDetail="month"
                         onClickDay={value => handleSlots(value)}
-                        minDate={moment().toDate()}
-                        locale="en-US"
                       />
                     </div>
                     <div className="items-center">
@@ -243,12 +247,6 @@ const Booking = ({ room }) => {
                             key={pickedSlot.index}
                             className="  border-2 border-black bg-white-500 text-black active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                             onClick={e => handleTimeslots(e)}
-                            style={{
-                              backgroundColor:
-                                pickedSlot.day === selectedSlot
-                                  ? "#D3D3D3"
-                                  : "",
-                            }}
                             value={pickedSlot.day}
                           >
                             {pickedSlot.day}

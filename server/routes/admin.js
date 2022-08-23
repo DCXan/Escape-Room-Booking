@@ -27,7 +27,61 @@ adminRouter.get("/get-availabilities/:roomID", async (req, res) => {
   try {
     const availabilities = await Availability.find({
       roomID: roomID,
+    }).sort()
+
+    res.json({
+      success: true,
+      availabilities: availabilities,
     })
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    })
+    console.log(error)
+  }
+})
+
+// Retrieve Availabilities List
+adminRouter.get("/get-availabilities", async (req, res) => {
+  try {
+    const availabilities = await Availability.find({})
+
+    res.json({
+      success: true,
+      availabilities: availabilities,
+    })
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    })
+    console.log(error)
+  }
+})
+
+// Retrieve Availabilities List
+adminRouter.get("/get-availabilities", async (req, res) => {
+  try {
+    const availabilities = await Availability.find({})
+
+    res.json({
+      success: true,
+      availabilities: availabilities,
+    })
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    })
+    console.log(error)
+  }
+})
+
+// Retrieve Availabilities List
+adminRouter.get("/get-availabilities", async (req, res) => {
+  try {
+    const availabilities = await Availability.find({})
 
     res.json({
       success: true,
@@ -115,8 +169,22 @@ adminRouter.post("/add-room", async (req, res) => {
     additionalDetails: additionalDetails,
   })
 
+  const availability = new Availability({
+    roomID: room._id,
+    timeslots: {
+      sunday: [],
+      monday: [],
+      tuesday: [],
+      wednesday: [],
+      thursday: [],
+      friday: [],
+      saturday: [],
+    },
+  })
+
   try {
     await room.save()
+    await availability.save()
 
     res.json({
       success: true,
@@ -171,6 +239,32 @@ adminRouter.post("/add-availability/:availabilityID", async (req, res) => {
       success: false,
       message: error,
     })
+  }
+})
+
+adminRouter.delete("/delete-room/:roomID", async (req, res) => {
+  const roomID = req.params.roomID
+
+  try {
+    Room.findByIdAndDelete(roomID, (error, data) => {
+      if (error) {
+        console.log(error)
+        res.json({
+          success: false,
+          message: "Unable to update room.",
+        })
+      } else {
+        res.json({
+          success: true,
+        })
+      }
+    })
+
+    // Availability.findOneAndDelete({
+    //   roomID: roomID
+    // })
+  } catch (error) {
+    console.log(error)
   }
 })
 

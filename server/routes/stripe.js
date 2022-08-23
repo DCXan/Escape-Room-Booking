@@ -23,29 +23,29 @@ const addCustomer = async session => {
     console.log(error)
   }
 }
+
 checkoutRouter.post(
   "/webhooks",
   express.raw({ type: "application/json" }),
   async (req, res) => {
-    const endpointSecret =
-      "whsec_ca7b3023d8dda0b657dffc2c3723d6a1214e900768f4f45fd80e6327813ccc61"
-    const sig = req.headers["stripe-signature"]
-    const payload = req.body
-    console.log(payload)
-    let event
     try {
-      event = stripe.webhooks.constructEvent(payload, sig, endpointSecret)
-    } catch (error) {
-      console.log(error.message)
-    }
+      const sig = req.headers["stripe-signature"]
+      const payload = req.body
 
-    try {
-      if (event.type == "checkout.session.completed") {
+      let event
+      const endpointSecret =
+        "whsec_ca7b3023d8dda0b657dffc2c3723d6a1214e900768f4f45fd80e6327813ccc61"
+
+      if (payload.type == "checkout.session.completed") {
         const session = payload.data.object
-        console.log("IT WORKS")
+
         return addCustomer(session)
       }
     } catch (error) {
+      res.json({
+        success: false,
+        message: error,
+      })
       console.log(error)
     }
   }
