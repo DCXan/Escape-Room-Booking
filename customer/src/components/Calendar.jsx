@@ -1,5 +1,5 @@
 import Calendar from "react-calendar";
-import "../calendar.css";
+import "./Calendar.css";
 import { loadStripe } from "@stripe/stripe-js";
 import React, { useEffect, useState, useRef } from "react";
 import PhoneInput from "react-phone-input-2";
@@ -36,6 +36,7 @@ const Booking = ({ room }) => {
   const [itemChosenChildren, setItemChosenChildren] = useState({});
   const [itemChosenAdult, setItemChosenAdult] = useState({});
   const [userInfo, setUserInfo] = useState({});
+  const [isActive, setIsActive] = useState(false);
   let itemCart = [];
   // const [adultPrice, setAdultPrice] = useState([])
 
@@ -44,6 +45,14 @@ const Booking = ({ room }) => {
       ...userInfo,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleClick = () => {
+    // 👇️ toggle
+    setIsActive((current) => !current);
+
+    // 👇️ or set to true
+    // setIsActive(true);
   };
 
   const handleAdult = (e) => {
@@ -181,7 +190,7 @@ const Booking = ({ room }) => {
   return (
     <>
       <button
-        className="bg-emerald-500 text-white active:bg-emerald-600 focus:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:bg-emerald-600 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        className="bg-emerald-500 text-white active:bg-emerald-600  font-bold uppercase text-sm px-6 py-3 rounded shadow hover:bg-emerald-600 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
         type="button"
         onClick={() => setShowModal(true)}
       >
@@ -189,7 +198,7 @@ const Booking = ({ room }) => {
       </button>
       {showModal ? (
         <>
-          <div className=" backdrop-blur-sm bg-white/30 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none mt-10 mb-10">
+          <div className="backdrop-blur-sm bg-white/30 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none mt-10 mb-10">
             <div className="relative w-auto my-6 mx-auto w-5/12 h-3/4 ">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none bottom-20">
@@ -222,6 +231,8 @@ const Booking = ({ room }) => {
                       <Calendar
                         minDetail="month"
                         onClickDay={(value) => handleSlots(value)}
+                        minDate={moment().toDate()}
+                        locale="en-US"
                       />
                     </div>
                     <div className="items-center">
@@ -232,8 +243,11 @@ const Booking = ({ room }) => {
                         return (
                           <button
                             key={pickedSlot.index}
-                            className="  border-2 border-black bg-white-500 text-black active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                            onClick={(e) => handleTimeslots(e)}
+                            className="border-2 border-black bg-white-500 text-black active:bg-emerald-600  focus:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:bg-gray-300 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            onClick={(e) => {
+                              handleTimeslots(e);
+                              handleClick();
+                            }}
                             value={pickedSlot.day}
                           >
                             {pickedSlot.day}
@@ -243,8 +257,11 @@ const Booking = ({ room }) => {
                     </div>
                   </div>
 
-                  <div className=" border-t border-solid border-slate-200 ">
-                    <div className="flex flex-row justify-around">
+                  <div className="border-t border-solid border-slate-200">
+                    <div
+                      className="flex flex-row justify-around"
+                      style={{ display: isActive ? "contents" : "none" }}
+                    >
                       <Grid>
                         <div className="text-2xl ">
                           <p>Customer info</p>
@@ -389,14 +406,14 @@ const Booking = ({ room }) => {
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                   <button
-                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150  hover:text-red-900 active:hover:text-red-900"
                     type="button"
                     onClick={() => setShowModal(false)}
                   >
                     Close
                   </button>
                   <button
-                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:bg-emerald-800 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={handleCheckout}
                   >

@@ -31,6 +31,10 @@ app.use("/user", userRouter);
 app.use("/checkout", checkoutRouter);
 app.use("/notifications", notificationRouter);
 
+app.get("/", (req, res) => {
+  res.redirect("/admin/get-rooms");
+});
+
 // Connect MongoDB to server
 mongoose.connect(
   `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.s4nxcwu.mongodb.net/?retryWrites=true&w=majority`,
