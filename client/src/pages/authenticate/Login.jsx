@@ -32,9 +32,7 @@ const Login = () => {
       const response = await res.json();
       if (response.success) {
         const token = response.token;
-        // const userId = response.
         localStorage.setItem("jsonwebtoken", token);
-        // localStorage.setItem("userId", response.userId);
         console.log(response);
         Navigate(`/`);
       } else {
@@ -48,6 +46,7 @@ const Login = () => {
   return (
     <div className="login">
       <div className="lContainer">
+        <p className="font-semibold text-xl ">Log In</p>
         <input
           type="email"
           placeholder="email"
@@ -62,7 +61,11 @@ const Login = () => {
           onChange={handleChange}
           className="lInput"
         />
-        <button disabled={loading} onClick={handleClick} className="lButton">
+        <button
+          disabled={loading}
+          onClick={handleClick}
+          className="lButton bg-sky-500 "
+        >
           Login
         </button>
         {error && <span>{error.message}</span>}

@@ -47,7 +47,6 @@ exports.user_signup = (req, res, next) => {
 };
 
 exports.user_login = (req, res, next) => {
-  const { isAdmin } = req.body;
   User.find({ email: req.body.email })
     .exec()
     .then((user) => {
@@ -62,7 +61,7 @@ exports.user_login = (req, res, next) => {
             message: "Auth failed",
           });
         }
-        if (result) {
+        if (result && req.body.isAdmin) {
           const token = jwt.sign(
             {
               email: user[0].email,
@@ -73,9 +72,25 @@ exports.user_login = (req, res, next) => {
           );
           return res.json({
             success: true,
-            message: "Auth successful",
+            message: "Admin is logged in",
             token: token,
           });
+        } else {
+          if (result) {
+            const token = jwt.sign(
+              {
+                email: user[0].email,
+                userId: user[0]._id,
+                isAdmin: user[0].isAdmin,
+              },
+              process.env.JWT_KEY
+            );
+            return res.json({
+              success: true,
+              message: "employee successful",
+              token: token,
+            });
+          }
         }
         res.status(401).json({
           message: "Auth failed",
@@ -90,7 +105,7 @@ exports.user_login = (req, res, next) => {
     });
 };
 
-exports.user_login = async (req, res, next) => {
+exports.user_getUsers = async (req, res, next) => {
   try {
     const users = await User.find({
       isAdmin: false,

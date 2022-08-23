@@ -1,13 +1,19 @@
 import React from "react";
 import { MdOutlineCancel } from "react-icons/md";
-
 import { Button } from ".";
 import { userProfileData } from "../data/dummy";
+import { useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import avatar from "../data/avatar.jpg";
 
-const UserProfile = () => {
+const UserProfile = (props) => {
+  const navigate = useNavigate();
   const { currentColor } = useStateContext();
+
+  const handleLogout = () => {
+    localStorage.removeItem("jsonwebtoken");
+    navigate("/login");
+  };
 
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
@@ -67,13 +73,12 @@ const UserProfile = () => {
         ))}
       </div>
       <div className="mt-5">
-        <Button
-          color="white"
-          bgColor={currentColor}
-          text="Logout"
-          borderRadius="10px"
-          width="full"
-        />
+        <button
+          onClick={handleLogout}
+          className="bg-sky-500 hover:bg-blue-700 w-full content-center text-white text-center font-bold py-2 px-4 rounded-full tracking-wide"
+        >
+          Logout
+        </button>
       </div>
     </div>
   );

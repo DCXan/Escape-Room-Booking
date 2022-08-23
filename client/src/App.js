@@ -31,10 +31,11 @@ Modal.setAppElement("#root");
 
 const App = () => {
   const { activeMenu } = useStateContext();
+  const token = localStorage.getItem("jsonwebtoken");
 
-  // const ProtectedRoute = ({ children }) => {
-  //   const { user } = useContext(AuthContext);
-  // };
+  const ProtectedRoute = ({ children }) => {
+    const { user } = useContext(AuthContext);
+  };
 
   return (
     <div>
@@ -51,7 +52,7 @@ const App = () => {
               </button>
             </TooltipComponent>
           </div>
-          {activeMenu ? (
+          {activeMenu && token ? (
             <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
               <Sidebar />
             </div>
@@ -62,7 +63,7 @@ const App = () => {
           )}
           <div
             className={
-              activeMenu
+              activeMenu && token
                 ? "dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-full  "
                 : "bg-main-bg dark:bg-main-dark-bg  w-full min-h-screen flex-2 "
             }
@@ -78,14 +79,7 @@ const App = () => {
 
                 {/* Pages */}
                 <Route path="/orders" element={<Orders />} />
-                <Route
-                  path="/employees"
-                  element={
-                    <ProtectedRoute>
-                      <Employees />
-                    </ProtectedRoute>
-                  }
-                />
+                <Route path="/employees" element={<Employees />} />
                 <Route path="/customers" element={<Customers />} />
                 <Route path="/rooms" element={<RoomsList />} />
 

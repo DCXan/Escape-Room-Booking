@@ -22,7 +22,7 @@ const Employees = () => {
 
   const displayEmployees = async () => {
     const employees = await fetch(
-      process.env.REACT_APP_BASE_URL + "/user/login"
+      process.env.REACT_APP_BASE_URL + "/user/get-users"
     );
     const result = await employees.json();
     if (result.success) {
