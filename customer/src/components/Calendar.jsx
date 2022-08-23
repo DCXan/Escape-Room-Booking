@@ -17,8 +17,9 @@ import { Grid } from "@mui/material";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 //public key for stripe
+
 const stripePromise = loadStripe("pk_test_fmwCa9Gs1HrmcSrEAjsAvKQO00KtWSZf8C");
-moment.locale();
+
 const Booking = ({ room }) => {
   const [showModal, setShowModal] = useState(false);
   const [activeButton, setActiveButton] = useState(false);
@@ -31,7 +32,6 @@ const Booking = ({ room }) => {
   const [privateRoom, setPrivateRoom] = useState("");
   const [childrenPrice, setChildrenPrice] = useState("");
   const [childrenQuantity, setChildrenQuantity] = useState("");
-  const [showTickets, setShowTickets] = useState(false);
   const [chosenSlot, setChosenSlot] = useState("");
   const [answer, setAnswer] = useState([]);
   const [itemChosenChildren, setItemChosenChildren] = useState({});
@@ -40,18 +40,6 @@ const Booking = ({ room }) => {
   const [isActive, setIsActive] = useState(false);
   let itemCart = [];
   // const [adultPrice, setAdultPrice] = useState([])
-
-  // const modalRef = useRef();
-  // useEffect(() => {
-  //   const options = {
-  //     reserveScrollBarGap: true,
-  //   };
-  //   if (showModal) {
-  //     disableBodyScroll(modalRef, options);
-  //   } else {
-  //     enableBodyScroll(modalRef);
-  //   }
-  // }, [showModal, modalRef]);
 
   const handleForm = (e) => {
     setUserInfo({
@@ -122,12 +110,10 @@ const Booking = ({ room }) => {
     const results = await response.json();
     console.log(results);
 
-    const availability = results.availabilities[0].timeslots;
-    console.log(availability);
-
     const fodder = results.availabilities.map((time) => {
       const asdf = Object.entries(time.timeslots);
       console.log(asdf);
+
       const wasd = asdf.filter(
         (availability) => availability[0] === selectedDay.toLocaleLowerCase()
       );
@@ -135,7 +121,9 @@ const Booking = ({ room }) => {
       for (let elements of wasd[0][1]) {
         const jj = timeAvailable[elements - 1];
         timebyDay.push(jj);
+        console.log(jj);
       }
+      console.log(wasd);
     });
     setAnswer(timebyDay);
     console.log(answer);
@@ -146,15 +134,16 @@ const Booking = ({ room }) => {
       ...userInfo,
       [e.target.name]: e.target.value,
     });
+
     if (childrenQuantity != 0) {
       itemCart.push(itemChosenChildren);
     }
     if (adultQuantity != 0) {
       itemCart.push(itemChosenAdult);
     }
+
     const totalQuantity = childrenQuantity + adultQuantity;
-    console.log(userInfo);
-    console.log(itemCart);
+
     const line_items = itemCart.map((item) => {
       return {
         price_data: {
@@ -193,13 +182,19 @@ const Booking = ({ room }) => {
     //fixed this
   };
   const handleTimeslots = (e) => {
+    console.log(e);
     setChosenSlot(e.target.value);
   };
+  const handleClosed = () => {
+    setShowModal(false);
 
+    setDate(moment.toDate());
+  };
   const handlePrivate = (e) => {};
   const fontColor = {
     style: { color: "rgb(50, 50, 50)" },
   };
+
   return (
     <>
       <button
@@ -279,6 +274,7 @@ const Booking = ({ room }) => {
                         <div className="text-2xl ">
                           <p>Customer info</p>
                         </div>
+
                         <Grid xs={6} m={3}>
                           <TextField
                             onChange={handleForm}
@@ -314,21 +310,6 @@ const Booking = ({ room }) => {
                             required
                           />
                         </Grid>
-                        {/* <Grid xs={6} m={3}>
-                          <PhoneInput
-                            onChange={handleForm}
-                            disableDropdown="true"
-                            disableSearchIcon="true"
-                            country="us"
-                            inputProps={{
-                              name: "phone",
-                              required: true,
-                            }}
-                            inputStyle={{
-                              width: 220,
-                            }}
-                          />
-                        </Grid> */}
                       </Grid>
                       <Grid>
                         <Grid>
@@ -337,6 +318,7 @@ const Booking = ({ room }) => {
                             <Select
                               value={adultQuantity}
                               onChange={handleAdult}
+                              defaultValue="0"
                               displayEmpty
                               inputProps={{ "aria-label": "Without label" }}
                             >
@@ -366,7 +348,7 @@ const Booking = ({ room }) => {
                               value={childrenQuantity}
                               onChange={handleChildren}
                               displayEmpty
-                              defaultValue=""
+                              defaultValue="0"
                               inputProps={{ "aria-label": "Without label" }}
                             >
                               <MenuItem value={0}>0</MenuItem>
@@ -421,7 +403,7 @@ const Booking = ({ room }) => {
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150  hover:text-red-900 active:hover:text-red-900"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={handleClosed}
                   >
                     Close
                   </button>

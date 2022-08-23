@@ -1,68 +1,104 @@
-const express = require("express");
-const adminRouter = express.Router();
-const Room = require("../schemas/room");
-const Availability = require("../schemas/Availability");
+const express = require("express")
+const adminRouter = express.Router()
+const Room = require("../schemas/room")
+const Availability = require("../schemas/Availability")
 
 // Retrieve Rooms List
 adminRouter.get("/get-rooms", async (req, res) => {
   try {
-    const rooms = await Room.find({});
+    const rooms = await Room.find({})
 
     res.json({
       success: true,
       rooms: rooms,
-    });
+    })
   } catch (error) {
     res.json({
       success: false,
       message: error,
-    });
-    console.log(error);
+    })
+    console.log(error)
   }
-});
+})
 
 // Retrieve Availabilities List
 adminRouter.get("/get-availabilities/:roomID", async (req, res) => {
-  const roomID = req.params.roomID;
+  const roomID = req.params.roomID
   try {
     const availabilities = await Availability.find({
       roomID: roomID,
-    }).sort();
+    }).sort()
 
     res.json({
       success: true,
       availabilities: availabilities,
-    });
+    })
   } catch (error) {
     res.json({
       success: false,
       message: error,
-    });
-    console.log(error);
+    })
+    console.log(error)
   }
-});
+})
 
 // Retrieve Availabilities List
 adminRouter.get("/get-availabilities", async (req, res) => {
   try {
-    const availabilities = await Availability.find({});
+    const availabilities = await Availability.find({})
 
     res.json({
       success: true,
       availabilities: availabilities,
-    });
+    })
   } catch (error) {
     res.json({
       success: false,
       message: error,
-    });
-    console.log(error);
+    })
+    console.log(error)
   }
-});
+})
+
+// Retrieve Availabilities List
+adminRouter.get("/get-availabilities", async (req, res) => {
+  try {
+    const availabilities = await Availability.find({})
+
+    res.json({
+      success: true,
+      availabilities: availabilities,
+    })
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    })
+    console.log(error)
+  }
+})
+
+// Retrieve Availabilities List
+adminRouter.get("/get-availabilities", async (req, res) => {
+  try {
+    const availabilities = await Availability.find({})
+
+    res.json({
+      success: true,
+      availabilities: availabilities,
+    })
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    })
+    console.log(error)
+  }
+})
 
 // Update a room
 adminRouter.post("/update-room/:roomID", async (req, res) => {
-  const roomID = req.params.roomID;
+  const roomID = req.params.roomID
 
   const {
     title,
@@ -73,9 +109,9 @@ adminRouter.post("/update-room/:roomID", async (req, res) => {
     childRate,
     privateRate,
     additionalDetails,
-  } = req.body;
+  } = req.body
 
-  console.log(req.body);
+  console.log(req.body)
 
   try {
     Room.findByIdAndUpdate(
@@ -92,22 +128,22 @@ adminRouter.post("/update-room/:roomID", async (req, res) => {
       },
       (error, data) => {
         if (error) {
-          console.log(error);
+          console.log(error)
           res.json({
             success: false,
             message: "Unable to update room.",
-          });
+          })
         } else {
           res.json({
             success: true,
-          });
+          })
         }
       }
-    );
+    )
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-});
+})
 
 // Post route to pass room info from client to server
 adminRouter.post("/add-room", async (req, res) => {
@@ -120,7 +156,7 @@ adminRouter.post("/add-room", async (req, res) => {
     childRate,
     privateRate,
     additionalDetails,
-  } = req.body;
+  } = req.body
 
   const room = new Room({
     Subject: title,
@@ -131,7 +167,7 @@ adminRouter.post("/add-room", async (req, res) => {
     childRate: childRate,
     privateRate: privateRate,
     additionalDetails: additionalDetails,
-  });
+  })
 
   const availability = new Availability({
     roomID: room._id,
@@ -144,27 +180,27 @@ adminRouter.post("/add-room", async (req, res) => {
       friday: [],
       saturday: [],
     },
-  });
+  })
 
   try {
-    await room.save();
-    await availability.save();
+    await room.save()
+    await availability.save()
 
     res.json({
       success: true,
-    });
+    })
   } catch (error) {
     res.json({
       success: false,
       message: error,
-    });
+    })
   }
-});
+})
 
 // Set room availability
 
 adminRouter.post("/add-availability/:availabilityID", async (req, res) => {
-  const availabilityID = req.params.availabilityID;
+  const availabilityID = req.params.availabilityID
 
   const {
     timeslots: {
@@ -176,9 +212,9 @@ adminRouter.post("/add-availability/:availabilityID", async (req, res) => {
       friday,
       saturday,
     },
-  } = req.body;
+  } = req.body
 
-  console.log(req.body);
+  console.log(req.body)
 
   try {
     const availability = await Availability.findByIdAndUpdate(availabilityID, {
@@ -191,49 +227,45 @@ adminRouter.post("/add-availability/:availabilityID", async (req, res) => {
         friday: friday,
         saturday: saturday,
       },
-    });
+    })
 
     // await availability.save(req.body);
 
     res.json({
       success: true,
-    });
+    })
   } catch (error) {
     res.json({
       success: false,
       message: error,
-    });
+    })
   }
-});
+})
 
 adminRouter.delete("/delete-room/:roomID", async (req, res) => {
   const roomID = req.params.roomID
 
   try {
-    Room.findByIdAndDelete(
-      roomID,
-      (error, data) => {
-        if (error) {
-          console.log(error);
-          res.json({
-            success: false,
-            message: "Unable to update room.",
-          });
-        } else {
-          res.json({
-            success: true,
-          });
-        }
+    Room.findByIdAndDelete(roomID, (error, data) => {
+      if (error) {
+        console.log(error)
+        res.json({
+          success: false,
+          message: "Unable to update room.",
+        })
+      } else {
+        res.json({
+          success: true,
+        })
       }
-    );
+    })
 
     // Availability.findOneAndDelete({
     //   roomID: roomID
     // })
-
   } catch (error) {
-  console.log(error);
+    console.log(error)
   }
 })
 
-module.exports = adminRouter;
+module.exports = adminRouter
