@@ -17,6 +17,7 @@ import { Grid } from "@mui/material"
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock"
 
 //public key for stripe
+
 const stripePromise = loadStripe("pk_test_fmwCa9Gs1HrmcSrEAjsAvKQO00KtWSZf8C")
 
 const Booking = ({ room }) => {
@@ -31,26 +32,15 @@ const Booking = ({ room }) => {
   const [privateRoom, setPrivateRoom] = useState("")
   const [childrenPrice, setChildrenPrice] = useState("")
   const [childrenQuantity, setChildrenQuantity] = useState("")
-  const [showTickets, setShowTickets] = useState(false)
+
   const [chosenSlot, setChosenSlot] = useState("")
   const [answer, setAnswer] = useState([])
   const [itemChosenChildren, setItemChosenChildren] = useState({})
   const [itemChosenAdult, setItemChosenAdult] = useState({})
   const [userInfo, setUserInfo] = useState({})
-  let itemCart = []
-  // const [adultPrice, setAdultPrice] = useState([])
 
-  // const modalRef = useRef();
-  // useEffect(() => {
-  //   const options = {
-  //     reserveScrollBarGap: true,
-  //   };
-  //   if (showModal) {
-  //     disableBodyScroll(modalRef, options);
-  //   } else {
-  //     enableBodyScroll(modalRef);
-  //   }
-  // }, [showModal, modalRef]);
+  const [selectedSlot, setSelectedSlot] = useState(0)
+  let itemCart = []
 
   const handleForm = e => {
     setUserInfo({
@@ -113,12 +103,10 @@ const Booking = ({ room }) => {
     const results = await response.json()
     console.log(results)
 
-    const availability = results.availabilities[0].timeslots
-    console.log(availability)
-
     const fodder = results.availabilities.map(time => {
       const asdf = Object.entries(time.timeslots)
       console.log(asdf)
+
       const wasd = asdf.filter(
         availability => availability[0] === selectedDay.toLocaleLowerCase()
       )
@@ -126,7 +114,9 @@ const Booking = ({ room }) => {
       for (let elements of wasd[0][1]) {
         const jj = timeAvailable[elements - 1]
         timebyDay.push(jj)
+        console.log(jj)
       }
+      console.log(wasd)
     })
     setAnswer(timebyDay)
     console.log(answer)
@@ -137,15 +127,16 @@ const Booking = ({ room }) => {
       ...userInfo,
       [e.target.name]: e.target.value,
     })
+
     if (childrenQuantity != 0) {
       itemCart.push(itemChosenChildren)
     }
     if (adultQuantity != 0) {
       itemCart.push(itemChosenAdult)
     }
+
     const totalQuantity = childrenQuantity + adultQuantity
-    console.log(userInfo)
-    console.log(itemCart)
+
     const line_items = itemCart.map(item => {
       return {
         price_data: {
@@ -184,13 +175,20 @@ const Booking = ({ room }) => {
     //fixed this
   }
   const handleTimeslots = e => {
+    console.log(e)
     setChosenSlot(e.target.value)
+    setSelectedSlot(e.target.value)
   }
-
+  const handleClosed = () => {
+    setShowModal(false)
+    setSelectedSlot(0)
+    setDate(moment.toDate())
+  }
   const handlePrivate = e => {}
   const fontColor = {
     style: { color: "rgb(50, 50, 50)" },
   }
+
   return (
     <>
       <button
@@ -235,6 +233,8 @@ const Booking = ({ room }) => {
                       <Calendar
                         minDetail="month"
                         onClickDay={value => handleSlots(value)}
+                        minDate={moment().toDate()}
+                        locale="en-US"
                       />
                     </div>
                     <div className="items-center">
