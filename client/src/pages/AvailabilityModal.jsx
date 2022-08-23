@@ -128,10 +128,9 @@ const AvailabilityModal = (props) => {
                   <p className="text-xl mb-2 font-bold">
                     Current Availabilities:
                   </p>
-                  <div className="">
-
-                    {currentAvailability ? (
-                        `Sunday:  ${currentAvailability.timeslots.sunday}
+                  <div className="text-xl mb-2">
+                    {currentAvailability
+                      ? `Sunday:  ${currentAvailability.timeslots.sunday}
 
                         Monday:  ${currentAvailability.timeslots.monday}
 
@@ -144,8 +143,7 @@ const AvailabilityModal = (props) => {
                         Friday:  ${currentAvailability.timeslots.friday}
 
                         Saturday:  ${currentAvailability.timeslots.saturday}`
-                    ) : 'No Timeslots Set'}
-
+                      : "No Timeslots Set"}
                   </div>
                 </div> */}
 
