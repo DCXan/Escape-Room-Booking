@@ -11,6 +11,7 @@ An all-in-one Escape Room management tool with scheduling and booking services.
 
 * **Features of the App:**
    * Protected login that allows the escape room owner to view admin dashboard and manage multiple rooms and view details about orders and customers
+   * Admin can create a room and timeslots which are displayed to the customer on a calendar
    * Customers can select a room to view additional details and select a date to view available timeslots for that room
    * Once customers select a timeslot, they are taken through a checkout process provided by Stripe
    
