@@ -53,7 +53,7 @@ const AvailabilityModal = (props) => {
     console.log(currentAvailability._id);
 
     const response = await fetch(
-      `http://localhost:8000/admin/add-availability/${currentAvailability._id}`,
+      `${process.env.REACT_APP_BASE_URL}/admin/add-availability/${currentAvailability._id}`,
       {
         method: "POST",
         headers: {

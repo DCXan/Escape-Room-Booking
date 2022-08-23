@@ -74,7 +74,14 @@ const App = () => {
             <div>
               <Routes>
                 {/* dashboard */}
-                <Route path="/" element={<HomePage />} />
+                <Route
+                  path="/"
+                  element={
+                    <ProtectedRoute>
+                      <HomePage />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="/home" element={<HomePage />} />
 
                 {/* Pages */}
