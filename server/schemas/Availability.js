@@ -11,6 +11,8 @@ const availabilitySchema = new mongoose.Schema({
     friday: [Number],
     saturday: [Number],
   },
+  date: { type: String },
+  customer: { type: mongoose.Schema.ObjectId, ref: "Customer" },
 });
 
 const Availability = mongoose.model("Availability", availabilitySchema);
