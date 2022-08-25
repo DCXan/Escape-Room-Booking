@@ -33,9 +33,9 @@ const App = () => {
   const { activeMenu } = useStateContext();
   const token = localStorage.getItem("jsonwebtoken");
 
-  const ProtectedRoute = ({ children }) => {
-    const { user } = useContext(AuthContext);
-  };
+  // const ProtectedRoute = ({ children }) => {
+  //   const { user } = useContext(AuthContext);
+  // };
 
   return (
     <div>
@@ -52,7 +52,7 @@ const App = () => {
               </button>
             </TooltipComponent>
           </div>
-          {activeMenu && token ? (
+          {activeMenu ? (
             <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
               <Sidebar />
             </div>
@@ -63,7 +63,7 @@ const App = () => {
           )}
           <div
             className={
-              activeMenu && token
+              activeMenu
                 ? "dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-full  "
                 : "bg-main-bg dark:bg-main-dark-bg  w-full min-h-screen flex-2 "
             }
@@ -74,14 +74,7 @@ const App = () => {
             <div>
               <Routes>
                 {/* dashboard */}
-                <Route
-                  path="/"
-                  element={
-                    <ProtectedRoute>
-                      <HomePage />
-                    </ProtectedRoute>
-                  }
-                />
+                <Route path="/" element={<HomePage />} />
                 <Route path="/home" element={<HomePage />} />
 
                 {/* Pages */}
