@@ -23,16 +23,17 @@ An all-in-one Escape Room management tool with scheduling and booking services.
 
 ## Site Preview:
 
-COMING SOON
-
-## Introduction video of the project:
-
 <div id="header" align="center">
   <img src="client/public/demo/customer-demo.png" width="100%"/>
 </div>
 <div id="header" align="center">
   <img src="client/public/demo/admin-demo.png" width="100%"/>
 </div>
+
+## Introduction video of the project:
+
+COMING SOON
+
 
 ## Featured Technologies:
 
