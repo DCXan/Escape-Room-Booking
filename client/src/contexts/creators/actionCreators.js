@@ -13,3 +13,10 @@ export const getRoomID = (roomID) => {
     payload: roomID,
   };
 };
+
+export const loadAuth = (token) => {
+  return {
+    type: actionTypes.LOAD_AUTH,
+    payload: token,
+  };
+};

@@ -2,7 +2,9 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
-const server = require("https").createServer(app);
+// const server = require("https").createServer(app);
+const server = require("http").createServer(app);
+
 require("events").EventEmitter.defaultMaxListeners = Infinity;
 const compression = require("compression");
 const io = require("socket.io")(server, {

@@ -23,19 +23,14 @@ import {
   Editor,
   RoomsList,
   Login,
+  Logout,
 } from "./pages";
 import Modal from "react-modal";
-import { AuthContext } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 Modal.setAppElement("#root");
 
 const App = () => {
   const { activeMenu } = useStateContext();
-  const token = localStorage.getItem("jsonwebtoken");
-
-  // const ProtectedRoute = ({ children }) => {
-  //   const { user } = useContext(AuthContext);
-  // };
 
   return (
     <div>
@@ -101,6 +96,7 @@ const App = () => {
 
                 {/* authentication */}
                 <Route path="/login" element={<Login />} />
+                <Route path="/logout" element={<Logout />} />
               </Routes>
             </div>
           </div>

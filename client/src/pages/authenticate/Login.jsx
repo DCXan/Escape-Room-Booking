@@ -34,7 +34,7 @@ const Login = () => {
         const token = response.token;
         localStorage.setItem("jsonwebtoken", token);
         console.log(response);
-        Navigate(`/`);
+        Navigate(`/home`);
       } else {
         console.log("could not post to database");
       }
