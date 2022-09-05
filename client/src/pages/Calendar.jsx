@@ -10,7 +10,6 @@ import {
   Agenda,
   Inject,
   Resize,
-  DragAndDrop,
 } from "@syncfusion/ej2-react-schedule";
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 import { Header } from "../components";
@@ -32,52 +31,47 @@ const Scheduler = (props) => {
     scheduleObj.dataBind();
   };
 
-  const onDragStart = (arg) => {
-    // eslint-disable-next-line no-param-reassign
-    arg.navigation.enable = true;
-  };
-
   const getRooms = async () => {
     const response = await fetch(
-      process.env.REACT_APP_BASE_URL + `/admin/get-rooms`
+      process.env.REACT_APP_BASE_URL + `/admin/get-availabilities`
     );
     const result = await response.json();
 
     if (result.success) {
-      console.log(result.rooms);
-      setEvents(result.rooms);
+      console.log(result);
+      setEvents(result.availabilities);
     } else {
       console.log(result.message);
     }
   };
 
-  const handleChanges = (args) => {
-    console.log(args);
-    setChangeEvent({
-      ...changeEvent,
-      changes: args.target,
-    });
-  };
+  // const handleChanges = (args) => {
+  //   console.log(args);
+  //   setChangeEvent({
+  //     ...changeEvent,
+  //     changes: args.target,
+  //   });
+  // };
 
-  const editEvents = async () => {
-    const addEvents = await fetch(
-      process.env.REACT_APP_BASE_URL + `/admin/create-room`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(scheduleObj),
-      }
-    );
-    const response = await addEvents.json();
-    if (response.success) {
-      // setChangeEvent(response.success);
-      console.log(response);
-    } else {
-      console.log("could not post to database");
-    }
-  };
+  // const editEvents = async () => {
+  //   const addEvents = await fetch(
+  //     process.env.REACT_APP_BASE_URL + `/admin/create-room`,
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(scheduleObj),
+  //     }
+  //   );
+  //   const response = await addEvents.json();
+  //   if (response.success) {
+  //     // setChangeEvent(response.success);
+  //     console.log(response);
+  //   } else {
+  //     console.log("could not post to database");
+  //   }
+  // };
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -85,11 +79,8 @@ const Scheduler = (props) => {
       <ScheduleComponent
         height="650px"
         ref={(schedule) => setScheduleObj(schedule)}
-        // onChange={handleChanges}
         selectedDate={new Date()}
         eventSettings={{ dataSource: events }}
-        // dragStart={onDragStart}
-        // onClick={handleChanges}
         readonly={true}
       >
         <ViewsDirective>

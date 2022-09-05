@@ -43,7 +43,5 @@ const customerSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-//may need to link a room schema to this one so escape rooms know which rooms was booked
-
 const Customer = mongoose.model("Customer", customerSchema);
 module.exports = Customer;
