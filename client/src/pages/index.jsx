@@ -15,3 +15,4 @@ export { default as Pyramid } from "./Charts/Pyramid";
 export { default as Stacked } from "./Charts/Stacked";
 export { default as RoomsList } from "./RoomsList";
 export { default as Login } from "./authenticate/Login";
+export { default as Logout } from "./authenticate/Logout";

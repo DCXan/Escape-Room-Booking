@@ -8,9 +8,10 @@ import avatar from "../data/avatar.jpg";
 
 const UserProfile = (props) => {
   const navigate = useNavigate();
-  const { currentColor } = useStateContext();
+  const { handleClick } = useStateContext();
 
   const handleLogout = () => {
+    handleClick(false);
     localStorage.removeItem("jsonwebtoken");
     navigate("/login");
   };
