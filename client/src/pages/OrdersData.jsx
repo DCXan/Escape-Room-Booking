@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   GridComponent,
   ColumnsDirective,
@@ -10,17 +10,21 @@ import {
   Page,
   ExcelExport,
   PdfExport,
+  Selection,
+  Toolbar,
   Edit,
   Inject,
 } from "@syncfusion/ej2-react-grids";
 import { connect } from "react-redux";
-
+import { ordersGrid } from "../data/dummy";
 import { contextMenuItems } from "../data/dummy";
 
 function OrdersData(props) {
   const customers = props.customers;
 
   const editing = { allowDeleting: true, allowEditing: true };
+
+  console.log(customers);
 
   return (
     <div>
@@ -37,22 +41,21 @@ function OrdersData(props) {
         <ColumnsDirective>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
 
-          <ColumnsDirective
-            headerText="Status"
-            field="customers"
-            width="120"
-            textAlign="Center"
-          ></ColumnsDirective>
+          {ordersGrid.map((item, index) => (
+            <ColumnDirective key={index} {...item} />
+          ))}
         </ColumnsDirective>
         <Inject
           services={[
             Resize,
             Sort,
+            Toolbar,
             ContextMenu,
             Filter,
             Page,
             ExcelExport,
             Edit,
+            Selection,
             PdfExport,
           ]}
         />

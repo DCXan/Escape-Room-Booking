@@ -911,17 +911,12 @@ export const pieChartData = [
   { x: "Insurance", y: 16, text: "16%" },
 ];
 
-const ordersGrid = [
+export const ordersGrid = [
+  { type: "checkbox", width: "20" },
   {
-    headerText: "Image",
-    field: "image",
-    textAlign: "Center",
-    width: "120",
-  },
-  {
-    field: "Subject",
+    field: "rooms.Subject",
     headerText: "Room",
-    width: "150",
+    width: "50",
     editType: "dropdownedit",
     textAlign: "Center",
   },
@@ -944,26 +939,27 @@ const ordersGrid = [
     format: "C2",
     textAlign: "Center",
     editType: "numericedit",
-    width: "150",
+    width: "50",
   },
   {
     headerText: "Date and Time",
     field: "dateAndTime",
     textAlign: "Center",
-    width: "120",
+    width: "50",
   },
   {
     headerText: "Status",
     field: "checkoutStatus",
     textAlign: "Center",
-    width: "120",
+    width: "50",
   },
-  // {
-  //   field: "_id",
-  //   headerText: "Order ID",
-  //   width: "120",
-  //   textAlign: "Center",
-  // },
+  {
+    headerText: "Order ID",
+    field: "_id",
+    width: "120",
+    textAlign: "Center",
+    isPrimaryKey: true,
+  },
 ];
 
 export const contextMenuItems = [
