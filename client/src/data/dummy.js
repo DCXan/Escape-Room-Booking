@@ -956,7 +956,7 @@ export const ordersGrid = [
   {
     headerText: "Order ID",
     field: "_id",
-    width: "120",
+    width: "50",
     textAlign: "Center",
     isPrimaryKey: true,
   },

@@ -89,7 +89,6 @@ customerRouter.get("/get-limited-customer-details", async (req, res) => {
         createdAt: 0,
         updatedAt: 0,
         isActive: 0,
-        _id: 0,
         __v: 0,
         email: 0,
         phone: 0,
