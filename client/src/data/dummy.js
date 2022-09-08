@@ -944,6 +944,7 @@ export const ordersGrid = [
   {
     headerText: "Date and Time",
     field: "dateAndTime",
+    editType: "datetimepickeredit",
     textAlign: "Center",
     width: "50",
   },
