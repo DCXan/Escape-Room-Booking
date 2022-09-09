@@ -1,10 +1,10 @@
-import React, { useEffect, useContext } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import "./App.css";
 import { useStateContext } from "./contexts/ContextProvider";
-import { Navbar, Footer, Sidebar, ThemeSettings } from "./components";
+import { Navbar, Sidebar } from "./components";
 import {
   HomePage,
   Orders,
@@ -23,19 +23,15 @@ import {
   Editor,
   RoomsList,
   Login,
+  Logout,
 } from "./pages";
 import Modal from "react-modal";
-import { AuthContext } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 Modal.setAppElement("#root");
 
 const App = () => {
   const { activeMenu } = useStateContext();
   const token = localStorage.getItem("jsonwebtoken");
-
-  // const ProtectedRoute = ({ children }) => {
-  //   const { user } = useContext(AuthContext);
-  // };
 
   return (
     <div>
@@ -52,7 +48,7 @@ const App = () => {
               </button>
             </TooltipComponent>
           </div>
-          {activeMenu ? (
+          {activeMenu && token ? (
             <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
               <Sidebar />
             </div>
@@ -63,32 +59,44 @@ const App = () => {
           )}
           <div
             className={
-              activeMenu
+              activeMenu && token
                 ? "dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-full  "
                 : "bg-main-bg dark:bg-main-dark-bg  w-full min-h-screen flex-2 "
             }
           >
-            <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
-              <Navbar />
-            </div>
+            {token ? (
+              <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
+                <Navbar />
+              </div>
+            ) : null}
             <div>
               <Routes>
                 {/* dashboard */}
-                <Route path="/" element={<HomePage />} />
-                <Route path="/home" element={<HomePage />} />
-
+                <Route
+                  path="/"
+                  element={
+                    <ProtectedRoute>
+                      <HomePage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/home"
+                  element={
+                    <ProtectedRoute>
+                      <HomePage />
+                    </ProtectedRoute>
+                  }
+                />
                 {/* Pages */}
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/employees" element={<Employees />} />
                 <Route path="/customers" element={<Customers />} />
                 <Route path="/rooms" element={<RoomsList />} />
-
                 {/* Apps */}
-
                 <Route path="/editor" element={<Editor />} />
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/color-picker" element={<ColorPicker />} />
-
                 {/* charts  */}
                 <Route path="/line" element={<Line />} />
                 <Route path="/area" element={<Area />} />
@@ -98,9 +106,9 @@ const App = () => {
                 <Route path="/color-mapping" element={<ColorMapping />} />
                 <Route path="/pyramid" element={<Pyramid />} />
                 <Route path="/stacked" element={<Stacked />} />
-
                 {/* authentication */}
                 <Route path="/login" element={<Login />} />
+                <Route path="*" element={<HomePage />} />
               </Routes>
             </div>
           </div>

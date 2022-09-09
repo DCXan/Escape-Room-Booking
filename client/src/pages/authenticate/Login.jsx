@@ -1,17 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import { useStateContext } from "../../contexts/ContextProvider";
 import "./Login.css";
 
 const Login = () => {
   let Navigate = useNavigate();
+  const { handleClick } = useStateContext();
 
   const [credentials, setCredentials] = useState({
     email: undefined,
     password: undefined,
   });
 
-  const { loading, error, dispatch } = useContext(AuthContext);
+  const { loading, error } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setCredentials({
@@ -20,7 +22,7 @@ const Login = () => {
     });
   };
 
-  const handleClick = async () => {
+  const handleLogin = async () => {
     try {
       const res = await fetch(process.env.REACT_APP_BASE_URL + "/user/login", {
         method: "POST",
@@ -35,6 +37,7 @@ const Login = () => {
         localStorage.setItem("jsonwebtoken", token);
         console.log(response);
         Navigate(`/`);
+        handleClick(true);
       } else {
         console.log("could not post to database");
       }
@@ -63,7 +66,7 @@ const Login = () => {
         />
         <button
           disabled={loading}
-          onClick={handleClick}
+          onClick={handleLogin}
           className="lButton bg-sky-500 "
         >
           Login
