@@ -111,4 +111,54 @@ customerRouter.get("/get-limited-customer-details", async (req, res) => {
   }
 });
 
+customerRouter.patch("/edit-customer/:customerID", async (req, res) => {
+  const customerID = req.params.customerID;
+
+  console.log(req.body);
+
+  try {
+    const customerDetails = await Customer.findByIdAndUpdate(
+      customerID,
+      req.body
+    );
+
+    // await availability.save(req.body);
+
+    res.json({
+      success: true,
+      customerDetails: customerDetails,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    });
+  }
+});
+
+customerRouter.delete("/delete-customer/:customerID", async (req, res) => {
+  const customerID = req.params.customerID;
+
+  console.log(req.body);
+
+  try {
+    const customerDetails = await Customer.findByIdAndUpdate(
+      customerID,
+      req.body
+    );
+
+    // await availability.save(req.body);
+
+    res.json({
+      success: true,
+      customerDetails: customerDetails,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    });
+  }
+});
+
 module.exports = customerRouter;
