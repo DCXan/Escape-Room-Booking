@@ -17,7 +17,7 @@ import { Header } from "../components";
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const selectionsettings = { persistSelection: true };
-  const toolbarOptions = ["Delete"];
+  const toolbarOptions = ["Add", "Edit", "Delete", "Update", "Cancel"];
   const editing = { allowDeleting: true, allowEditing: true };
 
   useEffect(() => {
@@ -38,6 +38,28 @@ const Customers = () => {
     }
   };
 
+  const actionBegin = async (args, customerID) => {
+    if (args.requestType === "delete") {
+      console.log("actionBegin triggers");
+      const customers = await fetch(
+        process.env.REACT_APP_BASE_URL +
+          `/customer/delete-customer/${customerID}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      const result = await customers.json();
+
+      if (result.success) {
+        console.log(result);
+        displayCustomers();
+      } else {
+        console.log(result.message);
+      }
+    }
+  };
+
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category="Page" title="Customers" />
@@ -50,6 +72,7 @@ const Customers = () => {
         toolbar={toolbarOptions}
         editSettings={editing}
         allowSorting
+        actionBegin={actionBegin}
       >
         <ColumnsDirective>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
