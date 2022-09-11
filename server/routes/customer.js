@@ -142,7 +142,7 @@ customerRouter.delete("/delete-customer/:customerID", async (req, res) => {
   console.log(req.body);
 
   try {
-    const customerDetails = await Customer.findByIdAndUpdate(
+    const customerDetails = await Customer.findByIdAndDelete(
       customerID,
       req.body
     );
