@@ -19,6 +19,9 @@ const Customers = () => {
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ["Add", "Edit", "Delete", "Update", "Cancel"];
   const editing = { allowDeleting: true, allowEditing: true };
+  const [customerData, setCustomerData] = useState([]);
+
+  console.log(customerData.promise);
 
   useEffect(() => {
     displayCustomers();
@@ -31,16 +34,23 @@ const Customers = () => {
     const result = await customers.json();
 
     if (result.success) {
-      console.log(result);
       setCustomers(result.customers);
     } else {
       console.log(result.message);
     }
   };
 
-  const actionBegin = async (args, customerID) => {
+  const actionBegin = async (args) => {
     if (args.requestType === "delete") {
       console.log("actionBegin triggers");
+      setCustomerData(args);
+    }
+  };
+
+  const actionComplete = async (args) => {
+    if (args.requestType === "delete") {
+      console.log("actionComplete triggers");
+      const customerID = args.promise[0]._id;
       const customers = await fetch(
         process.env.REACT_APP_BASE_URL +
           `/customer/delete-customer/${customerID}`,
@@ -48,9 +58,7 @@ const Customers = () => {
           method: "DELETE",
         }
       );
-
       const result = await customers.json();
-
       if (result.success) {
         console.log(result);
         displayCustomers();
@@ -73,6 +81,7 @@ const Customers = () => {
         editSettings={editing}
         allowSorting
         actionBegin={actionBegin}
+        actionComplete={actionComplete}
       >
         <ColumnsDirective>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
