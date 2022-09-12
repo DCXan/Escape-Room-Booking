@@ -16,12 +16,10 @@ import { Header } from "../components";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
+  const [customerData, setCustomerData] = useState([]);
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ["Add", "Edit", "Delete", "Update", "Cancel"];
   const editing = { allowDeleting: true, allowEditing: true };
-  const [customerData, setCustomerData] = useState([]);
-
-  console.log(customerData.promise);
 
   useEffect(() => {
     displayCustomers();
@@ -41,9 +39,32 @@ const Customers = () => {
   };
 
   const actionBegin = async (args) => {
+    if (args.requestType === "save") {
+      console.log("actionComplete triggers save");
+      setCustomerData(args.data);
+      const customerID = args.data._id;
+      const customers = await fetch(
+        process.env.REACT_APP_BASE_URL +
+          `/customer/edit-customer/${customerID}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(args.data),
+        }
+      );
+      console.log(JSON.stringify(args.data));
+      const result = await customers.json();
+      if (result.success) {
+        console.log(result);
+        displayCustomers();
+      } else {
+        console.log(result.message);
+      }
+    }
     if (args.requestType === "delete") {
       console.log("actionBegin triggers");
-      setCustomerData(args);
     }
   };
 
@@ -65,6 +86,28 @@ const Customers = () => {
       } else {
         console.log(result.message);
       }
+    }
+    if (args.requestType === "save") {
+      console.log("actionComplete triggers save");
+      //   const customerID = args.data._id;
+      //   const customers = await fetch(
+      //     process.env.REACT_APP_BASE_URL +
+      //       `/customer/edit-customer/${customerID}`,
+      //     {
+      //       method: "PATCH",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //       body: JSON.stringify(args.data),
+      //     }
+      //   );
+      //   const result = await customers.json();
+      //   if (result.success) {
+      //     console.log(result);
+      //     displayCustomers();
+      //   } else {
+      //     console.log(result.message);
+      //   }
     }
   };
 
