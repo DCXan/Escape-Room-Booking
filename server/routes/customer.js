@@ -111,7 +111,7 @@ customerRouter.get("/get-limited-customer-details", async (req, res) => {
   }
 });
 
-customerRouter.patch("/edit-customer/:customerID", async (req, res) => {
+customerRouter.post("/edit-customer/:customerID", async (req, res) => {
   const customerID = req.params.customerID;
 
   console.log(req.body);

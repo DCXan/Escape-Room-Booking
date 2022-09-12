@@ -41,30 +41,31 @@ const Customers = () => {
   const actionBegin = async (args) => {
     if (args.requestType === "save") {
       console.log("actionComplete triggers save");
-      setCustomerData(args.data);
-      const customerID = args.data._id;
-      const customers = await fetch(
-        process.env.REACT_APP_BASE_URL +
-          `/customer/edit-customer/${customerID}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(args.data),
-        }
-      );
-      console.log(JSON.stringify(args.data));
-      const result = await customers.json();
-      if (result.success) {
-        console.log(result);
-        displayCustomers();
-      } else {
-        console.log(result.message);
+      //   setCustomerData(args.data);
+      //   const customerID = args.data._id;
+      //   const customers = await fetch(
+      //     process.env.REACT_APP_BASE_URL +
+      //       `/customer/edit-customer/${customerID}`,
+      //     {
+      //       method: "PUT",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //       body: JSON.stringify({ details: args.data }),
+      //     }
+      //   );
+      //   console.log(JSON.stringify(args.data));
+      //   const result = await customers.json();
+      //   if (result.success) {
+      //     console.log(result);
+      //     displayCustomers();
+      //   } else {
+      //     console.log(result.message);
+      //   }
+      // }
+      if (args.requestType === "delete") {
+        console.log("actionBegin triggers");
       }
-    }
-    if (args.requestType === "delete") {
-      console.log("actionBegin triggers");
     }
   };
 
@@ -89,25 +90,27 @@ const Customers = () => {
     }
     if (args.requestType === "save") {
       console.log("actionComplete triggers save");
-      //   const customerID = args.data._id;
-      //   const customers = await fetch(
-      //     process.env.REACT_APP_BASE_URL +
-      //       `/customer/edit-customer/${customerID}`,
-      //     {
-      //       method: "PATCH",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //       body: JSON.stringify(args.data),
-      //     }
-      //   );
-      //   const result = await customers.json();
-      //   if (result.success) {
-      //     console.log(result);
-      //     displayCustomers();
-      //   } else {
-      //     console.log(result.message);
-      //   }
+      setCustomerData(args.data);
+      const customerID = args.data._id;
+      const customerUpdate = await fetch(
+        process.env.REACT_APP_BASE_URL +
+          `/customer/edit-customer/${customerID}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(args.data),
+        }
+      );
+      console.log(JSON.stringify(args.data));
+      const result = await customerUpdate.json();
+      if (result.success) {
+        console.log(result);
+        displayCustomers();
+      } else {
+        console.log(result.message);
+      }
     }
   };
 
