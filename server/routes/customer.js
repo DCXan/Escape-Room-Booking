@@ -150,8 +150,6 @@ customerRouter.delete("/delete-customer/:customerID", async (req, res) => {
       req.body
     );
 
-    // await availability.save(req.body);
-
     res.json({
       success: true,
       customerDetails: customerDetails,
