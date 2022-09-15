@@ -62,7 +62,7 @@ checkoutRouter.post("/payment", async (req, res) => {
       currency: "usd",
       line_items: line_items,
 
-      success_url: `${process.env.WEB_APP_URL}/success`,
+      success_url: `http://localhost:3002/checkout/success`,
       cancel_url: `${process.env.WEB_APP_URL}`,
       phone_number_collection: {
         enabled: true,
