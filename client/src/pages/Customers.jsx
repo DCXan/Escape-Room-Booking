@@ -91,12 +91,10 @@ const Customers = () => {
     if (args.requestType === "save") {
       console.log("actionComplete triggers save");
       setCustomerData(args.data);
-      const customerID = args.data._id;
       const customerUpdate = await fetch(
-        process.env.REACT_APP_BASE_URL +
-          `/customer/edit-customer/${customerID}`,
+        process.env.REACT_APP_BASE_URL + `/customer/edit-customer`,
         {
-          method: "POST",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
