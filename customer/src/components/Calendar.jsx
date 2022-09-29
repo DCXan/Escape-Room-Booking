@@ -206,10 +206,16 @@ const Booking = ({ room }) => {
       </button>
       {showModal ? (
         <>
-          <div className="backdrop-blur-sm bg-white/30 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none mt-10 mb-10">
+          <div
+            id="modal-window"
+            className="backdrop-blur-sm bg-white/30 justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none mt-10 mb-10"
+          >
             <div className="relative w-auto my-6 mx-auto w-5/12 h-3/4 ">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none bottom-20">
+              <div
+                id="modal-container"
+                className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none bottom-20"
+              >
                 {/*header*/}
                 <div className="text-3xl font-semibold   border-solid border-slate-200 rounded-t">
                   <button
@@ -234,7 +240,10 @@ const Booking = ({ room }) => {
                 </div>
 
                 <div className=" relative p-6 flex-auto">
-                  <div className="flex flex-row  justify-evenly">
+                  <div
+                    className="flex flex-row  justify-evenly"
+                    id="timeslot-container"
+                  >
                     <div>
                       <Calendar
                         minDetail="month"
@@ -243,7 +252,7 @@ const Booking = ({ room }) => {
                         locale="en-US"
                       />
                     </div>
-                    <div className="items-center">
+                    <div className="items-center" id="todate">
                       <p className=" text-2xl font-semibold ">
                         {date.toDateString()}
                       </p>
@@ -265,7 +274,7 @@ const Booking = ({ room }) => {
                     </div>
                   </div>
 
-                  <div className="border-t border-solid  border-slate-200">
+                  <div className="border-t border-solid border-slate-200">
                     <div
                       className="flex flex-row justify-around"
                       style={{ display: isActive ? "contents" : "none" }}

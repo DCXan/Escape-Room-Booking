@@ -9,7 +9,7 @@ const Success = () => {
       <p className="text-4xl">Your booking has been confirmed!</p>
       <p>A confirmation email has been sent.</p>
       <NavLink to={`/`}>
-        <button>Book another Escape Room</button>
+        <button className="book-again">Book another Escape Room</button>
       </NavLink>
     </div>
   );
