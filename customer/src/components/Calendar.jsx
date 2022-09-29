@@ -265,7 +265,7 @@ const Booking = ({ room }) => {
                     </div>
                   </div>
 
-                  <div className="border-t border-solid border-slate-200">
+                  <div className="border-t border-solid  border-slate-200">
                     <div
                       className="flex flex-row justify-around"
                       style={{ display: isActive ? "contents" : "none" }}

@@ -11,7 +11,9 @@ const RoomsList = () => {
   }, []);
 
   const getRooms = async () => {
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/customer/get-rooms`);
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/customer/get-rooms`
+    );
 
     const result = await response.json();
 
@@ -27,7 +29,7 @@ const RoomsList = () => {
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/admin/delete-room/${roomID}`,
       {
-        method: "DELETE"
+        method: "DELETE",
       }
     );
 
@@ -35,7 +37,7 @@ const RoomsList = () => {
     const result = await response.json();
 
     if (result.success) {
-      getRooms()
+      getRooms();
     } else {
       alert(result.message);
     }
@@ -57,12 +59,13 @@ const RoomsList = () => {
         <b className="text-2xl">{room.Subject}</b>
         <p className="my-1">{room.additionalDetails}</p>
         <div className="flex flex-row justify-center">
-          <RoomModal room={room} callback={getRooms}/>
-          <AvailabilityModal room={room} callback={getRooms}/>
+          <RoomModal room={room} callback={getRooms} />
+          <AvailabilityModal room={room} callback={getRooms} />
           <button
             className="bg-red-500 text-white font-medium px-3 py-2 m-3 rounded-xl hover:bg-red-900 hover:drop-shadow-xl"
-            onClick={() => deleteRoom(room._id)}>
-          Delete Room
+            onClick={() => deleteRoom(room._id)}
+          >
+            Delete Room
           </button>
         </div>
       </li>
@@ -75,7 +78,7 @@ const RoomsList = () => {
       <ul className="flex flex-wrap justify-center gap-6 mb-6 ml-6 mr-6">
         {roomItem}
         <div className="border-gray-800 border-0 rounded-3xl shadow-2xl">
-          <AddRoomModal callback={getRooms}/>
+          <AddRoomModal callback={getRooms} />
         </div>
       </ul>
     </div>
