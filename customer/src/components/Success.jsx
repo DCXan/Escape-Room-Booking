@@ -8,7 +8,9 @@ const Success = () => {
       <img className="success-img" src={require("./download.png")} alt="logo" />{" "}
       <p className="text-4xl">Your booking has been confirmed!</p>
       <p>A confirmation email has been sent.</p>
-      <NavLink to={`/`}>Book another Escape Room</NavLink>
+      <NavLink to={`/`}>
+        <button>Book another Escape Room</button>
+      </NavLink>
     </div>
   );
 };
