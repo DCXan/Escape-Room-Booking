@@ -46,7 +46,7 @@ Style for customer react calendar
 }
 .react-calendar__navigation button {
   min-width: 44px;
-  background: none;
+  background-color: #f0f0f0;
 }
 .react-calendar__navigation button:disabled {
   background-color: #f0f0f0;
@@ -118,4 +118,38 @@ Style for customer react calendar
 }
 .react-calendar--selectRange .react-calendar__tile--hover {
   background-color: #e6e6e6;
+}
+
+#modal-container {
+  width: 40rem;
+  right: 5rem;
+}
+
+@media screen and (max-width: 1071px) {
+  #modal-container {
+    right: 7rem;
+  }
+}
+
+@media screen and (max-width: 964px) {
+  #timeslot-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  #todate {
+    margin: 2rem;
+  }
+}
+
+@media screen and (max-width: 736px) {
+  #modal-container {
+    width: 30rem;
+    right: 5rem;
+  }
+}
+@media screen and (max-width: 576px) {
+  #modal-container {
+    width: 21rem;
+    right: 4rem;
+  }
 }

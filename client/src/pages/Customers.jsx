@@ -16,8 +16,9 @@ import { Header } from "../components";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
+  const [customerData, setCustomerData] = useState([]);
   const selectionsettings = { persistSelection: true };
-  const toolbarOptions = ["Delete"];
+  const toolbarOptions = ["Add", "Edit", "Delete", "Update", "Cancel"];
   const editing = { allowDeleting: true, allowEditing: true };
 
   useEffect(() => {
@@ -31,10 +32,62 @@ const Customers = () => {
     const result = await customers.json();
 
     if (result.success) {
-      console.log(result);
       setCustomers(result.customers);
     } else {
       console.log(result.message);
+    }
+  };
+
+  const actionBegin = async (args) => {
+    if (args.requestType === "save") {
+      console.log("actionComplete triggers save");
+
+      if (args.requestType === "delete") {
+        console.log("actionBegin triggers");
+      }
+    }
+  };
+
+  const actionComplete = async (args) => {
+    if (args.requestType === "delete") {
+      console.log("actionComplete triggers");
+      const customerID = args.promise[0]._id;
+      const customers = await fetch(
+        process.env.REACT_APP_BASE_URL +
+          `/customer/delete-customer/${customerID}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const result = await customers.json();
+      if (result.success) {
+        console.log(result);
+        displayCustomers();
+      } else {
+        console.log(result.message);
+      }
+    }
+    if (args.requestType === "save") {
+      console.log("actionComplete triggers save");
+      setCustomerData(args.data);
+      const customerUpdate = await fetch(
+        process.env.REACT_APP_BASE_URL + `/customer/edit-customer`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(args.data),
+        }
+      );
+      console.log(JSON.stringify(args.data));
+      const result = await customerUpdate.json();
+      if (result.success) {
+        console.log(result);
+        displayCustomers();
+      } else {
+        console.log(result.message);
+      }
     }
   };
 
@@ -50,6 +103,8 @@ const Customers = () => {
         toolbar={toolbarOptions}
         editSettings={editing}
         allowSorting
+        actionBegin={actionBegin}
+        actionComplete={actionComplete}
       >
         <ColumnsDirective>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}

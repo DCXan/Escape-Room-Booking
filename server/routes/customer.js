@@ -40,7 +40,7 @@ customerRouter.get("/get-customers", async (req, res) => {
     const customers = await Customer.find({}).populate({
       path: "rooms",
       select:
-        "-EndTime -RecurrenceRule -StartTime -additionalDetails -adultRate -childRate -createdAt -date -description -durationMinutes -maxPlayers -privateRate -updatedAt -__v -_id",
+        "-EndTime -RecurrenceRule -StartTime -additionalDetails -adultRate -childRate -createdAt -date -description -durationMinutes -maxPlayers -privateRate -updatedAt -__v",
     });
     res.json({
       success: true,
@@ -96,7 +96,7 @@ customerRouter.get("/get-limited-customer-details", async (req, res) => {
     ).populate({
       path: "rooms",
       select:
-        "-EndTime -RecurrenceRule -StartTime -additionalDetails -adultRate -childRate -createdAt -date -description -durationMinutes -image -maxPlayers -privateRate -updatedAt -__v -_id",
+        "-EndTime -RecurrenceRule -StartTime -additionalDetails -adultRate -childRate -createdAt -date -description -durationMinutes -image -maxPlayers -privateRate -updatedAt -__v",
     });
     res.json({
       success: true,
@@ -108,6 +108,57 @@ customerRouter.get("/get-limited-customer-details", async (req, res) => {
       message: error,
     });
     console.log(error);
+  }
+});
+
+customerRouter.patch("/edit-customer", async (req, res) => {
+  try {
+    let customer = { ...req.body };
+    const customerID = customer._id;
+
+    console.log(customer);
+    console.log(customerID);
+
+    const customerDetails = await Customer.findByIdAndUpdate(
+      customerID,
+      req.body,
+      { upsert: true, new: true }
+    ).populate({
+      path: "rooms",
+      select:
+        "-EndTime -RecurrenceRule -StartTime -additionalDetails -adultRate -childRate -createdAt -date -description -durationMinutes -maxPlayers -privateRate -updatedAt -__v",
+    });
+
+    res.status(200).json({
+      success: true,
+      customerDetails: customerDetails,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+customerRouter.delete("/delete-customer/:customerID", async (req, res) => {
+  const customerID = req.params.customerID;
+
+  console.log(req.body);
+
+  try {
+    const customerDetails = await Customer.findByIdAndDelete(
+      customerID,
+      req.body
+    );
+
+    res.json({
+      success: true,
+      customerDetails: customerDetails,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error,
+    });
   }
 });
 

@@ -23,6 +23,8 @@ function OrdersData(props) {
   const customers = props.customers;
 
   const editing = { allowDeleting: true, allowEditing: true };
+  const selectionsettings = { persistSelection: true };
+  const toolbarOptions = ["Add", "Edit", "Delete", "Update", "Cancel"];
 
   console.log(customers);
 
@@ -37,6 +39,8 @@ function OrdersData(props) {
         allowPdfExport
         contextMenuItems={contextMenuItems}
         editSettings={editing}
+        selectionSettings={selectionsettings}
+        toolbar={toolbarOptions}
       >
         <ColumnsDirective>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}

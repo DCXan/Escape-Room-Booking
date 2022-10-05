@@ -1,0 +1,26 @@
+.success-container {
+  margin-top: 10rem;
+  text-align: center;
+  line-height: 3rem;
+}
+
+.success-img {
+  align-content: center;
+  vertical-align: middle;
+  display: inline-block;
+  margin: 2rem;
+}
+
+.book-again {
+  background-color: rgb(15, 197, 15);
+  color: white;
+  border-radius: 10px;
+  font-weight: bold;
+  border: 2px solid rgb(15, 197, 15);
+  padding: 5px 10px;
+  margin: 10px;
+}
+
+.text-4xl {
+  font-weight: 600;
+}
